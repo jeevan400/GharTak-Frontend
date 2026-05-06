@@ -1,10 +1,18 @@
 import { useState } from "react";
-import { sendOTP, verifyOTP, registerUser } from "../../services/auth.service";
+import {
+  sendOTP,
+  verifyOTP,
+  registerUser,
+  googleLogin,
+} from "../../services/auth.service";
+import { useNavigate } from "react-router-dom";
+import { GoogleLogin } from "@react-oauth/google";
 
 const Register = () => {
   const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");
   const [step, setStep] = useState(1);
+  const [error, setError] = useState("");
 
   const [form, setForm] = useState({
     name: "",
@@ -18,41 +26,85 @@ const Register = () => {
     },
   });
 
+  const navigate = useNavigate();
+
   const handleSendOtp = async () => {
-    await sendOTP({ email });
-    setStep(2);
-    alert("OTP sent");
+    try {
+      const res = await sendOTP({ email });
+      setError("");
+      setStep(2);
+      console.log("send otp : ", res);
+      alert("OTP sent");
+    } catch (e) {
+      console.log(e);
+      setError(e?.response?.data?.message || "Failed to send OTP");
+    }
   };
 
   const handleVerifyOtp = async () => {
-    await verifyOTP({ email, otp: String(otp) });
-    setStep(3);
-    alert("OTP verified");
+    try {
+      await verifyOTP({ email, otp: String(otp) });
+      setError("");
+      setStep(3);
+      alert("OTP verified");
+    } catch (e) {
+      console.log(e);
+      setError(e?.response?.data?.message || "OTP verification failed");
+    }
   };
 
   const handleRegister = async () => {
-    await registerUser({ ...form, email });
-    alert("Registered");
+    try {
+      await registerUser({ ...form, email });
+      setError("");
+      alert("Registered");
+      navigate("/login");
+    } catch (e) {
+      console.log(e);
+      setError(e?.response?.data?.message || "Registration failed");
+    }
+  };
+
+  const handleGoogleLogin = async (response) => {
+    try {
+      const token = response.credential;
+      const res = await googleLogin({ token });
+      localStorage.setItem("token", res.token);
+      navigate("/home");
+    } catch (e) {
+      console.log("FULL ERROR:", e);
+      console.log("ERROR DATA:", e.response?.data);
+    }
   };
 
   return (
-    <div>
+    <div className="bg-orange-100 w-[100%] h-screen flex items-center justify-center">
       {step === 1 && (
         <>
+        <div className="w-[50%] bg-white flex flex-col gap-4 p-6 rounded-lg">
           <input
+            className="border py-2 px-4 rounded-lg text-[16px]"
             onChange={(e) => setEmail(e.target.value)}
             placeholder="email"
           />
-          <button onClick={handleSendOtp}>Send OTP</button>
+          {error && (
+            <p className="text-red-600 text-xs font-medium">{error}</p>
+          )}
+          <button className="bg-orange-600 rounded-lg p-2 cursor-pointer text-white text-[16px] font-semibold" onClick={handleSendOtp}>Send OTP</button>
+          <GoogleLogin
+            onSuccess={(res) => handleGoogleLogin(res)}
+            onError={() => console.log("Login failed")}
+          />
+          </div>
         </>
       )}
 
       {step === 2 && (
         <>
-          <input 
-          onChange={(e) => setOtp(e.target.value)} placeholder="OTP" />
-          <button 
-          onClick={handleVerifyOtp}>Verify OTP</button>
+        <div className="w-[50%] bg-white flex flex-col gap-4 p-6 rounded-lg">
+          <input className="border py-2 px-4 rounded-lg text-[16px]" onChange={(e) => setOtp(e.target.value)} placeholder="OTP" />
+          <button className="bg-orange-600 rounded-lg p-2 cursor-pointer text-white text-[16px] font-semibold" onClick={handleVerifyOtp}>Verify OTP</button>
+          </div>
         </>
       )}
 

@@ -35,3 +35,8 @@ export const resetPassword = async (payload) => {
     const {data} = await axios.post(API_ENDPONTS.RESET_PASSWORD, payload);
     return data;
 }
+
+export const googleLogin = async (payload)=>{
+    const { data } = await axios.post(API_ENDPONTS.GOOGLE_LOGIN, payload);
+    return data;
+}
