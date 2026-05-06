@@ -7,6 +7,7 @@ import RoleRoute from "./RoleRoute"
 import SellerDashboard from "../pages/seller/SellerDashboard"
 import AdminDashboard from "../pages/admin/AdminDashboard"
 import ForgotPassword from "../pages/auth/ForgotPassword"
+import LandingPage from "../pages/user/LandingPage"
 
 
 
@@ -15,9 +16,9 @@ const AppRoutes = ()=>{
         <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-
+            <Route path="/" element={<LandingPage/>}/>
             <Route 
-            path="/" 
+            path="/home" 
             element={
             <PrivateRoute>
                 <Home />

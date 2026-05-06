@@ -5,5 +5,6 @@ export const API_ENDPONTS = {
     VERIFY_OTP:"/users/verify-otp",
     FORGOT_OTP:"/users/forgot-password",
     VERIFY_FORGOT_OTP:"/users/verify-forgototp",
-    RESET_PASSWORD:"/users/reset-password"
+    RESET_PASSWORD:"/users/reset-password",
+    GOOGLE_LOGIN:"/users/google-login"
 }
