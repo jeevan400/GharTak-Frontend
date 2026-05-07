@@ -8,6 +8,7 @@ import SellerDashboard from "../pages/seller/SellerDashboard"
 import AdminDashboard from "../pages/admin/AdminDashboard"
 import ForgotPassword from "../pages/auth/ForgotPassword"
 import LandingPage from "../pages/user/LandingPage"
+import Profile from "../pages/user/Profile"
 
 
 
@@ -46,7 +47,7 @@ const AppRoutes = ()=>{
             } />
 
             <Route path="/forgot-password" element={<ForgotPassword/>}/>
-
+            <Route path="/profile" element={<Profile/>}/>
         </Routes>
     )
 }
