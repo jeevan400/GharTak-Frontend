@@ -38,6 +38,10 @@ const Register = () => {
     } catch (e) {
       console.log(e);
       setError(e?.response?.data?.message || "Failed to send OTP");
+
+      setTimeout(()=>{
+        setError("");
+      }, 2000)
     }
   };
 
@@ -50,6 +54,9 @@ const Register = () => {
     } catch (e) {
       console.log(e);
       setError(e?.response?.data?.message || "OTP verification failed");
+      setTimeout(()=>{
+        setError("");
+      }, 2000)
     }
   };
 
@@ -62,6 +69,9 @@ const Register = () => {
     } catch (e) {
       console.log(e);
       setError(e?.response?.data?.message || "Registration failed");
+      setTimeout(()=>{
+        setError("");
+      }, 2000)
     }
   };
 
