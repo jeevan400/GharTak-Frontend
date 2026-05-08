@@ -120,67 +120,70 @@ const Register = () => {
 
       {step === 3 && (
         <>
-          <input
-            placeholder="name"
-            onChange={(e) => setForm({ ...form, name: e.target.value })}
-          />
-
-          <input
-            placeholder="password"
-            type="password"
-            onChange={(e) => setForm({ ...form, password: e.target.value })}
-          />
-
-          <input
-            placeholder="phone"
-            type="text"
-            onChange={(e) => setForm({ ...form, phone: e.target.value })}
-          />
-
-          <input
-            placeholder="street"
-            type="text"
-            onChange={(e) =>
-              setForm({
-                ...form,
-                address: { ...form.address, street: e.target.value },
-              })
-            }
-          />
-
-          <input
-            placeholder="city"
-            type="text"
-            onChange={(e) =>
-              setForm({
-                ...form,
-                address: { ...form.address, city: e.target.value },
-              })
-            }
-          />
-
-          <input
-            placeholder="state"
-            type="text"
-            onChange={(e) =>
-              setForm({
-                ...form,
-                address: { ...form.address, state: e.target.value },
-              })
-            }
-          />
-
-          <input
-            placeholder="pincode"
-            type="text"
-            onChange={(e) =>
-              setForm({
-                ...form,
-                address: { ...form.address, pincode: e.target.value },
-              })
-            }
-          />
-          <button onClick={handleRegister}>Register</button>
+          <div className="w-[50%] bg-white flex flex-col gap-4 p-6 rounded-lg">
+            <input
+              className="border py-2 px-4 rounded-lg text-[16px]"
+              placeholder="name"
+              onChange={(e) => setForm({ ...form, name: e.target.value })}
+            />
+            <input
+              className="border py-2 px-4 rounded-lg text-[16px]"
+              placeholder="password"
+              type="password"
+              onChange={(e) => setForm({ ...form, password: e.target.value })}
+            />
+            <input
+              className="border py-2 px-4 rounded-lg text-[16px]"
+              placeholder="phone"
+              type="text"
+              onChange={(e) => setForm({ ...form, phone: e.target.value })}
+            />
+            <input
+              className="border py-2 px-4 rounded-lg text-[16px]"
+              placeholder="street"
+              type="text"
+              onChange={(e) =>
+                setForm({
+                  ...form,
+                  address: { ...form.address, street: e.target.value },
+                })
+              }
+            />
+            <input
+              className="border py-2 px-4 rounded-lg text-[16px]"
+              placeholder="city"
+              type="text"
+              onChange={(e) =>
+                setForm({
+                  ...form,
+                  address: { ...form.address, city: e.target.value },
+                })
+              }
+            />
+            <input
+              className="border py-2 px-4 rounded-lg text-[16px]"
+              placeholder="state"
+              type="text"
+              onChange={(e) =>
+                setForm({
+                  ...form,
+                  address: { ...form.address, state: e.target.value },
+                })
+              }
+            />
+            <input
+              className="border py-2 px-4 rounded-lg text-[16px]"
+              placeholder="pincode"
+              type="text"
+              onChange={(e) =>
+                setForm({
+                  ...form,
+                  address: { ...form.address, pincode: e.target.value },
+                })
+              }
+            />
+            <button className="bg-orange-600 rounded-lg p-2 cursor-pointer text-white text-[16px] font-semibold" onClick={handleRegister}>Register</button>
+          </div>
         </>
       )}
     </div>

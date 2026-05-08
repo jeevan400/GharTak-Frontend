@@ -42,11 +42,32 @@ export const googleLogin = async (payload)=>{
 }
 
 export const getProfile = async ()=>{
-    const {data}  = await axios.get("/users/profile");
+    const {data}  = await axios.get(API_ENDPONTS.PROFILE);
     return data;
 }
 
 export const updateProfile = async (updatedData)=>{
-    const {data} = await axios.patch("/users/profile", updatedData);
+    const {data} = await axios.patch(API_ENDPONTS.PROFILE, updatedData);
+    return data;
+}
+
+export const requestSellerRole = async () => {
+    const { data } = await axios.patch(API_ENDPONTS.REQUEST_SELLER);
+
+    return data;
+}
+
+export const getSellerRequest = async () => {
+    const {data} = await axios.get(API_ENDPONTS.SELLER_REQUESTS);
+    return data;
+}
+
+export const approveSellerRequest = async (id)=>{
+    const {data} = await axios.patch(`${API_ENDPONTS.APPROVE_REQUEST}/${id}`);
+    return data;
+}
+
+export const rejectSellerRequest = async (id) => {
+    const {data} = await axios.patch(`${API_ENDPONTS.REJECT_REQUEST}/${id}`);
     return data;
 }

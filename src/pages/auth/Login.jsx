@@ -29,7 +29,8 @@ const handleGoogleLogin = async (response) => {
    try{
       const token = response.credential;
       const res = await googleLogin({ token });
-      localStorage.setItem("token", res.token);
+      // localStorage.setItem("token", res.token);
+      login(res.token);
       navigate("/home");
    } catch(e){
       console.log("FULL ERROR:", e);

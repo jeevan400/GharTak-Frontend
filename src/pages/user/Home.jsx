@@ -1,9 +1,10 @@
 import React from 'react'
 import useAuth from '../../hooks/useAuth'
 import { useNavigate } from 'react-router-dom';
+import Navbar from '../../components/layout/Navbar';
 
 function Home() {
-    const {logout} = useAuth();
+    const {logout, user} = useAuth();
     const navigate = useNavigate();
     const handleLogout = ()=>{
         logout();
@@ -15,19 +16,21 @@ function Home() {
     }
   return (
     <div>
-        {/* // <!-- Navbar --> */}
-          <nav class="flex items-center justify-between px-8 py-5 border-b border-gray-800">
+      <Navbar/>
+          {/* <nav class="flex items-center justify-between px-8 py-5 border-b border-gray-800">
         
         <h1 class="text-3xl font-bold text-orange-500">
           GharTak
         </h1>
-        {/* <ul class="hidden md:flex gap-8 text-gray-300 font-medium">
-          <li><a href="#" class="hover:text-orange-400">Home</a></li>
-          <li><a href="#" class="hover:text-orange-400">Products</a></li>
-          <li><a href="#" class="hover:text-orange-400">Categories</a></li>
-          <li><a href="#" class="hover:text-orange-400">Contact</a></li>
-        </ul> */}
         <div class="flex gap-4">
+          {
+            user?.role === "admin" && (
+              <button
+                onClick={()=> navigate("/admin")}
+                className="px-5 py-2 bg-red-500 rounded-lg text-white"
+              >Admin Dashboard</button>
+            )
+          }
           <button onClick={()=> navigate("/profile")} class="px-5 py-2 border border-orange-500 rounded-lg hover:bg-orange-500 transition">
             Profile
           </button>
@@ -37,7 +40,7 @@ function Home() {
           </button>
         </div>
         
-          </nav>
+          </nav> */}
         
         {/* //   <!-- Hero Section --> */}
           <section class="min-h-screen flex flex-col md:flex-row items-center justify-between px-8 md:px-20 py-20">

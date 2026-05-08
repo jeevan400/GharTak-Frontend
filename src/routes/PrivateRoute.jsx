@@ -3,7 +3,7 @@ import { Navigate } from "react-router-dom"
 
 
 const PrivateRoute = ({children})=>{
-    const token = useAuth();
+    const { token } = useAuth();
     return token ? children : <Navigate to="/login" replace />;
 };
 

@@ -1,33 +1,12 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
+import Navbar from '../../components/layout/Navbar';
 
 function LandingPage() {
     const navigate = useNavigate();
   return (
     <div>
-        {/* // <!-- Navbar --> */}
-          <nav class="flex items-center justify-between px-8 py-5 border-b border-gray-800">
-        
-        <h1 class="text-3xl font-bold text-orange-500">
-          GharTak
-        </h1>
-        {/* <ul class="hidden md:flex gap-8 text-gray-300 font-medium">
-          <li><a href="#" class="hover:text-orange-400">Home</a></li>
-          <li><a href="#" class="hover:text-orange-400">Products</a></li>
-          <li><a href="#" class="hover:text-orange-400">Categories</a></li>
-          <li><a href="#" class="hover:text-orange-400">Contact</a></li>
-        </ul> */}
-        <div class="flex gap-4">
-          <button onClick={()=> navigate("/login")} class="px-5 py-2 border border-orange-500 rounded-lg hover:bg-orange-500 transition">
-            Login
-          </button>
-          <button onClick={()=> navigate("/register")} class="px-5 py-2 bg-orange-500 rounded-lg hover:bg-orange-600 transition">
-            Signup
-          </button>
-        </div>
-        
-          </nav>
-        
+        <Navbar/>
         {/* //   <!-- Hero Section --> */}
           <section class="min-h-screen flex flex-col md:flex-row items-center justify-between px-8 md:px-20 py-20">
         {/* <!-- Left Content --> */}

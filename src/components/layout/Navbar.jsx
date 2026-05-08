@@ -1,0 +1,69 @@
+import React from 'react'
+import { useNavigate } from 'react-router-dom'
+import useAuth from '../../hooks/useAuth';
+
+function Navbar() {
+    const navigate = useNavigate();
+    const {logout, user } = useAuth();
+
+    const handleLogout = ()=>{
+        logout();
+    }
+  return (
+    <div>
+        {/* // <!-- Navbar --> */}
+          <nav className="flex items-center justify-between px-8 py-5 border-b border-gray-800">
+        
+        <h1 className="text-3xl font-bold text-orange-500">
+          GharTak
+        </h1>
+        <ul className="hidden md:flex gap-8 text-gray-500 font-medium">
+          <li><a href="#" className="hover:text-orange-400">Home</a></li>
+          <li><a href="#" className="hover:text-orange-400">Products</a></li>
+          <li><a href="#" className="hover:text-orange-400">Categories</a></li>
+          <li><a href="#" className="hover:text-orange-400">Contact</a></li>
+        </ul>
+        <div className="flex gap-4">
+            {
+                !user?<>
+                    <button onClick={()=> navigate("/login")} className="px-5 py-2 border border-orange-500 rounded-lg hover:bg-orange-500 transition">
+            Login
+          </button>
+          <button onClick={()=> navigate("/register")} className="px-5 py-2 bg-orange-500 rounded-lg hover:bg-orange-600 transition">
+            Signup
+          </button>
+                </>:<>
+                {
+            user?.role === "admin" && (
+              <button
+                onClick={()=> navigate("/admin")}
+                className="px-5 py-2 bg-white rounded-lg text-orange-500 border  border-orange-500"
+              >Admin Dashboard</button>
+            )
+          }
+          {
+            user?.role === "seller" && (
+              <button
+                onClick={()=> navigate("/seller")}
+                className="px-5 py-2 bg-white rounded-lg text-orange-500 border  border-orange-500"
+              >Seller Dashboard</button>
+            )
+          }
+                <button onClick={handleLogout} className="px-5 py-2 bg-orange-500 rounded-lg hover:bg-orange-600 transition text-white">
+            Logout
+          </button>
+          <button onClick={()=> navigate("/profile")} className="border-2 border-orange-500 rounded-full text-xl font-semibold bg-orange-100 text-orange-500 h-[40px] w-[40px]">
+            {user.email.charAt(0).toUpperCase()}
+          </button>
+                </>
+            }
+          
+        </div>
+        
+          </nav>
+      
+    </div>
+  )
+}
+
+export default Navbar
