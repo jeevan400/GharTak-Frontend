@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { sendforgotOTP, verifyForgotOTP, resetPassword } from '../../services/auth.service'
+import { useNavigate } from 'react-router-dom';
 
 
 function ForgotPassword() {
@@ -8,6 +9,8 @@ function ForgotPassword() {
     const [step, setStep] = useState(1);
     const [newPassword, setNewPassword] = useState("");
     const [form, setForm] = useState({password:""});
+
+    const navigate = useNavigate();
 
     const handleSendForgotOtp = async () => {
         await sendforgotOTP({email});
@@ -24,19 +27,23 @@ function ForgotPassword() {
     const handleResetPassword = async ()=>{
         await resetPassword({email, newPassword});
         alert("Password change successfully!");
+        navigate("/login");
     }
 
   return (
-    <div>
+    <div className="bg-orange-100 w-[100%] h-screen flex items-center justify-center">
       {
         step === 1 && (
             <>
-                <input 
-                type="text"
-                placeholder='email'
-                onChange={(e)=> setEmail(e.target.value)} 
-                />
-                <button onClick={handleSendForgotOtp}>Send OTP</button>
+                <div className="w-[50%] bg-white flex flex-col gap-4 p-6 rounded-lg">
+                  <input
+                  className="border py-2 px-4 rounded-lg text-[16px]"
+                  type="text"
+                  placeholder='email'
+                  onChange={(e)=> setEmail(e.target.value)}
+                  />
+                  <button className="bg-orange-600 rounded-lg p-2 cursor-pointer text-white text-[16px] font-semibold" onClick={handleSendForgotOtp}>Send OTP</button>
+                </div>
             </>
         )
       }
@@ -44,12 +51,15 @@ function ForgotPassword() {
       {
         step === 2 && (
             <>
+            <div className="w-[50%] bg-white flex flex-col gap-4 p-6 rounded-lg">
                 <input 
+                className="border py-2 px-4 rounded-lg text-[16px]"
                 type="text"
                 placeholder='OTP'
                 onChange={(e)=> setOtp(e.target.value)}
                 />
-                <button onClick={handleVerifyForgotOtp}>Verify OTP</button>
+                <button  className="bg-orange-600 rounded-lg p-2 cursor-pointer text-white text-[16px] font-semibold" onClick={handleVerifyForgotOtp}>Verify OTP</button>
+                </div>
             </>
         )
       }
@@ -57,12 +67,15 @@ function ForgotPassword() {
       {
         step === 3 && (
             <>
+            <div className="w-[50%] bg-white flex flex-col gap-4 p-6 rounded-lg">
                 <input 
+                className="border py-2 px-4 rounded-lg text-[16px]"
                 type="text"
                 placeholder='New password'
                 onChange={(e)=> setNewPassword(e.target.value)}
                  />
-                 <button onClick={handleResetPassword}>Reset Password</button>
+                 <button className="bg-orange-600 rounded-lg p-2 cursor-pointer text-white text-[16px] font-semibold" onClick={handleResetPassword}>Reset Password</button>
+                 </div>
             </>
         )
       }

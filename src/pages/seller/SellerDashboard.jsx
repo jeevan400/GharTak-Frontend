@@ -2,8 +2,8 @@ import React from 'react'
 
 function SellerDashboard() {
   return (
-    <div>
-      seller dashboard
+    <div className='bg-green-500'>
+      this is seller dashboard 
     </div>
   )
 }
