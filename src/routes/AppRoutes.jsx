@@ -10,10 +10,12 @@ import ForgotPassword from "../pages/auth/ForgotPassword";
 import LandingPage from "../pages/user/LandingPage";
 import Profile from "../pages/user/Profile";
 import useAuth from "../hooks/useAuth";
+import AddProduct from "../pages/seller/AddProduct";
+import MyProduct from "../pages/seller/MyProduct";
 
 const AppRoutes = () => {
   const { user } = useAuth();
-  console.log("this is app route user ", user);
+  // console.log("this is app route user ", user);
   return (
     <Routes>
       <Route path="/login" element={<Login />} />
@@ -64,6 +66,8 @@ const AppRoutes = () => {
             user?.role === "seller" ? <SellerDashboard /> : <Navigate to="/"/>
         }
         />
+        <Route path="/add-product" element={<AddProduct/>}/>
+        <Route path="/my-product" element={<MyProduct/>}/>
     </Routes>
   );
 };

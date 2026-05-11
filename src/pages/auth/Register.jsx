@@ -33,7 +33,7 @@ const Register = () => {
       const res = await sendOTP({ email });
       setError("");
       setStep(2);
-      console.log("send otp : ", res);
+      // console.log("send otp : ", res);
       alert("OTP sent");
     } catch (e) {
       console.log(e);

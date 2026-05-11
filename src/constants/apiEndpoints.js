@@ -1,4 +1,5 @@
 export const API_ENDPONTS = {
+    // auth end points 
     LOGIN:"/users/login",
     REGISTER:"/users/register",
     SEND_OTP:"/users/send-otp",
@@ -11,5 +12,11 @@ export const API_ENDPONTS = {
     REQUEST_SELLER:"/users/request-seller",
     SELLER_REQUESTS:"/users/seller-requests",
     APPROVE_REQUEST:"/users/approve-request",
-    REJECT_REQUEST:"/users/reject-request"
+    REJECT_REQUEST:"/users/reject-request",
+
+    //products end points
+    ADD_PRODUCT: "/products/add-product",
+    MY_PRODUCT: "/products/my-product",
+    UPDATE_PRODUCT: "/products/edit-product",
+    DELETE_PRODUCT:"/products/delete-product",
 }
