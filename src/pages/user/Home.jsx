@@ -12,7 +12,7 @@ function Home() {
 
     const showToken = ()=>{
         const token = localStorage.getItem("token");
-        console.log(token);
+        // console.log(token);
     }
   return (
     <div>

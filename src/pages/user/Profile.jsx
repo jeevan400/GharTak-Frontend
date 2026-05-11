@@ -33,11 +33,11 @@ function Profile() {
     fetchProfile();
   }, []);
 
-  useEffect(() => {
-    console.log(user);
-  }, [user]);
+  // useEffect(() => {
+  //   console.log(user);
+  // }, [user]);
 
-  const handleNodalOpen = () => {
+  const handleModalOpen = () => {
     setModal(true);
   };
 
@@ -98,7 +98,7 @@ function Profile() {
             </div>
             <div>
               <button
-                onClick={handleNodalOpen}
+                onClick={handleModalOpen}
                 className="bg-yellow-700 mr-2 text-white text-[13px] font-medium py-1 px-4 rounded-md"
               >
                 Edit Profile

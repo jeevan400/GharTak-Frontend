@@ -52,9 +52,9 @@ function Navbar() {
                 <button onClick={handleLogout} className="px-5 py-2 bg-orange-500 rounded-lg hover:bg-orange-600 transition text-white">
             Logout
           </button>
-          <button onClick={()=> navigate("/profile")} className="border-2 border-orange-500 rounded-full text-xl font-semibold bg-orange-100 text-orange-500 h-[40px] w-[40px]">
-            {user.email.charAt(0).toUpperCase()}
-          </button>
+          <div onClick={()=> navigate("/profile")} className="rounded-full text-xl font-semibold bg-orange-100 text-orange-500 h-[40px] w-[40px]">
+            <img className='w-full h-full rounded-full' src={user.image} alt="profile image" />
+          </div>
                 </>
             }
           
