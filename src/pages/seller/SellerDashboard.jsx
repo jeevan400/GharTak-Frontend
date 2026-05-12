@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import useAuth from '../../hooks/useAuth';
+import { Bell, MessageSquareText, Archive   } from 'lucide-react';
 
 function SellerDashboard() {
   const navigate = useNavigate();
@@ -76,13 +77,13 @@ function SellerDashboard() {
         </div>
 
       </div>
-      <div className='flex-1 '>
-        <nav className='flex bg-red-50 h-[60px] items-center '>
+      <div className='flex-1 bg-red-50'>
+        <nav className='flex bg-red-50 h-[60px] border-b border-black/20 items-center '>
           <div className='flex-1 flex items-center  px-4 justify-between'>
             <input className='h-[30px] rounded-full px-4' type="text" placeholder='Search orders, products...' />
             <div className='flex gap-4'>
-              <span>one</span>
-              <span>two</span>
+              <span><Bell/></span>
+              <span><MessageSquareText/></span>
             </div>
           </div>
           <div className='px-4 flex'>
@@ -95,7 +96,75 @@ function SellerDashboard() {
             </div>
           </div>
         </nav>
-        <button className='mt-6 ml-6 py-2 px-4 bg-orange-400 text-white font-bold rounded-full' onClick={()=> navigate("/add-product")}>Add Product</button>
+        <div className='h-full'>
+          <div className='p-4'>
+            <h1 className='text-xl font-bold'>Dashboard Overview</h1>
+            <p className='text-sm font-semibold text-gray-500'>Good morning, Rajesh. Here's what's happenig with your shop today.</p>
+          </div>
+          <div className='p-4 grid grid-cols-3 grid-rows-2 gap-4'>
+            <div className='bg-white p-4 rounded-lg shadow-lg border border-gray-600/15 flex flex-col gap-4'>
+              <div className='flex justify-between items-start'>
+                <div className='bg-red-300/30 p-2 rounded-lg'><Archive size={18} /></div>
+                <div className='text-[12px] text-green-600 font-bold'>+12%</div>
+              </div>
+              <div>
+                <h1 className='text-sm font-medium text-gray-600'>TOTAL PRODUCTS</h1>
+                <p className='text-md font-bold'>1,284</p>
+              </div>
+            </div>
+            <div className='bg-white p-4 rounded-lg shadow-lg border border-gray-600/15 flex flex-col gap-4'>
+              <div className='flex justify-between items-start'>
+                <div className='bg-red-300/30 p-2 rounded-lg'><Archive size={18} /></div>
+                <div className='text-[12px] text-green-600 font-bold'>+12%</div>
+              </div>
+              <div>
+                <h1 className='text-sm font-medium text-gray-600'>TOTAL PRODUCTS</h1>
+                <p className='text-md font-bold'>1,284</p>
+              </div>
+            </div>
+            <div className='bg-white p-4 rounded-lg shadow-lg border border-gray-600/15 flex flex-col gap-4'>
+              <div className='flex justify-between items-start'>
+                <div className='bg-red-300/30 p-2 rounded-lg'><Archive size={18} /></div>
+                <div className='text-[12px] text-green-600 font-bold'>+12%</div>
+              </div>
+              <div>
+                <h1 className='text-sm font-medium text-gray-600'>TOTAL PRODUCTS</h1>
+                <p className='text-md font-bold'>1,284</p>
+              </div>
+            </div>
+            <div className='bg-white p-4 rounded-lg shadow-lg border border-gray-600/15 flex flex-col gap-4'>
+              <div className='flex justify-between items-start'>
+                <div className='bg-red-300/30 p-2 rounded-lg'><Archive size={18} /></div>
+                <div className='text-[12px] text-green-600 font-bold'>+12%</div>
+              </div>
+              <div>
+                <h1 className='text-sm font-medium text-gray-600'>TOTAL PRODUCTS</h1>
+                <p className='text-md font-bold'>1,284</p>
+              </div>
+            </div>
+            <div className='bg-white p-4 rounded-lg shadow-lg border border-gray-600/15 flex flex-col gap-4'>
+              <div className='flex justify-between items-start'>
+                <div className='bg-red-300/30 p-2 rounded-lg'><Archive size={18} /></div>
+                <div className='text-[12px] text-green-600 font-bold'>+12%</div>
+              </div>
+              <div>
+                <h1 className='text-sm font-medium text-gray-600'>TOTAL PRODUCTS</h1>
+                <p className='text-md font-bold'>1,284</p>
+              </div>
+            </div>
+            <div className='bg-white p-4 rounded-lg shadow-lg border border-gray-600/15 flex flex-col gap-4'>
+              <div className='flex justify-between items-start'>
+                <div className='bg-red-300/30 p-2 rounded-lg'><Archive size={18} /></div>
+                <div className='text-[12px] text-green-600 font-bold'>+12%</div>
+              </div>
+              <div>
+                <h1 className='text-sm font-medium text-gray-600'>TOTAL PRODUCTS</h1>
+                <p className='text-md font-bold'>1,284</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        {/* <button className='mt-6 ml-6 py-2 px-4 bg-orange-400 text-white font-bold rounded-full' onClick={()=> navigate("/add-product")}>Add Product</button> */}
       </div>
     </div>
   )
