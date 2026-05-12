@@ -3,6 +3,7 @@ import { googleLogin, loginUser } from "../../services/auth.service";
 import useAuth from "../../hooks/useAuth";
 import { Link, useNavigate } from "react-router-dom";
 import { GoogleLogin } from "@react-oauth/google";
+import Navbar from "../../components/layout/Navbar";
 
 const Login = () => {
   const [form, setForm] = useState({ email: "", password: "" });

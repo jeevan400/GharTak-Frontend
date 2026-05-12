@@ -20,3 +20,13 @@ export const deleteProduct = async (id) => {
     const {data} = await axiosInstance.delete(`${API_ENDPONTS.DELETE_PRODUCT}/${id}`);
     return data;
 }
+
+export const getAllProducts = async () => {
+    const {data} = await axiosInstance.get(API_ENDPONTS.ALL_PRODUCTS);
+    return data;
+}
+
+export const getSingleProduct = async (id) => {
+    const { data } = await axiosInstance.get(`${API_ENDPONTS.SINGLE_PRODUCT}/${id}`);
+    return data;
+}

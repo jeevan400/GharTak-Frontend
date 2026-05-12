@@ -7,6 +7,7 @@ import {
 } from "../../services/auth.service";
 import { useNavigate } from "react-router-dom";
 import { GoogleLogin } from "@react-oauth/google";
+import Navbar from "../../components/layout/Navbar";
 
 const Register = () => {
   const [email, setEmail] = useState("");

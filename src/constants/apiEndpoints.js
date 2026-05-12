@@ -19,4 +19,9 @@ export const API_ENDPONTS = {
     MY_PRODUCT: "/products/my-product",
     UPDATE_PRODUCT: "/products/edit-product",
     DELETE_PRODUCT:"/products/delete-product",
+    ALL_PRODUCTS:"/products/all-products",
+    SINGLE_PRODUCT:"/products/single-product",
+
+    // cart end points
+    ADD_TO_CART:"/carts/add-to-cart",
 }
