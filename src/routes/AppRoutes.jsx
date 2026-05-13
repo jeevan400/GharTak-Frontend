@@ -13,6 +13,7 @@ import useAuth from "../hooks/useAuth";
 import AddProduct from "../pages/seller/AddProduct";
 import MyProduct from "../pages/seller/MyProduct";
 import ProductDetail from "../pages/user/ProductDetail";
+import Cart from "../pages/user/Cart";
 
 const AppRoutes = () => {
   const { user } = useAuth();
@@ -70,6 +71,7 @@ const AppRoutes = () => {
         <Route path="/add-product" element={<AddProduct/>}/>
         <Route path="/my-product" element={<MyProduct/>}/>
         <Route path="/single-product/:id" element={<ProductDetail/>}/>
+        <Route path="/get-cart" element={<Cart/>}/>
     </Routes>
   );
 };

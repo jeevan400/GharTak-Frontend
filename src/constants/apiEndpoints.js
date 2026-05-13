@@ -24,4 +24,6 @@ export const API_ENDPONTS = {
 
     // cart end points
     ADD_TO_CART:"/carts/add-to-cart",
+    GET_CART_ITEMS:"/carts/get-cart",
+    UPDATE_CART_QUANTITY:"/carts/update-quantity"
 }

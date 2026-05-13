@@ -45,7 +45,7 @@ function AdminDashboard() {
           <p className='text-xs'>{user.sellerRequestStatus}</p>
           <div className='flex justify-end gap-4'>
             <button className="px-5 py-2 bg-white rounded-lg text-orange-500 border  border-orange-500" onClick={()=> handleReject(user._id)}>Reject</button>
-            <button class="px-5 py-2 bg-orange-500 rounded-lg hover:bg-orange-600 transition text-white" onClick={()=> handleApprove(user._id)}>Approve</button>
+            <button className="px-5 py-2 bg-orange-500 rounded-lg hover:bg-orange-600 transition text-white" onClick={()=> handleApprove(user._id)}>Approve</button>
           </div>
         </div>
       ))
