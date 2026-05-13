@@ -14,7 +14,7 @@ function Navbar() {
         {/* // <!-- Navbar --> */}
           <nav className="flex items-center justify-between px-8 py-5 border-b border-gray-800">
         
-        <h1 className="text-3xl font-bold text-orange-500">
+        <h1 onClick={()=> navigate("/home")} className="text-3xl font-bold text-orange-500 cursor-pointer">
           GharTak
         </h1>
         <ul className="hidden md:flex gap-8 text-gray-500 font-medium">
