@@ -56,6 +56,12 @@ function SellerDashboard() {
       icon:"",
       href:"/profile"
     },
+    {
+      id:9,
+      text:"Seller Orders",
+      icon:"",
+      href:"/seller-orders"
+    }
   ]
   return (
     <div className=' h-screen w-[100%] flex'>

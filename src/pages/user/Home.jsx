@@ -5,6 +5,7 @@ import Navbar from "../../components/layout/Navbar";
 import { deleteProduct, getAllProducts } from "../../services/product.service";
 import ProductModal from "../seller/ProductModal";
 import { addToCart } from "../../services/cart.service";
+import home from "../../assets/home.jpg";
 
 function Home() {
   const [isProducts, setIsProduct] = useState([]);
@@ -79,6 +80,10 @@ function Home() {
     <div>
       <Navbar />
 
+      <div style={{background:`url(${home})`, backgroundSize:"cover", }} className="h-[90vh] w-[100%] bg-green-400">
+
+      </div>
+
       <div className="flex flex-wrap gap-4">
         {
           error && <p>{error}</p>
@@ -91,7 +96,7 @@ function Home() {
             <Link to={`/single-product/${product._id}`}>
               <img
                 className="w-full h-[300px]"
-                src={product.image}
+                src={product.image || boy}
                 alt="product image"
               />
               <div className="flex p-2">
@@ -210,7 +215,7 @@ function Home() {
           />
         </div> */}
         <div className="flex justify-center items-center">
-          <div className="fixed bg-white bottom-12 w-[80%] p-4 rounded-xl flex justify-between border border-gray-300 shadow-lg">
+          <div className="fixed bg-white bottom-12 w-[60%] p-8 rounded-xl flex justify-between border border-gray-300 shadow-lg">
           <div>
             <h1 className="text-xl font-bold">Add more items</h1>
             <p className="text-sm font-semibold text-gray-500">get new offer</p>

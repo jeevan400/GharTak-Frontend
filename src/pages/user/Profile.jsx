@@ -14,11 +14,15 @@ import {
 } from "lucide-react";
 import Modal from "../../components/common/Modal";
 import Navbar from "../../components/layout/Navbar";
+import { useNavigate } from "react-router-dom";
 
 function Profile() {
   const [user, setUser] = useState({});
   const [modal, setModal] = useState(false);
   const [address, setAddress] = useState();
+
+  const navigate = useNavigate();
+
   useEffect(() => {
     const fetchProfile = async () => {
       try {
@@ -59,10 +63,10 @@ function Profile() {
             Manage your preferences
           </p>
           <div className="flex flex-col gap-0.5">
-            <button className="hover:bg-orange-400 text-left px-2 py-2 rounded-lg transition-all duration-300 ease-in flex items-center hover:text-white">
+            <button onClick={()=> navigate("/profile")} className="hover:bg-orange-400 text-left px-2 py-2 rounded-lg transition-all duration-300 ease-in flex items-center hover:text-white">
               <BookMarked size={14} color="brown" /> &nbsp;Profile
             </button>
-            <button className="hover:bg-orange-400 text-left px-2 py-2 rounded-lg transition-all duration-300 ease-in flex items-center hover:text-white">
+            <button onClick={()=> navigate("/my-order")} className="hover:bg-orange-400 text-left px-2 py-2 rounded-lg transition-all duration-300 ease-in flex items-center hover:text-white">
               <User size={14} color="brown" /> &nbsp;Order
             </button>
             <button className="hover:bg-orange-400 text-left px-2 py-2 rounded-lg transition-all duration-300 ease-in flex items-center hover:text-white">

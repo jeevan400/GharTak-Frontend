@@ -68,10 +68,10 @@ function Cart() {
           <h1 className="text-xl font-bold mb-4">Your Cart </h1>
 
           {
-            cartItem.items?.map((product)=>(
-              <div key={product.product._id} className="flex bg-white p-4 gap-4 rounded-lg border shadow-lg mb-4">
+            cartItem.items?.filter(item => item.product !== null).map((product, index)=>(
+              <div key={product.product?._id || index} className="flex bg-white p-4 gap-4 rounded-lg border shadow-lg mb-4">
             <div className="h-[100px] w-[80px]">
-              <img className="h-full w-full rounded-lg" src={product.product.image} alt="" />
+              <img className="h-full w-full rounded-lg" src={product.product?.image || boy} alt="" />
             </div>
             <div className="flex-1 flex flex-col justify-between">
               <div className="flex justify-between">
@@ -79,22 +79,22 @@ function Cart() {
                   {
                     console.log(product)
                   }
-                  <h1 className="text-lg font-bold">{product.product.name}</h1>
+                  <h1 className="text-lg font-bold">{product.product?.name || "Product Unavailable"}</h1>
                   <p className="text-sm font-medium text-gray-500 line-clamp-1">
-                    {product.product.description}
+                    {product.product?.description || "Description not available"}
                   </p>
                 </div>
                 <span className="text-xl font-semibold text-red-900">&#8377;
-                  {product.product.price}
+                  {product.product?.price || "N/A"}
                 </span>
               </div>
               <div className="flex justify-between items-center">
                 <span className="border border-red-800 px-2 flex gap-4 rounded-lg font-semibold">
-                  <button onClick={()=> handleUpdateQuantity(product.product._id, product.quantity-1)} className="text-black font-bold">-</button> 
+                  <button onClick={()=> handleUpdateQuantity(product.product?._id, product.quantity-1)} className="text-black font-bold">-</button> 
                   {product.quantity} 
-                  <button onClick={()=> handleUpdateQuantity(product.product._id, product.quantity+1)} className="text-black font-bold">+</button>
+                  <button onClick={()=> handleUpdateQuantity(product.product?._id, product.quantity+1)} className="text-black font-bold">+</button>
                 </span>
-                <button onClick={()=> handleUpdateQuantity(product.product._id, 0)} className="flex items-center gap-1 text-sm font-bold text-red-600 ">
+                <button onClick={()=> handleUpdateQuantity(product.product?._id, 0)} className="flex items-center gap-1 text-sm font-bold text-red-600 ">
                   <Trash size={14} />
                   REMOVE
                 </button>
@@ -133,7 +133,7 @@ function Cart() {
               <span className="text-xl font-bold text-red-900">&#8377; {cartItem.totalPrice+12.50+34}</span>
             </div>
             <div className="mt-6 flex justify-center items-center">
-              <button className="w-full bg-orange-600 text-white font-semibold p-2 rounded-lg text-lg flex items-center gap-2 justify-center">Proceed to Checkout <ChevronRight size={18}/></button>
+              <button onClick={()=> navigate("/order")} className="w-full bg-orange-600 text-white font-semibold p-2 rounded-lg text-lg flex items-center gap-2 justify-center">Proceed to Checkout <ChevronRight size={18}/></button>
             </div>
             <div className="flex justify-center items-center gap-4 my-4 text-gray-500">
               <Banknote/> <CreditCard/> <Wallet/>

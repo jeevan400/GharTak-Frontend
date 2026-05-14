@@ -14,6 +14,9 @@ import AddProduct from "../pages/seller/AddProduct";
 import MyProduct from "../pages/seller/MyProduct";
 import ProductDetail from "../pages/user/ProductDetail";
 import Cart from "../pages/user/Cart";
+import Checkout from "../pages/user/Checkout";
+import MyOrder from "../pages/user/MyOrder";
+import SellerOrders from "../pages/seller/SellerOrders";
 
 const AppRoutes = () => {
   const { user } = useAuth();
@@ -72,6 +75,9 @@ const AppRoutes = () => {
         <Route path="/my-product" element={<MyProduct/>}/>
         <Route path="/single-product/:id" element={<ProductDetail/>}/>
         <Route path="/get-cart" element={<Cart/>}/>
+        <Route path="/order" element={<Checkout/>}/>
+        <Route path="/my-order" element={<MyOrder/>}/>
+        <Route path="/seller-orders" element={<SellerOrders/>}/>
     </Routes>
   );
 };
