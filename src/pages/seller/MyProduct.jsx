@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { deleteProduct, getMyProduct } from "../../services/product.service";
 import useAuth from "../../hooks/useAuth";
 import ProductModal from "../seller/ProductModal"
+import boy from "../../assets/boy.jpg";
+
 function MyProduct() {
   const [products, setProducts] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -42,7 +44,7 @@ function MyProduct() {
         <div className="w-[270px] shadow-lg mt-4 ml-4 rounded-xl pb-4 border" key={product._id}>
           <img
             className="w-full h-[300px]"
-            src={product.image}
+            src={product.image || boy}
             alt="product image"
           />
           <div className="flex p-2">

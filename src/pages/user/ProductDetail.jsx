@@ -4,6 +4,7 @@ import { getSingleProduct } from "../../services/product.service";
 import Navbar from "../../components/layout/Navbar";
 import { addToCart } from "../../services/cart.service";
 import { ShoppingCart } from "lucide-react";
+import boy from "../../assets/boy.jpg";
 
 function ProductDetail() {
   const { id } = useParams();
@@ -39,7 +40,7 @@ function ProductDetail() {
     <div>
       <Navbar />
       <div className="flex items bg-center justify-between p-8">
-        <img className="h-[300px] w-[300px]" src={product.image} alt="" />
+        <img className="h-[300px] w-[300px]" src={product?.image || boy} alt="" />
         <div className="flex flex-col gap-2 justify-center">
           <h1>{product.name}</h1>
           <p>{product.description}</p>
