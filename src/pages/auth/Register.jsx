@@ -8,6 +8,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { GoogleLogin } from "@react-oauth/google";
 import Navbar from "../../components/layout/Navbar";
+import toast from "react-hot-toast";
 
 const Register = () => {
   const [email, setEmail] = useState("");
@@ -35,7 +36,8 @@ const Register = () => {
       setError("");
       setStep(2);
       // console.log("send otp : ", res);
-      alert("OTP sent");
+      // alert("OTP sent");
+      toast.success(res.message);
     } catch (e) {
       console.log(e);
       setError(e?.response?.data?.message || "Failed to send OTP");
@@ -48,10 +50,11 @@ const Register = () => {
 
   const handleVerifyOtp = async () => {
     try {
-      await verifyOTP({ email, otp: String(otp) });
+      const data = await verifyOTP({ email, otp: String(otp) });
       setError("");
       setStep(3);
-      alert("OTP verified");
+      // alert("OTP verified");
+      toast.success(data.message)
     } catch (e) {
       console.log(e);
       setError(e?.response?.data?.message || "OTP verification failed");
@@ -63,9 +66,10 @@ const Register = () => {
 
   const handleRegister = async () => {
     try {
-      await registerUser({ ...form, email });
+      const data = await registerUser({ ...form, email });
       setError("");
-      alert("Registered");
+      // alert("Registered");
+      toast.success(data.message);
       navigate("/login");
     } catch (e) {
       console.log(e);

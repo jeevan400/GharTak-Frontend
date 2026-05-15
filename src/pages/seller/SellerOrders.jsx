@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { getSellerOrder } from "../../services/order.service";
+import { getSellerOrder, updateOrderStatus } from "../../services/order.service";
 import Navbar from "../../components/layout/Navbar";
-import useAuth from "../../hooks/useAuth";
 import { jwtDecode } from "jwt-decode";
+import toast from "react-hot-toast";
 
 function SellerOrders() {
   const [orderData, setOrderData] = useState([]);
@@ -12,6 +12,7 @@ function SellerOrders() {
     try {
       const orders = await getSellerOrder();
       setOrderData(orders);
+      // console.log("this is orders ",orders);
       const data = jwtDecode(localStorage.getItem("token"));
       setUser(data);
     } catch (e) {
@@ -22,26 +23,48 @@ function SellerOrders() {
   useEffect(() => {
     fetchSellerOrder();
   }, []);
+
+  const handleUpdateOrderStatus = async (orderId, status) => {
+    try {
+      const data = await updateOrderStatus(orderId, status);
+
+      setOrderData((prev) =>
+        prev.map((order) =>
+          order._id === orderId
+            ? {
+                ...order,
+                orderStatus: status,
+              }
+            : order,
+        ),
+      );
+
+      console.log(data);
+      toast.success(data.message);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return (
     <>
       <Navbar />
       {orderData?.map((order) => (
         <div
-          key={order._id}
+          key={order?._id}
           className="w-[60%] m-auto flex flex-col justify-center items-start bg-red-50 mt-6 rounded-lg border border-red-800"
         >
           <h1 className="text-xl font-bold border-b border-b-red-900 w-full p-4 flex justify-between items-center">
             Items{" "}
-            <span className="text-red-800">&#8377;{order.totalPrice}</span>{" "}
+            <span className="text-red-800">&#8377;{order?.totalPrice || "N/A"}</span>{" "}
           </h1>
           <div className="flex flex-col gap-2 w-full p-2">
-            {order.items
+            {order?.items
               ?.filter((items) => items.product !== null)
               .map((item, index) =>
                 item.product?.seller === user.id ? (
-                  <>
                     <div
-                      key={index}
+                      key={item.product?._id || index}
                       className="flex justify-between border p-4  shadow-md bg-white rounded-lg"
                     >
                       <div className="flex gap-4">
@@ -73,15 +96,18 @@ function SellerOrders() {
                         <h1 className="text-amber-900 font-bold text-lg mb-2">
                           &#8377;{item.price}
                         </h1>
-                        <span
+                        <select 
+                          value={order.orderStatus}
+                          onChange={(e)=> handleUpdateOrderStatus(order._id, e.target.value)}
                           className="px-4 py-0.5 rounded-md text-xs font-medium bg-green-100 text-green-700
                             border border-green-700 "
                         >
-                          {order.orderStatus}
-                        </span>
+                          <option value="Processing">Processing</option>
+                          <option value="Shipped">Shipped</option>
+                          <option value="Delivered">Delivered</option>
+                        </select>
                       </div>
                     </div>
-                  </>
                 ) : (
                   <></>
                 ),

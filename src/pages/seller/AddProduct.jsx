@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { addProduct } from '../../services/product.service';
+import toast from 'react-hot-toast';
 
 
 function AddProduct() {
@@ -16,13 +17,14 @@ function AddProduct() {
   const handleAddProduct = async (e) => {
     e.preventDefault();
     try{
-      await addProduct({
+      const data = await addProduct({
         ...form,
         price: Number(form.price),
         stock: Number(form.stock),
         image: [form.image],
       });
-      alert("Product added successfully!");
+      // alert("Product added successfully!");
+      toast.success(data.message);
     } catch(e){
       const message = e?.response?.data?.message || e.message || "Unknown error";
       console.error("Add product failed:", message, e);

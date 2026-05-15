@@ -15,6 +15,7 @@ import {
 import Modal from "../../components/common/Modal";
 import Navbar from "../../components/layout/Navbar";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 function Profile() {
   const [user, setUser] = useState({});
@@ -48,8 +49,9 @@ function Profile() {
   const handleSellerRequest = async () => {
     try {
       const res = await requestSellerRole();
-      alert(res.message);
+      toast.success(res.message);
     } catch (e) {
+      toast.error(e.message.data.message);
       console.log(e.response.data.message);
     }
   };

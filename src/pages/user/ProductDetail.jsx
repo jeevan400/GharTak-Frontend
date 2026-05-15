@@ -5,6 +5,7 @@ import Navbar from "../../components/layout/Navbar";
 import { addToCart } from "../../services/cart.service";
 import { ShoppingCart } from "lucide-react";
 import boy from "../../assets/boy.jpg";
+import toast from "react-hot-toast";
 
 function ProductDetail() {
   const { id } = useParams();
@@ -30,8 +31,9 @@ function ProductDetail() {
       });
 
       setCartData(data.cart);
-      console.log("cart data", data.cart);
-      alert("Product added successfully in the cart section");
+      // console.log("cart data", data.cart);
+      // alert("Product added successfully in the cart section");
+      toast.success(data.message)
     } catch (e) {
       console.log(e);
     }
