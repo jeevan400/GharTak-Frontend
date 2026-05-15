@@ -4,6 +4,7 @@ import useAuth from "../../hooks/useAuth";
 import { Link, useNavigate } from "react-router-dom";
 import { GoogleLogin } from "@react-oauth/google";
 import Navbar from "../../components/layout/Navbar";
+import toast from "react-hot-toast";
 
 const Login = () => {
   const [form, setForm] = useState({ email: "", password: "" });
@@ -19,7 +20,7 @@ const Login = () => {
       login(data.token);
       navigate("/home");
     } catch (err) {
-      alert(err?.response?.data?.message || "Login failed");
+      toast.error(err?.response?.data?.message || "Login failed");
     } finally {
       setLoading(false);
     }

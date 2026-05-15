@@ -6,6 +6,7 @@ import { deleteProduct, getAllProducts } from "../../services/product.service";
 import ProductModal from "../seller/ProductModal";
 import { addToCart } from "../../services/cart.service";
 import home from "../../assets/home.jpg";
+import toast from "react-hot-toast";
 
 function Home() {
   const [isProducts, setIsProduct] = useState([]);
@@ -71,7 +72,8 @@ function Home() {
         });
       
         console.log(data);
-          alert("Product added successfully in the cart section");
+          // alert("Product added successfully in the cart section");
+          toast.success(data.message);
       } catch(e){
         console.log(e);
       }
@@ -80,7 +82,7 @@ function Home() {
     <div>
       <Navbar />
 
-      <div style={{background:`url(${home})`, backgroundSize:"cover", }} className="h-[90vh] w-[100%] bg-green-400">
+      <div style={{background:`url(${home})`, backgroundSize:"cover", }} className="h-[60vh] w-[100%] bg-green-400">
 
       </div>
 

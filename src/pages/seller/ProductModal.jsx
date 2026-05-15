@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { deleteProduct, updateProduct } from "../../services/product.service";
+import toast from "react-hot-toast";
 
 function Modal({ product, onClose, refreshProducts }) {
   const [form, setform] = useState({
@@ -28,14 +29,15 @@ function Modal({ product, onClose, refreshProducts }) {
 
   const handleUpdateData = async () => {
     try {
-      await updateProduct(product._id, {
+     const data = await updateProduct(product._id, {
         name: form.name,
         description: form.description,
         price: Number(form.price),
         brand: form.brand,
         stock: Number(form.stock),
       });
-      alert("Product Updated successfully.");
+      // alert("Product Updated successfully.");
+      toast.success(data.message);
       refreshProducts?.();
       onClose(false);
     } catch (e) {

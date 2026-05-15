@@ -3,6 +3,7 @@ import { deleteProduct, getMyProduct } from "../../services/product.service";
 import useAuth from "../../hooks/useAuth";
 import ProductModal from "../seller/ProductModal"
 import boy from "../../assets/boy.jpg";
+import toast from "react-hot-toast";
 
 function MyProduct() {
   const [products, setProducts] = useState([]);
@@ -28,10 +29,11 @@ function MyProduct() {
 
   const handleDeleteData = async (id) => {
     try{
-        await deleteProduct(id);
+        const data = await deleteProduct(id);
 
         setProducts((prev)=> prev.filter((product)=> product._id !== id));
-        alert("Product Deleted successfully.");
+        // alert("Product Deleted successfully.");
+        toast.success(data.message);
     } catch (e) {
         console.log(e);
         alert(e?.response?.data?.message || e.message || "Delete Failed");

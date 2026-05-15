@@ -15,3 +15,8 @@ export const getSellerOrder = async () => {
     const { data } = await axios.get(API_ENDPONTS.SELLER_ORDERS);
     return data;
 }
+
+export const updateOrderStatus = async (orderId, status) => {
+    const { data } = await axios.patch(`${API_ENDPONTS.UPDATE_ORDER_STATUS}/${orderId}`, {status});
+    return data;
+}

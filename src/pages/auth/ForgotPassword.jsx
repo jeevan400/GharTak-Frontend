@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { sendforgotOTP, verifyForgotOTP, resetPassword } from '../../services/auth.service'
 import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 
 function ForgotPassword() {
@@ -13,20 +14,20 @@ function ForgotPassword() {
     const navigate = useNavigate();
 
     const handleSendForgotOtp = async () => {
-        await sendforgotOTP({email});
+        const data = await sendforgotOTP({email});
         setStep(2);
-        alert("OTP sent. Please check your email.");
+        toast.success(data.message)
     };
 
     const handleVerifyForgotOtp = async ()=>{
-        await verifyForgotOTP({email, otp:String(otp)});
+        const data = await verifyForgotOTP({email, otp:String(otp)});
         setStep(3);
-        alert("OTP Verified");
+        toast.success(data.message)
     };
 
     const handleResetPassword = async ()=>{
-        await resetPassword({email, newPassword});
-        alert("Password change successfully!");
+        const data = await resetPassword({email, newPassword});
+        toast.success(data.message);
         navigate("/login");
     }
 

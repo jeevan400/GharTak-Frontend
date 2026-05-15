@@ -10,7 +10,7 @@ function MyOrder() {
   const fetchMyOrder = async () => {
     try {
       const orders = await getMyOrder();
-      console.log(orders);
+      // console.log(orders);
       setOrderData(orders);
       setItems()
     } catch (e) {

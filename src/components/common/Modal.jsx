@@ -1,6 +1,7 @@
 import React from "react";
 import { updateProfile } from "../../services/auth.service";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 function Modal({ onClose }) {
   const [form, setform] = useState({
@@ -23,7 +24,8 @@ function Modal({ onClose }) {
     try {
       const updateUser = await updateProfile(form);
       // console.log(updateUser);
-      alert("Profile Updated successfully.");
+      // alert("Profile Updated successfully.");
+      toast.success(updateUser.message)
       onClose(false);
     } catch (e) {
       console.log(e);
