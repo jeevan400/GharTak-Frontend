@@ -17,10 +17,14 @@ const Login = () => {
     try {
       setLoading(true);
       const data = await loginUser(form); // { token }
+      if (!data?.token) {
+        throw new Error(data?.message || "Login failed");
+        toast.error("Login Failed");
+      }
       login(data.token);
       navigate("/home");
     } catch (err) {
-      toast.error(err?.response?.data?.message || "Login failed");
+      toast.error(err?.response?.data?.message || err.message || "Login failed");
     } finally {
       setLoading(false);
     }
@@ -48,12 +52,14 @@ const handleGoogleLogin = async (response) => {
                 className="border py-2 px-4 rounded-lg text-[16px]"
                 type="email"
                 placeholder="Enter your email"
+                value={form.email}
                 onChange={(e) => setForm({ ...form, email: e.target.value })}
               />
               <input
                 className="border py-2 px-4 rounded-lg text-[16px]"
                 type="password"
                 placeholder="Password"
+                value={form.password}
                 onChange={(e) => setForm({ ...form, password: e.target.value })}
               />
               <Link to="/forgot-password" className="text-xs font-semibold text-blue-400 -mt-2">Forgot Password</Link>

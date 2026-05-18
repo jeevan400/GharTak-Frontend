@@ -12,7 +12,7 @@ import {
   MapPin,
   ChevronDown,
 } from "lucide-react";
-import Modal from "../../components/common/Modal";
+import ProfileModal from "./ProfileModal";
 import Navbar from "../../components/layout/Navbar";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
@@ -118,7 +118,7 @@ function Profile() {
                 </button>
               )}
             </div>
-            {modal ? <Modal onClose={setModal} /> : ""}
+            {modal ? <ProfileModal onClose={setModal} /> : ""}
           </div>
           <div className="flex gap-4 pt-4">
             <div className="flex-1 bg-[#FB923C1d] rounded-lg border border-orange-300 p-2">
