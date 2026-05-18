@@ -32,4 +32,10 @@ export const API_ENDPONTS = {
     MY_ORDERS:"/orders/my-order",
     SELLER_ORDERS:"/orders/seller-orders",
     UPDATE_ORDER_STATUS:"/orders/update-order-status",
+
+    // address end points
+    ADD_USER_ADDRESS:"/address/add-address",
+    GET_ADDRESSES:"/address/address",
+    DELETE_ADDRESS:"/address/delete-address",
+    UPDATE_ADDRESS:"/address/update-address",
 }

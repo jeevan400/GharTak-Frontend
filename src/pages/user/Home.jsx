@@ -29,7 +29,7 @@ function Home() {
     try {
       const products = await getAllProducts();
       setIsProduct(products);
-      setError(e?.response?.data?.message || e.message );
+      // setError(e?.response?.data?.message || e.message );
       console.log("these are all products : ", products.products);
     } catch (e) {
       console.log(e.message);
