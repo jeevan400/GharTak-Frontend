@@ -54,7 +54,8 @@ function Home() {
         products: prev.products.filter((product) => product._id !== id),
       }));
 
-      alert("Product Deleted successfully.");
+      // alert("Product Deleted successfully.");
+      toast.success("product Deleted successfully.");
     } catch (e) {
       console.log(e);
     }
@@ -75,7 +76,8 @@ function Home() {
           // alert("Product added successfully in the cart section");
           toast.success(data.message);
       } catch(e){
-        console.log(e);
+        toast.error(e?.response?.data?.message);
+        console.log(e.response);
       }
     }
   return (

@@ -32,6 +32,8 @@ import {
   updateAddress,
 } from "../../services/address.service";
 import { useEffect } from "react";
+import { getCartItems } from "../../services/cart.service";
+import Navbar from "../../components/layout/Navbar";
 
 function Checkout() {
   const navigate = useNavigate();
@@ -42,12 +44,19 @@ function Checkout() {
     city: "",
     state: "",
     pincode: "",
-    country: "India",
+    country: "India"
   });
 
   const [modalOpen, setModalOpen] = useState(false);
   const [addresses, setAddresses] = useState([]);
   const [selectedAddress, setSelectedAddress] = useState(null);
+  const [deliveryMethod, setDeliveryMethod] = useState({
+    type:"Standard Delivery",
+    price:40,
+  });
+  const [isPaymentMethod, setIsPaymentMethod] = useState("COD");
+  const [cartItems, setCartItems] = useState([]);
+  const [cartData, setCartData] = useState();
 
   const handleChange = (e) => {
     setFormData({
@@ -56,17 +65,21 @@ function Checkout() {
     });
   };
 
-  //   const handleCreateOrder = async (e) => {
-  //     try {
-  //       e.preventDefault();
-  //       const data = await createOrder(formData);
-  //       // alert("Order Placed Successfully!");
-  //       toast.success(data.message);
-  //       navigate("/home");
-  //     } catch (e) {
-  //       console.log(e);
-  //     }
-  //   };
+    const handleCreateOrder = async (e) => {
+      try {
+        e.preventDefault();
+        const data = await createOrder({
+            ...formData,
+            deliveryMethod:deliveryMethod.type,
+            isPaymentMethod
+        });
+        // alert("Order Placed Successfully!");
+        toast.success(data.message);
+        navigate("/home");
+      } catch (e) {
+        console.log(e);
+      }
+    };
 
   const handleEditAddress = (address) => {
     // store selected Address
@@ -126,8 +139,20 @@ function Checkout() {
     }
   };
 
+  const fetchCartItems = async () => {
+    try{
+        const res = await getCartItems();
+        console.log(res);
+        setCartData(res);
+        setCartItems(res.items);
+    } catch(e){
+        console.log(e);
+    }
+  }
+
   useEffect(() => {
     fetchUserAddress();
+    fetchCartItems();
   }, []);
 
   const handleModalOpen = () => {
@@ -159,18 +184,26 @@ function Checkout() {
 
   const paymentMethods = [
     {
+        id: 1,
       icon: <QrCode />,
       title: "UPI/QR",
+      method: "UPI/QR"
     },
     {
+        id: 2,
       icon: <CreditCard />,
       title: "Card",
+      method:'Card'
     },
     {
+        id: 3,
       icon: <Landmark />,
       title: "Net Banking",
+      method:'Net Banking'
     },
+    
   ];
+
   return (
     // <div>
     //   <form onSubmit={handleCreateOrder}>
@@ -208,29 +241,7 @@ function Checkout() {
     // </div>
 
     <div className="h-screen w-[100%] overflow-y-auto">
-      <nav className="sticky top-0 bg-red-50 flex justify-between px-16 py-4 border-b border-red-900/15 z-50">
-        <div className="flex justify-center items-center gap-4 text-2xl font-bold cursor-pointer">
-          <span className="flex justify-center items-center ">
-            <ArrowBigLeft onClick={() => navigate(-1)} size={26} />
-          </span>
-          GharTak
-        </div>
-        <ul className="flex justify-center items-center gap-8 text-lg font-semibold text-gray-600">
-          <li className="hover:text-black cursor-pointer ">Home</li>
-          <li className="hover:text-black cursor-pointer ">Artisans</li>
-          <li className="hover:text-black cursor-pointer ">Orders</li>
-          <li
-            onClick={() => navigate("/profile")}
-            className=" cursor-pointer flex gap-2 border border-red-900 px-4 py-1 justify-center items-center rounded-full bg-red-900/10 text-red-900"
-          >
-            <User size={20} />
-            Profile
-          </li>
-        </ul>
-        <div className="flex justify-center items-center cursor-pointer">
-          <Settings />
-        </div>
-      </nav>
+      <Navbar/>
       <main className="grid grid-cols-12 bg-red-50 py-6">
         <div className=" h-full  col-span-8">
           <div className="flex justify-between items-center py-8 px-14">
@@ -485,13 +496,18 @@ function Checkout() {
           <Card className="mt-4">
             <Card.Header icon={<Gauge />} title="Delivery Method"></Card.Header>
             <Card.Body className="flex flex-col gap-4">
-              <Card className="flex justify-between items-center hover:border-red-900 hover:bg-red-900/5 transition-all duration-200 ease-in">
+              <div onClick={()=> setDeliveryMethod({
+                type:"Standard Delivery",
+                price:40
+              })} className={`flex justify-between items-center transition-all duration-200 ease-in cursor-pointer bg-white mx-4 p-4 rounded-lg border border-red-900/25 ${deliveryMethod.type === "Standard Delivery" ? `!border-red-900  !bg-red-900/5`:`hover:border-red-900 hover:bg-red-900/5`}`}>
                 <div className="flex items-center gap-4">
                   <div className="flex justify-center items-center">
                     <input
                       className="h-[20px] w-[20px] bg-red-900"
                       type="radio"
                       name="delivery"
+                      checked={deliveryMethod.type === "Standard Delivery"}
+                      readOnly
                     />
                   </div>
                   <div>
@@ -502,14 +518,19 @@ function Checkout() {
                   </div>
                 </div>
                 <div className="text-lg font-semibold">&#8377;40</div>
-              </Card>
-              <Card className="flex justify-between items-center hover:border-red-900 hover:bg-red-900/5 transition-all duration-200 ease-in">
+              </div>
+              <div onClick={()=> setDeliveryMethod({
+                type:"Express Delivery",
+                price:150
+              })} className={`flex justify-between items-center  transition-all duration-200 ease-in cursor-pointer bg-white mx-4 p-4 rounded-lg border border-red-900/25 ${deliveryMethod.type === "Express Delivery" ? `!border-red-900  !bg-red-900/5`:`hover:border-red-900 hover:bg-red-900/5`}`}>
                 <div className="flex items-center gap-4">
                   <div className="flex justify-center items-center">
                     <input
                       className="h-[20px] w-[20px] bg-red-900"
                       type="radio"
                       name="delivery"
+                      checked={deliveryMethod.type === "Express Delivery"}
+                      readOnly
                     />
                   </div>
                   <div>
@@ -520,7 +541,7 @@ function Checkout() {
                   </div>
                 </div>
                 <div className="text-lg font-semibold">&#8377;150</div>
-              </Card>
+              </div>
             </Card.Body>
           </Card>
           <Card className={`mt-4`}>
@@ -531,14 +552,16 @@ function Checkout() {
             <Card.Body>
               <div className="grid grid-cols-3">
                 {paymentMethods.map((paymentMethod) => (
-                  <Card
-                    className={`flex flex-col justify-center items-center gap-2 hover:text-red-900 hover:border-red-900 transition-all duration-200 ease-in`}
+                  <div
+                    key={paymentMethod.id}
+                  onClick={()=> setIsPaymentMethod(paymentMethod.method)}
+                    className={`flex flex-col justify-center items-center gap-2 mx-4 p-4 rounded-lg border border-red-900/25 transition-all duration-200 ease-in cursor-pointer ${isPaymentMethod === paymentMethod.method ? "text-red-900 !border-red-900 bg-red-900/5" :"hover:text-red-900 bg-white hover:border-red-900"}`}
                   >
                     {paymentMethod.icon}
                     <h1 className="text-md font-medium ">
                       {paymentMethod.title}
                     </h1>
-                  </Card>
+                  </div>
                 ))}
               </div>
               <Card className={`mt-4 bg-red-900/5 flex flex-col gap-2`}>
@@ -566,13 +589,31 @@ function Checkout() {
           <div></div>
         </div>
         <div className="flex-1 h-full col-span-4">
-          <Card className={`h-fit p-0`}>
+          <Card className={`h-fit !p-0`}>
             <Card.Header
               title={`ORDER SUMMARY`}
               className="bg-red-900/10 p-4 border-b border-red-900/25"
             />
             <Card.Body className={`bg-white p-4`}>
-              <div className="flex gap-2 mb-2">
+                {
+                    cartItems?.map((cartItem)=>(
+                        <div key={cartItem.product._id} className="flex gap-2 mb-2">
+                <img
+                  className="h-[70px] w-[70px] rounded-lg"
+                  src={cartItem.product.image}
+                  alt=""
+                />
+                <div>
+                  <h1 className="text-md font-medium line-clamp-1">{cartItem.product.name}</h1>
+                  <p className="text-sm font-light line-clamp-1">Qty:{cartItem.quantity} {cartItem.product.description}</p>
+                  <span className="text-sm font-medium text-red-900">
+                    &#8377;{cartItem.price}
+                  </span>
+                </div>
+              </div>
+                    ))
+                }
+              {/* <div className="flex gap-2 mb-2">
                 <img
                   className="h-[70px] w-[70px] rounded-lg"
                   src={boy}
@@ -599,30 +640,30 @@ function Checkout() {
                     &#8377;1,250.00
                   </span>
                 </div>
-              </div>
+              </div> */}
               <div className=" border-t-2 py-4 border-red-900/25">
                 <div className="flex justify-between">
                   <span className="text-sm font-normal text-gray-600">
                     Subtotal
                   </span>
                   <span className="text-sm font-normal text-gray-600">
-                    &#8377;3,350.00
+                    &#8377;{cartData?.totalPrice }
                   </span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-sm font-normal text-gray-600">
-                    Shipping Fee &#40;Express&#41;
+                    Shipping Fee &#40;{deliveryMethod.type}&#41;
                   </span>
                   <span className="text-sm font-normal text-gray-600">
-                    &#8377;150.00
+                    &#8377;{deliveryMethod.price}
                   </span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-sm font-normal text-gray-600">
-                    Tax &#40;GST 12%&#41;
+                    Tax &#40;GST 18%&#41;
                   </span>
                   <span className="text-sm font-normal text-gray-600">
-                    &#8377;420.00
+                    &#8377;{(cartData?.totalPrice * 18)/100}
                   </span>
                 </div>
               </div>
@@ -631,11 +672,11 @@ function Checkout() {
                   <h1 className="flex justify-between text-lg font-bold">
                     Total{" "}
                     <span className="text-xl text-red-900">
-                      &#8377;3,920.00
+                      &#8377;{cartData?.totalPrice + deliveryMethod.price + Number(`${(cartData?.totalPrice * 18)/100}`)}
                     </span>
                   </h1>
                 </div>
-                <button className="flex justify-center items-center w-full mt-4 bg-orange-500 rounded-lg py-2 text-lg">
+                <button onClick={handleCreateOrder} className="flex justify-center items-center w-full mt-4 bg-orange-500 rounded-lg py-2 text-lg">
                   Place Order <ArrowRight />
                 </button>
               </div>
