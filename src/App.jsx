@@ -7,6 +7,7 @@ import { BrowserRouter } from 'react-router-dom'
 import { AuthProvider } from './store/context/AuthContext'
 import AppRoutes from './routes/AppRoutes'
 import { Toaster } from 'react-hot-toast'
+import AdminRoute from './pages/admin/AdminRoute'
 
 function App() {
 
@@ -14,8 +15,8 @@ function App() {
     <BrowserRouter>
       <AuthProvider>
         <Toaster position='top-right'/>
-        <AppRoutes>
-        </AppRoutes>
+        <AppRoutes/>
+        <AdminRoute/>
       </AuthProvider>
     </BrowserRouter>
   )
