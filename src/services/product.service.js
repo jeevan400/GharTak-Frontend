@@ -30,3 +30,18 @@ export const getSingleProduct = async (id) => {
     const { data } = await axiosInstance.get(`${API_ENDPONTS.SINGLE_PRODUCT}/${id}`);
     return data;
 }
+
+export const addReviewForProfuct = async (id, payload) => {
+    const {data} = await axiosInstance.post(`/products/${id}/review`, payload );
+    return data;
+}
+
+export const getAllReviews = async (id) => {
+    const {data} = await axiosInstance.get(`/products/${id}/all-reviews`);
+    return data;
+}
+
+export const deleteReview = async (productId, reviewId) => {
+    const {data} = await axiosInstance.delete(`/products/${productId}/review/${reviewId}`);
+    return data;
+}
