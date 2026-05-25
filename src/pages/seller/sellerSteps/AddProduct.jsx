@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { addProduct } from '../../services/product.service';
+import { addProduct } from '../../../services/product.service';
 import toast from 'react-hot-toast';
 
 

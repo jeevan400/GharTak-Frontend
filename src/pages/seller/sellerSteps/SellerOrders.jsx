@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { getSellerOrder, updateOrderStatus } from "../../services/order.service";
-import Navbar from "../../components/layout/Navbar";
+import { getSellerOrder, updateOrderStatus } from "../../../services/order.service";
+import Navbar from "../../../components/layout/Navbar";
 import { jwtDecode } from "jwt-decode";
 import toast from "react-hot-toast";
 
@@ -48,11 +48,11 @@ function SellerOrders() {
 
   return (
     <>
-      <Navbar />
+      {/* <Navbar /> */}
       {orderData?.map((order) => (
         <div
           key={order?._id}
-          className="w-[60%] m-auto flex flex-col justify-center items-start bg-red-50 mt-6 rounded-lg border border-red-800"
+          className="w-[80%] m-auto flex flex-col justify-center items-start bg-red-50 mt-6 rounded-lg border border-red-800"
         >
           <h1 className="text-xl font-bold border-b border-b-red-900 w-full p-4 flex justify-between items-center">
             Items{" "}

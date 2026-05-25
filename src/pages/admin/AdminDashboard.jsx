@@ -87,8 +87,8 @@ function AdminDashboard() {
   return <>
     <div className=' h-screen w-[100%] flex'>
       <div className='h-full w-[270px] bg-red-900/25 text-red-900'>
-        <div onClick={()=> navigate("/home")} className='mb-6 p-4 cursor-pointer'>
-          <h1 className='text-3xl font-bold text-red-900'>GharTak</h1>
+        <div onClick={()=> navigate("/home")} className='mb-6 p-4 cursor-pointer text-white bg-red-900'>
+          <h1 className='text-3xl font-bold text-white'>GharTak</h1>
         <p className='text-md font-semibold'>ADMIN CONSOLE</p>
         </div>
         <div>

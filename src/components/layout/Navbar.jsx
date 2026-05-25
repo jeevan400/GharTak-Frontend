@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import { ArrowBigLeft, Settings, User } from "lucide-react";
 
-function Navbar() {
+function Navbar({children}) {
   const navigate = useNavigate();
   const { logout, user } = useAuth();
 
@@ -104,7 +104,7 @@ function Navbar() {
                 GharTak
               </div>
               <ul className="flex justify-center items-center gap-8 text-lg font-semibold text-gray-600">
-                <li className="hover:text-black cursor-pointer ">Home</li>
+                {/* <li className="hover:text-black cursor-pointer ">Home</li>
                 <li className="hover:text-black cursor-pointer ">Artisans</li>
                 <li className="hover:text-black cursor-pointer ">Orders</li>
                 <li
@@ -113,7 +113,11 @@ function Navbar() {
                 >
                   <User size={20} />
                   Profile
-                </li>
+                </li> */}
+
+                {
+                  children
+                }
               </ul>
               <div className="flex gap-4">
           {!user ? (
@@ -168,9 +172,9 @@ function Navbar() {
             </>
           )}
           </div>
-              <div className="flex justify-center items-center cursor-pointer">
+              {/* <div className="flex justify-center items-center cursor-pointer">
                 <Settings />
-              </div>
+              </div> */}
             </nav>
     </>
   );

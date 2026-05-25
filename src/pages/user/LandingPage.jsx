@@ -1,12 +1,24 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import Navbar from '../../components/layout/Navbar';
+import { User } from 'lucide-react';
 
 function LandingPage() {
     const navigate = useNavigate();
   return (
     <div>
-        <Navbar/>
+        <Navbar>
+          <li className="hover:text-black cursor-pointer ">Home</li>
+                <li className="hover:text-black cursor-pointer ">Artisans</li>
+                <li className="hover:text-black cursor-pointer ">Orders</li>
+                <li
+                  onClick={() => navigate("/profile")}
+                  className=" cursor-pointer flex gap-2 border border-red-900 px-4 py-1 justify-center items-center rounded-full bg-red-900/10 text-red-900"
+                >
+                  <User size={20} />
+                  Profile
+                </li>
+        </Navbar>
         {/* //   <!-- Hero Section --> */}
           <section className="min-h-screen flex flex-col md:flex-row items-center justify-between px-8 md:px-20 py-20">
         {/* <!-- Left Content --> */}

@@ -10,13 +10,13 @@ import ForgotPassword from "../pages/auth/ForgotPassword";
 import LandingPage from "../pages/user/LandingPage";
 import Profile from "../pages/user/Profile";
 import useAuth from "../hooks/useAuth";
-import AddProduct from "../pages/seller/AddProduct";
-import MyProduct from "../pages/seller/MyProduct";
+import AddProduct from "../pages/seller/sellerSteps/AddProduct";
+import MyProduct from "../pages/seller/sellerSteps/MyProduct";
 import ProductDetail from "../pages/user/ProductDetail";
 import Cart from "../pages/user/Cart";
 import Checkout from "../pages/user/Checkout";
 import MyOrder from "../pages/user/MyOrder";
-import SellerOrders from "../pages/seller/SellerOrders";
+import SellerOrders from "../pages/seller/sellerSteps/SellerOrders";
 
 const AppRoutes = () => {
   const { user } = useAuth();
@@ -35,7 +35,7 @@ const AppRoutes = () => {
         }
       />
 
-      <Route
+      {/* <Route
         path="/seller"
         element={
           <PrivateRoute>
@@ -44,7 +44,7 @@ const AppRoutes = () => {
             </RoleRoute>
           </PrivateRoute>
         }
-      />
+      /> */}
 
       {/* <Route
         path="/admin"

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { deleteProduct, getMyProduct } from "../../services/product.service";
-import useAuth from "../../hooks/useAuth";
-import ProductModal from "../seller/ProductModal"
-import boy from "../../assets/boy.jpg";
+import { deleteProduct, getMyProduct } from "../../../services/product.service";
+import useAuth from "../../../hooks/useAuth";
+import ProductModal from "../ProductModal"
+import boy from "../../../assets//boy.jpg";
 import toast from "react-hot-toast";
 
 function MyProduct() {
