@@ -62,6 +62,11 @@ export const getSellerRequest = async () => {
     return data;
 }
 
+export const getAllStatusUser = async () => {
+    const {data} = await axios.get(API_ENDPONTS.ALL_STATUS_USERS);
+    return data;
+}
+
 export const approveSellerRequest = async (id)=>{
     const {data} = await axios.patch(`${API_ENDPONTS.APPROVE_REQUEST}/${id}`);
     return data;

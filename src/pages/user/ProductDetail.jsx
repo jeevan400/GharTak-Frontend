@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { addReviewForProfuct, deleteReview, getAllReviews, getSingleProduct } from "../../services/product.service";
+import { addReviewForProfuct, deleteReview, getAllReviews, getSingleProduct, updateReview } from "../../services/product.service";
 import Navbar from "../../components/layout/Navbar";
 import { addToCart } from "../../services/cart.service";
-import { Delete, DeleteIcon, LucideDelete, Pencil, ShoppingCart, Trash } from "lucide-react";
+import { Delete, DeleteIcon, LucideDelete, Pencil, ShoppingCart, Trash, X } from "lucide-react";
 import boy from "../../assets/boy.jpg";
 import toast from "react-hot-toast";
+import Modal from "../../components/common/Modal";
 
 function ProductDetail() {
   const { id } = useParams();
@@ -16,7 +17,12 @@ function ProductDetail() {
     rating:1,
     comment:""
   });
-  const [allReviews, setAllReviews] = useState()
+  const [allReviews, setAllReviews] = useState();
+  const [modalOpen, setModalOpen] = useState(false);
+  const [updatedData, setUpdatedData] = useState({
+    rating:"",
+    comment:""
+  });
 
   const fetchProduct = async () => {
     const res = await getSingleProduct(id);
@@ -64,6 +70,24 @@ function ProductDetail() {
     }catch(e){
       toast.error(e.response.data.message);
       console.log(e.response);
+    }
+  }
+
+  const handleModalOpen = ()=>{
+    setModalOpen(true);
+  }
+
+  const handleReviewSubmit = async (e, productId, reviewId)=> {
+    e.preventDefault();
+    try{
+      const res = await updateReview( productId, reviewId, updatedData);
+      toast.success(res.message);
+      console.log(res);
+      setModalOpen(false);
+      fetchProduct();
+    } catch(e){
+      toast.error(e.response.data.message);
+      console.log(e);
     }
   }
   return (
@@ -143,8 +167,38 @@ function ProductDetail() {
                 </div>
                 <div className="flex gap-2 ">
                   <button onClick={()=> handleDeleteReview(product?._id, review._id)} className="hover:bg-red-600/15 transition-all duration-200 ease-in text-red-600 h-[30px] w-[30px] flex justify-center items-center rounded-lg"><Trash size={18}/></button>
-                  <button className="hover:bg-green-600/15 transition-all duration-200 ease-in text-green-600 h-[30px] w-[30px] flex justify-center items-center rounded-lg"><Pencil size={18}/></button>
+                  <button onClick={handleModalOpen} className="hover:bg-green-600/15 transition-all duration-200 ease-in text-green-600 h-[30px] w-[30px] flex justify-center items-center rounded-lg"><Pencil size={18}/></button>
                 </div>
+                {
+                  modalOpen?<>
+                    <Modal onClose={setModalOpen}>
+                      <Modal.Header>
+                        <h1 className="text-xl font-semibold">
+                        Update Review
+                    </h1>
+                    <div
+                      onClick={() => setModalOpen(false)}
+                      className="flex justify-center items-center hover:bg-gray-300 p-2 rounded-lg cursor-pointer transition-all duration-300 ease-in"
+                    >
+                      <X />
+                    </div>
+                      </Modal.Header>
+                      <Modal.Body>
+                        <form onSubmit={(e)=> handleReviewSubmit(e, product?._id, review._id)} action="">
+                          <input type="text"  name="rating" onChange={(e)=> setUpdatedData({
+                            ...updatedData,
+                            rating:e.target.value,
+                          })} /> <br /><br />
+                          <input type="text"  name="comment" onChange={(e)=> setUpdatedData({
+                            ...updatedData,
+                            comment:e.target.value
+                          })} /> <br /> <br />
+                          <button type="submit">Update</button>
+                        </form>
+                      </Modal.Body>
+                    </Modal>
+                  </>:<></>
+                }
               </div>
             </div>
           ))

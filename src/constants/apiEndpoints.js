@@ -11,6 +11,7 @@ export const API_ENDPONTS = {
     PROFILE:"/users/profile",
     REQUEST_SELLER:"/users/request-seller",
     SELLER_REQUESTS:"/users/seller-requests",
+    ALL_STATUS_USERS:"/users/all-requests",
     APPROVE_REQUEST:"/users/approve-request",
     REJECT_REQUEST:"/users/reject-request",
 
