@@ -45,3 +45,8 @@ export const deleteReview = async (productId, reviewId) => {
     const {data} = await axiosInstance.delete(`/products/${productId}/review/${reviewId}`);
     return data;
 }
+
+export const updateReview = async (productId, reviewId, payload) => {
+    const {data} = await axiosInstance.patch(`/products/${productId}/review/${reviewId}`, payload);
+    return data;
+}

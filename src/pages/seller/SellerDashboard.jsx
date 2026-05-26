@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Link, Outlet, useNavigate } from 'react-router-dom'
+import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom'
 import useAuth from '../../hooks/useAuth';
 import { Bell, MessageSquareText, Archive   } from 'lucide-react';
 import { getProfile } from '../../services/auth.service';
@@ -80,7 +80,11 @@ function SellerDashboard() {
       icon:"",
       href:"/seller/seller-orders"
     }
-  ]
+  ];
+
+  const activeClass = "text-white bg-red-900 border-l-4 border-red-900";
+  const notmalClass = "text-red-900 hover:bg-red-900/10 border-l-4 border-red-900/5 hover:border-red-900";
+
   return (
     <div className=' h-screen w-[100%] flex'>
       <div className='h-full w-[270px] bg-red-900/25 text-red-900'>
@@ -91,11 +95,11 @@ function SellerDashboard() {
         <div>
           {
             sellerDashboardSidebar?.map((tab)=>(
-              <Link key={tab.id} to={tab.href}>
-              <div className='p-4 mb-2 cursor-pointer text-lg font-semibold text-red-900 hover:bg-red-900/10 border-l-4 border-red-900/5 hover:border-red-900 transition-all duration-100 ease-in flex gap-2 justify-start items-center'>
+              <NavLink key={tab.id} to={tab.href} className={({isActive})=>
+              `${isActive?activeClass:notmalClass} p-4 mb-2 cursor-pointer text-lg font-semibold transition-all duration-100 ease-in flex gap-2 justify-start items-center`
+              }>
                 {tab.text}
-              </div>
-              </Link>
+              </NavLink>
             ))
           }
         </div>
