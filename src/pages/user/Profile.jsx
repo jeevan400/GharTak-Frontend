@@ -33,6 +33,7 @@ function Profile() {
         setUser(data);
       } catch (e) {
         console.log(e);
+        toast.error(e.response.data.message);
       }
     };
     fetchProfile();

@@ -82,7 +82,6 @@ function ProductDetail() {
     try{
       const res = await updateReview( productId, reviewId, updatedData);
       toast.success(res.message);
-      console.log(res);
       setModalOpen(false);
       fetchProduct();
     } catch(e){

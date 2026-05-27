@@ -5,8 +5,16 @@ import Navbar from "../../components/layout/Navbar";
 import { deleteProduct, getAllProducts } from "../../services/product.service";
 import ProductModal from "../seller/ProductModal";
 import { addToCart } from "../../services/cart.service";
-import home from "../../assets/home.jpg";
+import home from "../../assets/homeImageGharTak.png";
+import Gradient from "../../assets/Gradient.png";
 import toast from "react-hot-toast";
+import Card from "../../components/common/Card";
+import Electronic from "../../assets/home/categories/Electronics.png";
+import Fashion from "../../assets/home/categories/Fashion.png";
+import HomeIcon from "../../assets/home/categories/homeGhar.png";
+import Grocery from "../../assets/home/categories/Grocery.png";
+import Beauty from "../../assets/home/categories/beauty.png";
+import Appliance from "../../assets/home/categories/appliance.png";
 
 function Home() {
   const [isProducts, setIsProduct] = useState([]);
@@ -80,60 +88,119 @@ function Home() {
         console.log(e.response);
       }
     }
+
+    const categories = [
+      {
+        id:1,
+        icon: Electronic,
+        title:"Electronics",
+      },
+      {
+        id:2,
+        icon: Fashion,
+        title:"Fashion",
+      },
+      {
+        id:3,
+        icon: HomeIcon,
+        title:"Home",
+      },
+      {
+        id:4,
+        icon: Grocery,
+        title:"Grocery",
+      },
+      {
+        id:5,
+        icon: Beauty,
+        title:"Beauty",
+      },
+      {
+        id:6,
+        icon: Appliance,
+        title:"Appliance",
+      },
+    ]
   return (
     <div>
       <Navbar />
 
-      <div style={{background:`url(${home})`, backgroundSize:"cover", }} className="h-[60vh] w-[100%] bg-green-400">
-
+      <div style={{background:`url(${home})`, backgroundSize:"cover", }} className="h-[90vh] w-[100%] bg-green-400">
+      <img className="h-full w-full" src={Gradient} alt="" />
       </div>
 
-      <div className="flex flex-wrap gap-4">
+      <Card className={`!mx-0 !border-none !bg-gray-100 !p-8`}>
+        <Card.Header icon={<div>
+          <h1 className="text-[16px] font-normal text[#0B1C30]">Explore Categories</h1>
+          <p className="text-[16px] font-normal text-[#5A4138]">Find exactly what you need across our massive inventory</p>
+        </div>}>
+          <button>View All</button>
+        </Card.Header>
+        <Card.Body className={`flex justify-start items-center gap-4`}>
+          {
+            categories?.map((category)=>(
+              <div key={category.id} className="flex flex-col justify-center items-center gap-4"  >
+                <div className="h-[150px] w-[150px] bg-[#E5EEFF] flex justify-center items-center rounded-xl border border-[#E2BFB2]">
+                    <img src={category.icon} alt="" />
+                  </div>
+                <p className="text-[16px] font-medium text-[#0B1C30]">{category.title}</p>
+              </div>
+            ))
+          }
+        </Card.Body>
+      </Card>
+
+
+      <Card className={`!mx-0 !border-none  !p-8`}>
+        <Card.Header icon={<h1 className="text-[16px] font-normal text[#0B1C30]">Featured for you</h1>}>
+          <button>View All</button>
+        </Card.Header>
+      <div className="grid sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 ">
         {
           error && <p>{error}</p>
         }
         {isProducts.products?.map((product) => (
           <div
             key={product._id}
-            className="w-[270px] shadow-lg mt-4 ml-4 rounded-xl pb-4 border"
+            className="rounded-xl pb-4 flex flex-col justify-between hover:shadow-lg transition-all duration-200 ease-in border shadow-md"
           >
             <Link to={`/single-product/${product._id}`}>
               <img
-                className="w-full h-[300px]"
+                className="w-full h-[240px] rounded-tl-lg rounded-tr-lg"
                 src={product.image || boy}
                 alt="product image"
               />
               <div className="flex p-2">
                 <div>
-                  <h1 className="text-xl font-bold">{product.name}</h1>
-                  <p className="font-semibold line-clamp-1 w-[70%]">
+                  <h1 className="text-[16px] font-bold">{product.name}</h1>
+                  <p className="text-[14px] font-semibold line-clamp-1 w-[70%]">
                     {product.description}
                   </p>
                 </div>
                 <div>
-                  <span className="text-xl">&#8377;{product.price}</span>
+                  <span className="text-[16px] font-bold text-red-900">&#8377;{product.price}</span>
                 </div>
               </div>
             </Link>
             <div>
               <div></div>
-              <span className="p-2 text-green-600 font-bold">
+              <span className="p-2 text-[12px] text-green-600 font-bold">
                 In Stock: {product.stock}
               </span>
             </div>
 
             {user.role === "seller" && user.id === product.seller ? (
               <>
-                <div className=" flex gap-4 justify-end p-2">
+                <div className=" flex gap-4 justify-between p-2">
                   <button
                     onClick={() => handleIsModalOpen(product)}
-                    className="bg-orange-400 text-xs font-semibold text-white rounded-lg px-4 py-1"
+                    className="flex-1 bg-orange-400 text-[14px] font-medium text-white rounded-lg px-4 py-2 whitespace-nowrap"
                   >
                     Edit
                   </button>
                   <button
                     onClick={() => handleDeleteData(product._id)}
-                    className="bg-gray-900 text-xs font-semibold text-white rounded-lg px-4 py-1"
+                    className="flex-1 bg-gray-900 text-[14px] font-medium text-white rounded-lg px-4 py-2 whitespace-nowrap"
                   >
                     Delete
                   </button>
@@ -151,11 +218,11 @@ function Home() {
               </>
             ) : (
               <>
-                <div className=" flex gap-4 justify-end p-2">
-                  <button className="bg-orange-400 text-xs font-semibold text-white rounded-lg px-4 py-1">
+                <div className=" flex gap-4 justify-between p-2">
+                  <button className="flex-1 bg-orange-400 text-[14px] font-medium text-white rounded-lg px-4 py-2 whitespace-nowrap">
                     Buy
                   </button>
-                  <button onClick={()=> handleAddToCart(product._id)} className="bg-gray-900 text-xs font-semibold text-white rounded-lg px-4 py-1">
+                  <button onClick={()=> handleAddToCart(product._id)} className="flex-1 bg-gray-900 text-[14px] font-medium text-white rounded-lg px-4 py-2 whitespace-nowrap">
                     Add to Cart
                   </button>
                 </div>
@@ -164,6 +231,7 @@ function Home() {
           </div>
         ))}
       </div>
+      </Card>
       {/* <nav class="flex items-center justify-between px-8 py-5 border-b border-gray-800">
         
         <h1 class="text-3xl font-bold text-orange-500">

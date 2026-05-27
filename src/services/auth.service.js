@@ -76,3 +76,13 @@ export const rejectSellerRequest = async (id) => {
     const {data} = await axios.patch(`${API_ENDPONTS.REJECT_REQUEST}/${id}`);
     return data;
 }
+
+export const getAllUser = async () => {
+     const { data } = await axios.get(API_ENDPONTS.ALL_USERS);
+     return data;
+}
+
+export const ToggleBlockUser = async (id) => {
+    const {data} = await axios.patch(`${API_ENDPONTS.BLOCK_USER}/${id}`);
+    return data;
+}
