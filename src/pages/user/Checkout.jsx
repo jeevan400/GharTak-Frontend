@@ -78,6 +78,7 @@ function Checkout() {
         navigate("/home");
       } catch (e) {
         console.log(e);
+        toast.error(e.response.data.message);
       }
     };
 
@@ -127,6 +128,7 @@ function Checkout() {
       await fetchUserAddress();
     } catch (e) {
       console.log(e);
+      toast.error(e.response.data.message);
     }
   };
 
@@ -136,17 +138,18 @@ function Checkout() {
       setAddresses(data);
     } catch (e) {
       console.log(e);
+      toast.error(e.response.data.message);
     }
   };
 
   const fetchCartItems = async () => {
     try{
         const res = await getCartItems();
-        console.log(res);
         setCartData(res);
         setCartItems(res.items);
     } catch(e){
         console.log(e);
+        toast.error(e.response.data.message);
     }
   }
 
@@ -179,6 +182,7 @@ function Checkout() {
       await fetchUserAddress();
     } catch (e) {
       console.log(e);
+      toast.error(e.response.data.message);
     }
   };
 
@@ -597,17 +601,17 @@ function Checkout() {
             <Card.Body className={`bg-white p-4`}>
                 {
                     cartItems?.map((cartItem)=>(
-                        <div key={cartItem.product._id} className="flex gap-2 mb-2">
+                        <div key={cartItem?.product?._id} className="flex gap-2 mb-2">
                 <img
                   className="h-[70px] w-[70px] rounded-lg"
-                  src={cartItem.product.image}
+                  src={cartItem?.product?.image}
                   alt=""
                 />
                 <div>
-                  <h1 className="text-md font-medium line-clamp-1">{cartItem.product.name}</h1>
-                  <p className="text-sm font-light line-clamp-1">Qty:{cartItem.quantity} {cartItem.product.description}</p>
+                  <h1 className="text-md font-medium line-clamp-1">{cartItem?.product?.name}</h1>
+                  <p className="text-sm font-light line-clamp-1">Qty:{cartItem?.quantity} {cartItem?.product?.description}</p>
                   <span className="text-sm font-medium text-red-900">
-                    &#8377;{cartItem.price}
+                    &#8377;{cartItem?.price}
                   </span>
                 </div>
               </div>

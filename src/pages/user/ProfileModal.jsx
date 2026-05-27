@@ -29,6 +29,7 @@ function ProfileModal({ onClose }) {
       onClose(false);
     } catch (e) {
       console.log(e);
+      toast.error(e.response.data.message);
     }
   };
   return (

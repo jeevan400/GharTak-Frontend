@@ -14,6 +14,8 @@ export const API_ENDPONTS = {
     ALL_STATUS_USERS:"/users/all-requests",
     APPROVE_REQUEST:"/users/approve-request",
     REJECT_REQUEST:"/users/reject-request",
+    ALL_USERS:"/users/all-users",
+    BLOCK_USER:"/users/block-user",
 
     //products end points
     ADD_PRODUCT: "/products/add-product",

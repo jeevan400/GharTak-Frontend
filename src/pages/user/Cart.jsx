@@ -4,6 +4,7 @@ import { getCartItems, updateCartQuantity } from "../../services/cart.service";
 import Navbar from "../../components/layout/Navbar";
 import { Trash, ChevronRight, ArrowLeft, Wallet, CreditCard, Banknote  } from "lucide-react";
 import boy from "../../assets/boy.jpg";
+import toast from "react-hot-toast";
 
 function Cart() {
   const navigate = useNavigate();
@@ -24,6 +25,7 @@ function Cart() {
       setError(
         e?.response?.data?.message || e.message || "Failed to load cart",
       );
+      toast.error(e.response.data.message);
     }
   };
 
@@ -36,8 +38,10 @@ function Cart() {
       const updatedCart = await updateCartQuantity(productId, quantity);
 
       setCartItem(updatedCart);
+      toast.success(updatedCart.message);
     } catch(e){
       console.log(e);
+      toast.error(e.response.data.message);
     }
   }
 

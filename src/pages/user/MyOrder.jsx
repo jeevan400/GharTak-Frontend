@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import boy from "../../assets/boy.jpg";
 import { getMyOrder } from "../../services/order.service";
 import Navbar from "../../components/layout/Navbar";
+import toast from "react-hot-toast";
 
 function MyOrder() {
   const [orderData, setOrderData] = useState();
@@ -12,9 +13,10 @@ function MyOrder() {
       const orders = await getMyOrder();
       // console.log(orders);
       setOrderData(orders);
-      setItems()
+      setItems();
     } catch (e) {
       console.log(e);
+      toast.error(e.response.data.message);
     }
   };
 
