@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import boy from "../../assets/boy.jpg";
-import { getMyOrder } from "../../services/order.service";
+import { cancelOrder, getMyOrder } from "../../services/order.service";
 import Navbar from "../../components/layout/Navbar";
 import toast from "react-hot-toast";
 
@@ -23,6 +23,18 @@ function MyOrder() {
   useEffect(() => {
     fetchMyOrder();
   }, []);
+
+  const handleCancelOrder = async (id) =>{
+    try{
+      const res = await cancelOrder(id);
+      toast.success(res.message);
+      fetchMyOrder();
+    } catch(e){
+      console.log(e);
+      toast.error(e.response.data.message);
+    }
+  }
+
   return (
     <>
     <Navbar/>
@@ -33,7 +45,20 @@ function MyOrder() {
         >
           <h1 className="text-xl font-bold border-b border-b-red-900 w-full p-4 flex justify-between items-center">
             Items{" "}
-            <span className="text-red-800">&#8377;{order.totalPrice}</span>{" "}
+            <div className="flex justify-center items-center gap-4">
+              <button onClick={()=> handleCancelOrder(order._id)}
+                  className="px-4 py-0.5 rounded-md text-xs font-medium bg-red-100 text-red-700
+                            border border-red-700 "
+                >
+                  Cancel Order
+                </button>
+              <span
+                  className="px-4 py-0.5 rounded-md text-xs font-medium bg-green-100 text-green-700
+                            border border-green-700 "
+                >
+                  {order.orderStatus}
+                </span>
+              <span className="text-red-800">&#8377;{order.totalPrice}</span>{" "}</div>
           </h1>
           <div className="flex flex-col gap-2 w-full p-2">
             {
@@ -55,12 +80,6 @@ function MyOrder() {
                 <h1 className="text-amber-900 font-bold text-lg mb-2">
                   &#8377;{item.price}
                 </h1>
-                <span
-                  className="px-4 py-0.5 rounded-md text-xs font-medium bg-green-100 text-green-700
-                            border border-green-700 "
-                >
-                  {order.orderStatus}
-                </span>
               </div>
             </div>
                 ))
