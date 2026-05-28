@@ -43,6 +43,7 @@ function SellerOrders() {
       toast.success(data.message);
     } catch (e) {
       console.log(e);
+      toast.error(e.response.data.message);
     }
   };
 

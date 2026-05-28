@@ -20,3 +20,13 @@ export const updateOrderStatus = async (orderId, status) => {
     const { data } = await axios.patch(`${API_ENDPONTS.UPDATE_ORDER_STATUS}/${orderId}`, {status});
     return data;
 }
+
+export const getAllOrders = async () => {
+    const { data } = await axios.get(API_ENDPONTS.GET_ALL_ORDERS);
+    return data;
+}
+
+export const cancelOrder = async (id) => {
+    const { data } = await axios.patch(`${API_ENDPONTS.CANCEL_ORDER}/${id}`);
+    return data;
+}
