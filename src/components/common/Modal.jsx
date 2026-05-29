@@ -1,6 +1,6 @@
 import React from 'react'
 
-function Modal({children, onClose}) {
+function Modal({children, onClose , className}) {
 
     const handleModalClose = ()=>{
         onClose(false);
@@ -12,7 +12,7 @@ function Modal({children, onClose}) {
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="flex flex-col w-[80%] h-[90%] bg-white rounded-xl"
+        className={`flex flex-col w-[80%] h-[90%] bg-white rounded-xl ${className}`}
       >
         {children}
       </div>
