@@ -15,6 +15,8 @@ import HomeIcon from "../../assets/home/categories/homeGhar.png";
 import Grocery from "../../assets/home/categories/Grocery.png";
 import Beauty from "../../assets/home/categories/beauty.png";
 import Appliance from "../../assets/home/categories/appliance.png";
+import { addWishList } from "../../services/wishlist.service";
+import { Heart } from "lucide-react";
 
 function Home() {
   const [isProducts, setIsProduct] = useState([]);
@@ -121,6 +123,18 @@ function Home() {
         title:"Appliance",
       },
     ]
+
+    const addProductWishList = async (id) => {
+      try {
+        const res = await addWishList(id);
+        console.log(res);
+        toast.success(res.message);
+      } catch (e) {
+        console.log(e);
+        const message = e?.response?.data?.message || e?.message || "Failed to add product to wishlist.";
+        toast.error(message);
+      }
+    }
   return (
     <div>
       <Navbar />
@@ -162,7 +176,7 @@ function Home() {
         {isProducts.products?.map((product) => (
           <div
             key={product._id}
-            className="rounded-xl pb-4 flex flex-col justify-between hover:shadow-lg transition-all duration-200 ease-in border shadow-md"
+            className="relative rounded-xl pb-4 flex flex-col justify-between hover:shadow-lg transition-all duration-200 ease-in border shadow-md"
           >
             <Link to={`/single-product/${product._id}`}>
               <img
@@ -170,6 +184,9 @@ function Home() {
                 src={product.image || boy}
                 alt="product image"
               />
+              <span onClick={(e)=> addProductWishList(product._id)} className="absolute top-2 right-2 text-white">
+                <Heart size={18}/>
+              </span>
               <div className="flex p-2">
                 <div>
                   <h1 className="text-[16px] font-bold">{product.name}</h1>

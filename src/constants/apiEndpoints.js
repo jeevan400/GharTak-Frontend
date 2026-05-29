@@ -43,4 +43,7 @@ export const API_ENDPONTS = {
     GET_ADDRESSES:"/address/address",
     DELETE_ADDRESS:"/address/delete-address",
     UPDATE_ADDRESS:"/address/update-address",
+
+    // wishList end points
+    ADD_WISHLIST:"/wishlists/add-wishlist",
 }
