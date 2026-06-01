@@ -5,3 +5,8 @@ export const addWishList = async (productId) => {
     const { data } = await axios.post(`${API_ENDPONTS.ADD_WISHLIST}/${productId}`);
     return data;
 }
+
+export const getSingleWishList = async () => {
+    const { data } = await axios.get(`${API_ENDPONTS.SINGLE_WISHLIST}`);
+    return data;
+}

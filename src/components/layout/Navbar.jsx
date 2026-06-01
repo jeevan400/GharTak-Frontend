@@ -5,10 +5,11 @@ import { ArrowBigLeft, Search, Settings, User } from "lucide-react";
 import logoImage from "../../assets/GharTak.png";
 import { useState } from "react";
 
-function Navbar({children}) {
+function Navbar({ children, search, setSearch }) {
   const navigate = useNavigate();
   const { logout, user } = useAuth();
   const [hover, setHover] = useState(false);
+  const [profileMenu, setProfileMenu] = useState(false);
 
   const handleLogout = () => {
     logout();
@@ -99,38 +100,41 @@ function Navbar({children}) {
           )}
         </div>
       </nav> */}
-      <nav style={{boxShadow:"var(--shadow-md)"}} className="sticky bg-white top-0 flex justify-between items-center px-8 border-b border-red-900/15 z-50 ">
-              <div className="flex justify-center items-center gap-16 text-2xl font-bold cursor-pointer ">
-                {/* <span className="flex justify-center items-center ">
+      <nav
+        style={{ boxShadow: "var(--shadow-md)" }}
+        className="sticky bg-white top-0 flex justify-between items-center px-8 border-b border-red-900/15 z-50 "
+      >
+        <div className="flex justify-center items-center gap-16 text-2xl font-bold cursor-pointer ">
+          {/* <span className="flex justify-center items-center ">
                   <ArrowBigLeft onClick={() => navigate(-1)} size={26} />
                 </span>
                 GharTak */}
-                <img className="h-[80px]" src={logoImage} alt="logo image" />
-                <ul className="flex justify-center items-center gap-8 text-lg font-semibold text-gray-600">
-                  {
-                    children
-                  }
-                </ul>
-              </div>
-              <div className="flex gap-4">
-                <div className="flex justify-center items-center bg-white px-4 rounded-full border border-[var(--primary)]">
-                          <Search size={18} color="gray" />
-                          <input
-                            className=" rounded-full text-[16px] font-normal p-2 focus:ring-0 outline-none"
-                            type="text"
-                            name="search"
-                            id="search"
-                            placeholder={`Search . . .`}
-                          />
-                          {/* <button className='h-fit w-fit bg-red-900 text-white justify-center items-center  p-2 rounded-full'><Search/></button> */}
-                        </div>
+          <div onClick={() => navigate("/home")}>
+            <img className="h-[80px]" src={logoImage} alt="logo image" />
+          </div>
+          <ul className="flex justify-center items-center gap-8 text-lg font-semibold text-gray-600">
+            {children}
+          </ul>
+        </div>
+        <div className="flex gap-4">
+          <div className="flex justify-center items-center bg-white px-4 rounded-full border border-[var(--primary)]">
+            <Search size={18} color="gray" />
+            <input
+              className=" rounded-full text-[16px] font-normal p-2 focus:ring-0 outline-none"
+              type="text"
+              name="search"
+              value={search}
+              onChange={(e)=> setSearch(e.target.value)}
+              id="search"
+              placeholder={`Search . . .`}
+            />
+            {/* <button className='h-fit w-fit bg-red-900 text-white justify-center items-center  p-2 rounded-full'><Search/></button> */}
+          </div>
           {!user ? (
             <>
               <button
-                onMouseEnter={()=> setHover(true)}
-                onMouseLeave={()=> setHover(false)}
                 onClick={() => navigate("/login")}
-                style={{background: "var(--gradient-primary)"}}
+                style={{ background: "var(--gradient-primary)" }}
                 className=" h-fit w-fit cursor-pointer flex gap-2 border border-[var(--primary)] px-4 py-2 justify-center items-center rounded-full  text-white hover:scale-105 transition-all duration-200 ease-in"
               >
                 Login
@@ -145,7 +149,7 @@ function Navbar({children}) {
             </>
           ) : (
             <>
-              {user?.role === "admin" && (
+              {/* {user?.role === "admin" && (
                 <button
                   onClick={() => navigate("/admin")}
                   className=" cursor-pointer flex gap-2 border border-red-900 px-4 py-1 justify-center items-center rounded-full bg-red-900/10 text-red-900"
@@ -166,10 +170,10 @@ function Navbar({children}) {
                 className=" cursor-pointer flex gap-2 border border-red-900 px-4 py-1 justify-center items-center rounded-full bg-red-900 text-white"
               >
                 Logout
-              </button>
+              </button> */}
               <div
-                onClick={() => navigate("/profile")}
-                className="rounded-full text-xl font-semibold bg-orange-100 text-orange-500 h-[40px] w-[40px]"
+                onClick={() => setProfileMenu(!profileMenu)}
+                className="relative rounded-full text-xl font-semibold bg-orange-100 text-orange-500 h-[40px] w-[40px]"
               >
                 <img
                   className="w-full h-full rounded-full"
@@ -177,13 +181,48 @@ function Navbar({children}) {
                   alt="profile image"
                 />
               </div>
+              {profileMenu ? (
+                <div className="absolute w-[250px] top-16 right-8 bg-white p-4 flex flex-col gap-2 rounded-md border border-[var(--border-medium)]">
+                  {user?.role === "admin" && (
+                    <button
+                      onClick={() => navigate("/admin")}
+                      className=" h-fit w-full cursor-pointer flex gap-2 border border-[var(--primary)] px-4 py-2 justify-center items-center rounded-lg  text-[var(--primary)] hover:scale-105 transition-all duration-200 ease-in"
+                    >
+                      Admin Dashboard
+                    </button>
+                  )}
+                  {user?.role === "seller" && (
+                    <button
+                      onClick={() => navigate("/seller")}
+                      className=" h-fit w-full cursor-pointer flex gap-2 border border-[var(--primary)] px-4 py-2 justify-center items-center rounded-lg  text-[var(--primary)] hover:scale-105 transition-all duration-200 ease-in"
+                    >
+                      Seller Dashboard
+                    </button>
+                  )}
+                  <button
+                    onClick={() => navigate("/profile")}
+                    className=" h-fit w-full cursor-pointer flex gap-2 border border-[var(--primary)] px-4 py-2 justify-center items-center rounded-lg  text-[var(--primary)] hover:scale-105 transition-all duration-200 ease-in"
+                  >
+                    Profile
+                  </button>
+                  <button
+                    onClick={handleLogout}
+                    style={{ background: "var(--gradient-primary)" }}
+                    className=" h-fit w-full cursor-pointer flex gap-2 border border-[var(--primary)] px-4 py-2 justify-center items-center rounded-lg  text-white hover:scale-105 transition-all duration-200 ease-in"
+                  >
+                    Logout
+                  </button>
+                </div>
+              ) : (
+                ""
+              )}
             </>
           )}
-          </div>
-              {/* <div className="flex justify-center items-center cursor-pointer">
+        </div>
+        {/* <div className="flex justify-center items-center cursor-pointer">
                 <Settings />
               </div> */}
-            </nav>
+      </nav>
     </>
   );
 }

@@ -91,7 +91,7 @@ function ProductDetail() {
   }
   return (
     <div className="pb-32">
-      <Navbar />
+      {/* <Navbar /> */}
       <div className="flex items bg-center justify-between p-8">
         <img className="h-[300px] w-[300px]" src={product?.image || boy} alt="" />
         <div className="flex flex-col gap-2 justify-center">
@@ -149,10 +149,10 @@ function ProductDetail() {
             <div key={review._id} className="flex gap-6 p-4 border border-red-900 m-4 rounded-lg shadow-md">
               <div className="flex flex-col justify-center items-center">
                 <div>
-                  <img className="h-[50px] w-[50px] rounded-full" src={review.user.image} alt="" />
+                  <img className="h-[50px] w-[50px] rounded-full" src={review?.user?.image} alt="" />
                 </div>
                 <div>
-                  <h1 className="text-sm font-semibold">{(review.user.name)?.toUpperCase()}</h1>
+                  <h1 className="text-sm font-semibold">{(review?.user?.name)?.toUpperCase()}</h1>
                 </div>
               </div>
               <div className="flex justify-between flex-1 ">

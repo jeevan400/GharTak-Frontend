@@ -21,8 +21,8 @@ export const deleteProduct = async (id) => {
     return data;
 }
 
-export const getAllProducts = async () => {
-    const {data} = await axiosInstance.get(API_ENDPONTS.ALL_PRODUCTS);
+export const getAllProducts = async (debouncingSearch) => {
+    const {data} = await axiosInstance.get(`${API_ENDPONTS.ALL_PRODUCTS}?search=${debouncingSearch}`);
     return data;
 }
 

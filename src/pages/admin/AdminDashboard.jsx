@@ -20,6 +20,7 @@ import {
   Users,
 } from "lucide-react";
 import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
+import GharTakLogoImage from "../../assets/GharTak.png"
 
 function AdminDashboard() {
   const [requests, setRequests] = useState([]);
@@ -113,6 +114,7 @@ function AdminDashboard() {
             onClick={() => navigate("/home")}
             className="mb-6 p-4 cursor-pointer text-white bg-red-900"
           >
+            {/* <img src={GharTakLogoImage} alt="logo image" /> */}
             <h1 className="text-3xl font-bold text-white">GharTak</h1>
             <p className="text-md font-semibold">ADMIN CONSOLE</p>
           </div>

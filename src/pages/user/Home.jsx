@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import useAuth from "../../hooks/useAuth";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useOutletContext } from "react-router-dom";
 import Navbar from "../../components/layout/Navbar";
 import { deleteProduct, getAllProducts } from "../../services/product.service";
 import ProductModal from "../seller/ProductModal";
 import { addToCart } from "../../services/cart.service";
 import home from "../../assets/homeImageGharTak.png";
+import GharTakHomeImage from "../../assets/home/categories/GharTakHomeImage.png";
 import Gradient from "../../assets/Gradient.png";
 import toast from "react-hot-toast";
 import Card from "../../components/common/Card";
@@ -15,14 +16,22 @@ import HomeIcon from "../../assets/home/categories/homeGhar.png";
 import Grocery from "../../assets/home/categories/Grocery.png";
 import Beauty from "../../assets/home/categories/beauty.png";
 import Appliance from "../../assets/home/categories/appliance.png";
-import { addWishList } from "../../services/wishlist.service";
-import { Heart } from "lucide-react";
+import {
+  addWishList,
+  getSingleWishList,
+} from "../../services/wishlist.service";
+import { Heart, Plus, Star } from "lucide-react";
 
 function Home() {
   const [isProducts, setIsProduct] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [error, setError] = useState(null);
+  const [wishListProduts, setWishListProducts] = useState([]);
+  const [debouncingSearch, setDbouncingSearch] = useState("");
+
+  const { search } = useOutletContext();
+
   const { logout, user } = useAuth();
   const navigate = useNavigate();
   const handleLogout = () => {
@@ -37,18 +46,34 @@ function Home() {
   // get all products
   const fetchAllProducts = async () => {
     try {
-      const products = await getAllProducts();
+      const products = await getAllProducts(debouncingSearch);
+      const singleWishList = await getSingleWishList();
+      console.log("these are wishlist products : ", singleWishList);
       setIsProduct(products);
+      setWishListProducts(
+        singleWishList.products?.map((item) => item._id || item) || [],
+      );
       // setError(e?.response?.data?.message || e.message );
       console.log("these are all products : ", products.products);
     } catch (e) {
       console.log(e.message);
+      toast.error(e.response.data.message || e.message || "Product Not Found.");
     }
   };
 
+  useEffect(()=>{
+    const timer = setTimeout(()=>{
+      setDbouncingSearch(search);
+    }, 500);
+
+    return ()=>{
+      clearTimeout(timer);
+    };
+  },[search])
+
   useEffect(() => {
     fetchAllProducts();
-  }, []);
+  }, [debouncingSearch]);
 
   const handleIsModalOpen = (product) => {
     setSelectedProduct(product);
@@ -76,178 +101,274 @@ function Home() {
   };
 
   const handleAddToCart = async (id) => {
-      try{
-        const data = await addToCart({
-          productId:id,
-          quantity:1
-        });
-      
-        console.log(data);
-          // alert("Product added successfully in the cart section");
-          toast.success(data.message);
-      } catch(e){
-        toast.error(e?.response?.data?.message);
-        console.log(e.response);
-      }
-    }
+    try {
+      const data = await addToCart({
+        productId: id,
+        quantity: 1,
+      });
 
-    const categories = [
-      {
-        id:1,
-        icon: Electronic,
-        title:"Electronics",
-      },
-      {
-        id:2,
-        icon: Fashion,
-        title:"Fashion",
-      },
-      {
-        id:3,
-        icon: HomeIcon,
-        title:"Home",
-      },
-      {
-        id:4,
-        icon: Grocery,
-        title:"Grocery",
-      },
-      {
-        id:5,
-        icon: Beauty,
-        title:"Beauty",
-      },
-      {
-        id:6,
-        icon: Appliance,
-        title:"Appliance",
-      },
-    ]
-
-    const addProductWishList = async (id) => {
-      try {
-        const res = await addWishList(id);
-        console.log(res);
-        toast.success(res.message);
-      } catch (e) {
-        console.log(e);
-        const message = e?.response?.data?.message || e?.message || "Failed to add product to wishlist.";
-        toast.error(message);
-      }
+      console.log(data);
+      // alert("Product added successfully in the cart section");
+      toast.success(data.message);
+    } catch (e) {
+      toast.error(e?.response?.data?.message);
+      console.log(e.response);
     }
+  };
+
+  const categories = [
+    {
+      id: 1,
+      icon: Electronic,
+      title: "Electronics",
+    },
+    {
+      id: 2,
+      icon: Fashion,
+      title: "Fashion",
+    },
+    {
+      id: 3,
+      icon: HomeIcon,
+      title: "Home",
+    },
+    {
+      id: 4,
+      icon: Grocery,
+      title: "Grocery",
+    },
+    {
+      id: 5,
+      icon: Beauty,
+      title: "Beauty",
+    },
+    {
+      id: 6,
+      icon: Appliance,
+      title: "Appliance",
+    },
+  ];
+
+  const addProductWishList = async (id) => {
+    try {
+      const res = await addWishList(id);
+      toast.success(res.message);
+      fetchAllProducts();
+    } catch (e) {
+      console.log(e);
+      const message =
+        e?.response?.data?.message ||
+        e?.message ||
+        "Failed to add product to wishlist.";
+      toast.error(message);
+    }
+  };
+
   return (
     <div>
-      <Navbar />
+      {/* <Navbar>
+        <li className="hover:text-[var(--primary)] cursor-pointer text-[16px] " onClick={()=> navigate("/home")}>Home</li>
+      </Navbar> */}
 
-      <div style={{background:`url(${home})`, backgroundSize:"cover", }} className="h-[90vh] w-[100%] bg-green-400">
-      <img className="h-full w-full" src={Gradient} alt="" />
+      <div className="h-[100vh] w-[100%] p-8">
+        <img
+          className="h-full w-full rounded-xl"
+          src={GharTakHomeImage}
+          alt=""
+        />
       </div>
 
       <Card className={`!mx-0 !border-none !bg-gray-100 !p-8`}>
-        <Card.Header icon={<div>
-          <h1 className="text-[16px] font-normal text[#0B1C30]">Explore Categories</h1>
-          <p className="text-[16px] font-normal text-[#5A4138]">Find exactly what you need across our massive inventory</p>
-        </div>}>
+        <Card.Header
+          icon={
+            <div>
+              <h1 className="text-[16px] font-normal text[#0B1C30]">
+                Explore Categories
+              </h1>
+              <p className="text-[16px] font-normal text-[#5A4138]">
+                Find exactly what you need across our massive inventory
+              </p>
+            </div>
+          }
+        >
           <button>View All</button>
         </Card.Header>
         <Card.Body className={`flex justify-start items-center gap-4`}>
-          {
-            categories?.map((category)=>(
-              <div key={category.id} className="flex flex-col justify-center items-center gap-4"  >
-                <div className="h-[150px] w-[150px] bg-[#E5EEFF] flex justify-center items-center rounded-xl border border-[#E2BFB2]">
-                    <img src={category.icon} alt="" />
-                  </div>
-                <p className="text-[16px] font-medium text-[#0B1C30]">{category.title}</p>
+          {categories?.map((category) => (
+            <div
+              key={category.id}
+              className="flex flex-col justify-center items-center gap-4"
+            >
+              <div className="h-[150px] w-[150px] bg-[#E5EEFF] flex justify-center items-center rounded-xl border border-[#E2BFB2]">
+                <img src={category.icon} alt="" />
               </div>
-            ))
-          }
+              <p className="text-[16px] font-medium text-[#0B1C30]">
+                {category.title}
+              </p>
+            </div>
+          ))}
         </Card.Body>
       </Card>
 
-
       <Card className={`!mx-0 !border-none  !p-8`}>
-        <Card.Header icon={<h1 className="text-[16px] font-normal text[#0B1C30]">Featured for you</h1>}>
+        <Card.Header
+          icon={
+            <h1 className="text-[16px] font-normal text[#0B1C30]">
+              Featured for you
+            </h1>
+          }
+        >
           <button>View All</button>
         </Card.Header>
-      <div className="grid sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 ">
-        {
-          error && <p>{error}</p>
-        }
-        {isProducts.products?.map((product) => (
-          <div
-            key={product._id}
-            className="relative rounded-xl pb-4 flex flex-col justify-between hover:shadow-lg transition-all duration-200 ease-in border shadow-md"
-          >
-            <Link to={`/single-product/${product._id}`}>
-              <img
-                className="w-full h-[240px] rounded-tl-lg rounded-tr-lg"
-                src={product.image || boy}
-                alt="product image"
-              />
-              <span onClick={(e)=> addProductWishList(product._id)} className="absolute top-2 right-2 text-white">
-                <Heart size={18}/>
-              </span>
-              <div className="flex p-2">
-                <div>
-                  <h1 className="text-[16px] font-bold">{product.name}</h1>
-                  <p className="text-[14px] font-semibold line-clamp-1 w-[70%]">
-                    {product.description}
+        <div className="grid sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 ">
+          {error && <p>{error}</p>}
+          {isProducts.products?.map((product) => (
+            // <div
+            //   key={product._id}
+            //   className="relative rounded-xl pb-4 flex flex-col justify-between hover:shadow-lg transition-all duration-200 ease-in border shadow-md"
+            // >
+            //   <Link to={`/single-product/${product._id}`}>
+            //     <img
+            //       className="w-full h-[240px] rounded-tl-lg rounded-tr-lg"
+            //       src={product.image || boy}
+            //       alt="product image"
+            //     />
+            //     <span onClick={(e)=>
+            //       {
+            //         e.preventDefault();
+            //         e.stopPropagation();
+            //         addProductWishList(product._id);
+            //       }
+            //       } className="absolute top-2 right-2 bg-white p-2 rounded-lg text-[var(--text-secondary)]">
+            //       {
+            //         wishListProduts?.includes(product._id)?<i className="fa-solid fa-heart text-red-500"></i>:<i className="fa-regular fa-heart"></i>
+            //       }
+            //     </span>
+            //     <div className="flex p-2">
+            //       <div>
+            //         <h1 className="text-[16px] font-bold">{product.name}</h1>
+            //         <p className="text-[14px] font-semibold line-clamp-1 w-[70%]">
+            //           {product.description}
+            //         </p>
+            //       </div>
+            //       <div>
+            //         <span className="text-[16px] font-bold text-red-900">&#8377;{product.price}</span>
+            //       </div>
+            //     </div>
+            //   </Link>
+            //   <div>
+            //     <div></div>
+            //     <span className="p-2 text-[12px] text-green-600 font-bold">
+            //       In Stock: {product.stock}
+            //     </span>
+            //   </div>
+
+            //   {user.role === "seller" && user.id === product.seller ? (
+            //     <>
+            //       <div className=" flex gap-4 justify-between p-2">
+            //         <button
+            //           onClick={() => handleIsModalOpen(product)}
+            //           className="flex-1 bg-orange-400 text-[14px] font-medium text-white rounded-lg px-4 py-2 whitespace-nowrap"
+            //         >
+            //           Edit
+            //         </button>
+            //         <button
+            //           onClick={() => handleDeleteData(product._id)}
+            //           className="flex-1 bg-gray-900 text-[14px] font-medium text-white rounded-lg px-4 py-2 whitespace-nowrap"
+            //         >
+            //           Delete
+            //         </button>
+            //       </div>
+            //       {console.log("this is user id : ", user)}
+            //       {isModalOpen && selectedProduct ? (
+            //         <ProductModal
+            //           product={selectedProduct}
+            //           onClose={setIsModalOpen}
+            //           refreshProducts={fetchAllProducts}
+            //         />
+            //       ) : (
+            //         ""
+            //       )}
+            //     </>
+            //   ) : (
+            //     <>
+            //       <div className=" flex gap-4 justify-between p-2">
+            //         <button className="flex-1 bg-orange-400 text-[14px] font-medium text-white rounded-lg px-4 py-2 whitespace-nowrap">
+            //           Buy
+            //         </button>
+            //         <button onClick={()=> handleAddToCart(product._id)} className="flex-1 bg-gray-900 text-[14px] font-medium text-white rounded-lg px-4 py-2 whitespace-nowrap">
+            //           Add to Cart
+            //         </button>
+            //       </div>
+            //     </>
+            //   )}
+            // </div>
+
+            <div
+              key={product._id}
+              className="w-full max-h-[400px] border border-red-900/30 rounded-md hover:shadow-md transition-all duration-200 ease-in cursor-pointer"
+            >
+              <div className="w-full h-[220px] relative">
+                <Link to={`/single-product/${product._id}`}>
+                  <img
+                    className="h-full w-full rounded-tl-md rounded-tr-md"
+                    src={product?.image}
+                    alt="product image"
+                  />
+                </Link>
+                <span
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    addProductWishList(product._id);
+                  }}
+                  className="absolute top-2 right-2 bg-white p-2 rounded-lg text-[var(--text-secondary)]"
+                >
+                  {wishListProduts?.includes(product._id) ? (
+                    <i className="fa-solid fa-heart text-red-500"></i>
+                  ) : (
+                    <i className="fa-regular fa-heart"></i>
+                  )}
+                </span>
+              </div>
+              <div className="p-4 flex-1 flex flex-col justify-between gap-4 ">
+                <div className="flex flex-col gap-1">
+                  <h1 className="text-[12px] font-bold text-red-900 tracking-wider line-clamp-1">
+                    {product?.description}
+                  </h1>
+                  <p className="text-[14px] font-bold truncate">
+                    {product?.name}
                   </p>
+                  <div className="flex gap-2 text-red-900">
+                    <Star size={16} />
+                    <Star size={16} />
+                    <Star size={16} />
+                    <Star size={16} />
+                    <Star size={16} />
+                  </div>
                 </div>
-                <div>
-                  <span className="text-[16px] font-bold text-red-900">&#8377;{product.price}</span>
+                <div className="flex justify-between items-center">
+                  <span className="text-xl font-bold text-red-900">
+                    &#8377;349.00
+                  </span>
+                  <span
+                    onClick={() => handleAddToCart(product._id)}
+                    className="text-white bg-black p-2 rounded-md relative hover:scale-105 transition-all duration-200 ease-in group"
+                  >
+                    <Plus
+                      className="group-hover:scale-105 transition-all duration-200 ease-in"
+                      size={16}
+                    />
+                  </span>
                 </div>
               </div>
-            </Link>
-            <div>
-              <div></div>
-              <span className="p-2 text-[12px] text-green-600 font-bold">
-                In Stock: {product.stock}
-              </span>
             </div>
-
-            {user.role === "seller" && user.id === product.seller ? (
-              <>
-                <div className=" flex gap-4 justify-between p-2">
-                  <button
-                    onClick={() => handleIsModalOpen(product)}
-                    className="flex-1 bg-orange-400 text-[14px] font-medium text-white rounded-lg px-4 py-2 whitespace-nowrap"
-                  >
-                    Edit
-                  </button>
-                  <button
-                    onClick={() => handleDeleteData(product._id)}
-                    className="flex-1 bg-gray-900 text-[14px] font-medium text-white rounded-lg px-4 py-2 whitespace-nowrap"
-                  >
-                    Delete
-                  </button>
-                </div>
-                {console.log("this is user id : ", user)}
-                {isModalOpen && selectedProduct ? (
-                  <ProductModal
-                    product={selectedProduct}
-                    onClose={setIsModalOpen}
-                    refreshProducts={fetchAllProducts}
-                  />
-                ) : (
-                  ""
-                )}
-              </>
-            ) : (
-              <>
-                <div className=" flex gap-4 justify-between p-2">
-                  <button className="flex-1 bg-orange-400 text-[14px] font-medium text-white rounded-lg px-4 py-2 whitespace-nowrap">
-                    Buy
-                  </button>
-                  <button onClick={()=> handleAddToCart(product._id)} className="flex-1 bg-gray-900 text-[14px] font-medium text-white rounded-lg px-4 py-2 whitespace-nowrap">
-                    Add to Cart
-                  </button>
-                </div>
-              </>
-            )}
-          </div>
-        ))}
-      </div>
+          ))}
+          {
+            // console.log("ksdjfksdlkfslkdf:  ", isProducts.products.length)
+            isProducts?.products?.length === 0 ? <div> 404 Product Not Found. </div>:""
+          }
+        </div>
       </Card>
       {/* <nav class="flex items-center justify-between px-8 py-5 border-b border-gray-800">
         
@@ -276,8 +397,8 @@ function Home() {
 
       {/* //   <!-- Hero Section --> */}
       {/* <section class="min-h-screen flex flex-col md:flex-row items-center justify-between px-8 md:px-20 py-20"> */}
-        {/* <!-- Left Content --> */}
-        {/* <div class="max-w-xl">
+      {/* <!-- Left Content --> */}
+      {/* <div class="max-w-xl">
           <h1 class="text-5xl md:text-7xl font-extrabold leading-tight">
             Fast Delivery <br />
             To Your <span class="text-orange-500">Doorstep</span>
@@ -295,27 +416,30 @@ function Home() {
             </button>
           </div>
         </div> */}
-        {/* <!-- Right Image --> */}
-        {/* <div class="mt-16 md:mt-0">
+      {/* <!-- Right Image --> */}
+      {/* <div class="mt-16 md:mt-0">
           <img
             src="https://images.unsplash.com/photo-1542838132-92c53300491e"
             alt="delivery"
             class="w-[500px] rounded-3xl shadow-2xl"
           />
         </div> */}
-        <div className="flex justify-center items-center">
-          <div className="fixed bg-white bottom-12 w-[60%] p-8 rounded-xl flex justify-between border border-gray-300 shadow-lg">
+      <div className="flex justify-center items-center">
+        <div className="fixed bg-white bottom-12 w-[60%] p-8 rounded-xl flex justify-between border border-gray-300 shadow-lg">
           <div>
             <h1 className="text-xl font-bold">Add more items</h1>
             <p className="text-sm font-semibold text-gray-500">get new offer</p>
           </div>
-          <button onClick={()=> navigate("/get-cart")} className="border border-orange-500 text-orange-500 text-lg px-6 rounded-full">Go to Cart</button>
+          <button
+            onClick={() => navigate("/get-cart")}
+            className="border border-orange-500 text-orange-500 text-lg px-6 rounded-full"
+          >
+            Go to Cart
+          </button>
         </div>
-        </div>
-        
-      {/* </section> */}
+      </div>
 
-      
+      {/* </section> */}
 
       {/* <!-- Footer --> */}
       <footer className="text-center py-8 border-t border-gray-800 text-gray-500">
