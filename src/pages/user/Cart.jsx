@@ -66,7 +66,7 @@ function Cart() {
         </div>
       )} */}
 
-      <Navbar />
+      {/* <Navbar /> */}
       <div className="h-full w-full grid grid-cols-12 gap-4 px-4">
         <div className="col-span-8 py-4">
           <h1 className="text-xl font-bold mb-4">Your Cart </h1>

@@ -37,7 +37,7 @@ function MyOrder() {
 
   return (
     <>
-    <Navbar/>
+    {/* <Navbar/> */}
       {orderData?.map((order) => (
         <div
           key={order._id}

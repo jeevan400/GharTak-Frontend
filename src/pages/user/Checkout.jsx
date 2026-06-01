@@ -245,7 +245,7 @@ function Checkout() {
     // </div>
 
     <div className="h-screen w-[100%] overflow-y-auto">
-      <Navbar/>
+      {/* <Navbar/> */}
       <main className="grid grid-cols-12 bg-red-50 py-6">
         <div className=" h-full  col-span-8">
           <div className="flex justify-between items-center py-8 px-14">

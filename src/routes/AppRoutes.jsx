@@ -28,6 +28,8 @@ import ProductDetail from "../pages/user/ProductDetail";
 import Cart from "../pages/user/Cart";
 import Checkout from "../pages/user/Checkout";
 import MyOrder from "../pages/user/MyOrder";
+import WishlistProduct from "../pages/user/WishlistProduct";
+import Layout from "../pages/Layout";
 
 const AppRoutes = () => {
   const { user } = useAuth();
@@ -38,13 +40,21 @@ const AppRoutes = () => {
       <Route path="/register" element={<Register />} />
       <Route path="/" element={<LandingPage />} />
       <Route
-        path="/home"
+        path="/"
         element={
           <PrivateRoute>
-            <Home />
+            <Layout />{" "}
           </PrivateRoute>
         }
-      />
+      >
+        <Route index path="home" element={<Home />} />
+        <Route path="get-cart" element={<Cart />} />
+        <Route path="order" element={<Checkout />} />
+        <Route path="my-order" element={<MyOrder />} />
+        <Route path="single-product/:id" element={<ProductDetail />} />
+        <Route path="profile" element={<Profile />} />
+        <Route path="wishlist" element={<WishlistProduct />} />
+      </Route>
 
       {/* <Route
         path="/seller"
@@ -109,10 +119,11 @@ const AppRoutes = () => {
         <Route path="orders" element={<SellerOrdersStep />} />
         <Route path="seller-orders" element={<SellerOrders />} />
       </Route>
-      <Route path="/single-product/:id" element={<ProductDetail/>}/>
-      <Route path="/get-cart" element={<Cart/>}/>
-      <Route path="/order" element={<Checkout/>}/>
-      <Route path="/my-order" element={<MyOrder/>}/>
+      {/* <Route path="/single-product/:id" element={<ProductDetail/>}/> */}
+      {/* <Route path="/get-cart" element={<Cart/>}/> */}
+      {/* <Route path="/order" element={<Checkout/>}/> */}
+      {/* <Route path="/my-order" element={<MyOrder/>}/> */}
+      {/* <Route path="/wishlist" element={<WishlistProduct/>}/> */}
     </Routes>
   );
 };

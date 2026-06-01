@@ -58,7 +58,9 @@ function Profile() {
   };
   return (
     <div className="h-screen w-[100%]">
-      <Navbar />
+      {/* <Navbar>
+        <li className="hover:text-[var(--primary)] cursor-pointer text-[16px] " onClick={()=> navigate("/home")}>Home</li>
+      </Navbar> */}
       <main className="py-6 px-8 flex gap-4 bg-gray-200">
         <div className="!w-[300px] bg-blue-50 rounded-lg h-fit p-4">
           <h1 className="text-xl font-bold">Account Settings</h1>
@@ -72,8 +74,8 @@ function Profile() {
             <button onClick={()=> navigate("/my-order")} className="hover:bg-orange-400 text-left px-2 py-2 rounded-lg transition-all duration-300 ease-in flex items-center hover:text-white">
               <User size={14} color="brown" /> &nbsp;Order
             </button>
-            <button className="hover:bg-orange-400 text-left px-2 py-2 rounded-lg transition-all duration-300 ease-in flex items-center hover:text-white">
-              <Heart size={14} color="brown" /> &nbsp;Wishist
+            <button onClick={()=> navigate("/wishlist")} className="hover:bg-orange-400 text-left px-2 py-2 rounded-lg transition-all duration-300 ease-in flex items-center hover:text-white">
+              <Heart size={14} color="brown" /> &nbsp;Wishlist
             </button>
             <button className="hover:bg-orange-400 text-left px-2 py-2 rounded-lg transition-all duration-300 ease-in flex items-center hover:text-white">
               <MapPin size={14} color="brown" /> &nbsp;Addresses
