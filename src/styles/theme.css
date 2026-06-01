@@ -1,0 +1,79 @@
+:root {
+  /* ========== BRAND COLORS ========== */
+
+  --primary: #4338CA;          /* Main Brand Color */
+  --primary-hover: #3730A3;
+  --primary-light: #EEF2FF;
+
+  --secondary: #2563EB;        /* Accent Blue */
+  --secondary-hover: #1D4ED8;
+  --secondary-light: #DBEAFE;
+
+  --accent: #D4AF37;           /* Premium Gold */
+  --accent-hover: #C19A2B;
+  --accent-light: #FDF6D8;
+
+  /* ========== BACKGROUND COLORS ========== */
+
+  --bg-main: #F8FAFC;
+  --bg-card: #FFFFFF;
+  --bg-dark: #0F172A;
+  --bg-sidebar: #111827;
+
+  /* ========== TEXT COLORS ========== */
+
+  --text-primary: #111827;
+  --text-secondary: #6B7280;
+  --text-light: #FFFFFF;
+  --text-muted: #9CA3AF;
+
+  /* ========== BORDER COLORS ========== */
+
+  --border-light: #E5E7EB;
+  --border-medium: #D1D5DB;
+  --border-dark: #9CA3AF;
+
+  /* ========== STATUS COLORS ========== */
+
+  --success: #22C55E;
+  --success-light: #DCFCE7;
+
+  --warning: #F59E0B;
+  --warning-light: #FEF3C7;
+
+  --danger: #EF4444;
+  --danger-light: #FEE2E2;
+
+  --info: #0EA5E9;
+  --info-light: #E0F2FE;
+
+  /* ========== SHADOWS ========== */
+
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
+  --shadow-md: 0 4px 10px rgba(0,0,0,0.1);
+  --shadow-lg: 0 10px 25px rgba(0,0,0,0.15);
+
+  /* ========== GRADIENTS ========== */
+
+  --gradient-primary:
+    linear-gradient(
+      135deg,
+      #4338CA 0%,
+      #2563EB 100%
+    );
+
+  --gradient-premium:
+    linear-gradient(
+      135deg,
+      #4338CA 0%,
+      #2563EB 60%,
+      #D4AF37 100%
+    );
+
+  --gradient-gold:
+    linear-gradient(
+      135deg,
+      #D4AF37 0%,
+      #F4D03F 100%
+    );
+}

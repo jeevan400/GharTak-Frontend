@@ -1,11 +1,14 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
-import { ArrowBigLeft, Settings, User } from "lucide-react";
+import { ArrowBigLeft, Search, Settings, User } from "lucide-react";
+import logoImage from "../../assets/GharTak.png";
+import { useState } from "react";
 
 function Navbar({children}) {
   const navigate = useNavigate();
   const { logout, user } = useAuth();
+  const [hover, setHover] = useState(false);
 
   const handleLogout = () => {
     logout();
@@ -96,44 +99,49 @@ function Navbar({children}) {
           )}
         </div>
       </nav> */}
-      <nav className="sticky top-0 bg-red-50 flex justify-between px-16 py-4 border-b border-red-900/15 z-50">
-              <div className="flex justify-center items-center gap-4 text-2xl font-bold cursor-pointer">
-                <span className="flex justify-center items-center ">
+      <nav style={{boxShadow:"var(--shadow-md)"}} className="sticky bg-white top-0 flex justify-between items-center px-8 border-b border-red-900/15 z-50 ">
+              <div className="flex justify-center items-center gap-16 text-2xl font-bold cursor-pointer ">
+                {/* <span className="flex justify-center items-center ">
                   <ArrowBigLeft onClick={() => navigate(-1)} size={26} />
                 </span>
-                GharTak
+                GharTak */}
+                <img className="h-[80px]" src={logoImage} alt="logo image" />
+                <ul className="flex justify-center items-center gap-8 text-lg font-semibold text-gray-600">
+                  {
+                    children
+                  }
+                </ul>
               </div>
-              <ul className="flex justify-center items-center gap-8 text-lg font-semibold text-gray-600">
-                {/* <li className="hover:text-black cursor-pointer ">Home</li>
-                <li className="hover:text-black cursor-pointer ">Artisans</li>
-                <li className="hover:text-black cursor-pointer ">Orders</li>
-                <li
-                  onClick={() => navigate("/profile")}
-                  className=" cursor-pointer flex gap-2 border border-red-900 px-4 py-1 justify-center items-center rounded-full bg-red-900/10 text-red-900"
-                >
-                  <User size={20} />
-                  Profile
-                </li> */}
-
-                {
-                  children
-                }
-              </ul>
               <div className="flex gap-4">
+                <div className="flex justify-center items-center bg-white px-4 rounded-full border border-[var(--primary)]">
+                          <Search size={18} color="gray" />
+                          <input
+                            className=" rounded-full text-[16px] font-normal p-2 focus:ring-0 outline-none"
+                            type="text"
+                            name="search"
+                            id="search"
+                            placeholder={`Search . . .`}
+                          />
+                          {/* <button className='h-fit w-fit bg-red-900 text-white justify-center items-center  p-2 rounded-full'><Search/></button> */}
+                        </div>
           {!user ? (
             <>
               <button
+                onMouseEnter={()=> setHover(true)}
+                onMouseLeave={()=> setHover(false)}
                 onClick={() => navigate("/login")}
-                className=" cursor-pointer flex gap-2 border border-red-900 px-4 py-1 justify-center items-center rounded-full bg-red-900/10 text-red-900"
+                style={{background: "var(--gradient-primary)"}}
+                className=" h-fit w-fit cursor-pointer flex gap-2 border border-[var(--primary)] px-4 py-2 justify-center items-center rounded-full  text-white hover:scale-105 transition-all duration-200 ease-in"
               >
                 Login
               </button>
-              <button
+              {/* <button
                 onClick={() => navigate("/register")}
-                className=" cursor-pointer flex gap-2 border border-red-900 px-4 py-1 justify-center items-center rounded-full bg-red-900/10 text-red-900"
+                style={{background:"var(--gradient-primary)"}}
+                className=" h-fit w-fit cursor-pointer flex gap-2 border border-[var(--primary)] px-4 py-2 justify-center items-center rounded-full  text-white  "
               >
                 Signup
-              </button>
+              </button> */}
             </>
           ) : (
             <>
