@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import { Link, useNavigate, useOutletContext } from "react-router-dom";
 import Navbar from "../../components/layout/Navbar";
@@ -21,6 +21,7 @@ import {
   getSingleWishList,
 } from "../../services/wishlist.service";
 import { Heart, Plus, Star } from "lucide-react";
+import { SearchContext } from "../../store/context/SearchContext";
 
 function Home() {
   const [isProducts, setIsProduct] = useState([]);
@@ -30,7 +31,7 @@ function Home() {
   const [wishListProduts, setWishListProducts] = useState([]);
   const [debouncingSearch, setDbouncingSearch] = useState("");
 
-  const { search } = useOutletContext();
+  const { search } = useContext(SearchContext);
 
   const { logout, user } = useAuth();
   const navigate = useNavigate();
@@ -69,7 +70,7 @@ function Home() {
     return ()=>{
       clearTimeout(timer);
     };
-  },[search])
+  },[search]);
 
   useEffect(() => {
     fetchAllProducts();
@@ -440,11 +441,6 @@ function Home() {
       </div>
 
       {/* </section> */}
-
-      {/* <!-- Footer --> */}
-      <footer className="text-center py-8 border-t border-gray-800 text-gray-500">
-        © 2026 GharTak. All Rights Reserved.
-      </footer>
     </div>
   );
 }

@@ -104,19 +104,19 @@ function AdminDashboard() {
     },
   ];
 
-  const activeClass = "text-white bg-red-900 border-l-4 border-red-900";
-  const notmalClass = "text-red-900 hover:bg-red-900/10 border-l-4 border-red-900/5 hover:border-red-900";
+  const activeClass = "text-white bg-[var(--primary)] border-l-4 border-[var(--primary)]";
+  const notmalClass = "text-[var(--primary)] hover:bg-[var(--primary-light)] border-l-4 border-red-900/5 hover:border-[var(--primary)]";
   return (
     <>
       <div className=" h-screen w-[100%] flex">
-        <div className="h-full w-[270px] bg-red-900/25 text-red-900">
+        <div className="h-full w-[270px]  text-[var(--primary)]">
           <div
             onClick={() => navigate("/home")}
-            className="mb-6 p-4 cursor-pointer text-white bg-red-900"
-          >
-            {/* <img src={GharTakLogoImage} alt="logo image" /> */}
-            <h1 className="text-3xl font-bold text-white">GharTak</h1>
-            <p className="text-md font-semibold">ADMIN CONSOLE</p>
+            className="mb-2 pr-4 cursor-pointer text-white "
+            >
+            <img className="h-[120px]" src={GharTakLogoImage} alt="logo image" /> 
+            {/* <h1 className="text-3xl font-bold text-white">GharTak</h1> */}
+            {/* <p className="text-[var(--text-primary)] text-md font-semibold flex justify-center items-center">ADMIN CONSOLE</p> */}
           </div>
           <div>
              {/* className={({ isActive }) =>
@@ -134,8 +134,8 @@ function AdminDashboard() {
             ))}
           </div>
         </div>
-        <div className="flex-1 bg-red-900/10">
-          <nav className="sticky top-0 flex bg-red-50 h-[60px] border-b border-black/20 items-center ">
+        <div className="flex-1 bg-[var(--primary-light)]">
+          <nav className="sticky top-0 flex bg-white h-[60px] border-b border-black/20 items-center ">
             <div className="flex-1 flex items-center  px-4 justify-between">
               <input
                 className="h-[30px] rounded-full px-4"

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../../components/layout/Navbar";
 import {
@@ -24,16 +24,21 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { useEffect } from "react";
 import logoImage from "../../assets/GharTak.png";
+import { SearchContext } from "../../store/context/SearchContext";
+import Footer from "../../components/layout/Footer";
 
 function LandingPage() {
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
   const [electronicsProducts, setElectronicsProducts] = useState([]);
   const [fashionProducts, setFashionProducts] = useState([]);
+  const [debouncingSearch, setDbouncingSearch] = useState("");
+
+  const {search} = useContext(SearchContext);
 
   const fetchAllProducts = async () => {
     try {
-      const res = await getAllProducts();
+      const res = await getAllProducts(debouncingSearch);
       setProducts(res);
 
       //electronics products
@@ -53,9 +58,20 @@ function LandingPage() {
     }
   };
 
+
+  useEffect(()=>{
+    const timer = setTimeout(()=>{
+      setDbouncingSearch(search);
+    }, 500);
+
+    return ()=>{
+      clearTimeout(timer);
+    };
+  },[search]);
+
   useEffect(() => {
     fetchAllProducts();
-  }, []);
+  }, [debouncingSearch]);
 
   const categories = [
     {
@@ -288,10 +304,7 @@ function LandingPage() {
       </section>
       {/* fashion products end*/}
       
-      {/* <!-- Footer --> */}
-      <footer className="text-center py-8 border-t border-gray-800 text-gray-500">
-        © 2026 GharTak. All Rights Reserved.
-      </footer>
+      <Footer/>
     </div>
   );
 }
