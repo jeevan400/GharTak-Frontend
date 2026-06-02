@@ -1,15 +1,37 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import { ArrowBigLeft, Search, Settings, User } from "lucide-react";
 import logoImage from "../../assets/GharTak.png";
 import { useState } from "react";
+import { SearchContext } from "../../store/context/SearchContext";
+import toast from "react-hot-toast";
+import { getProfile } from "../../services/auth.service";
 
-function Navbar({ children, search, setSearch }) {
+function Navbar({ children }) {
   const navigate = useNavigate();
-  const { logout, user } = useAuth();
+  const { logout } = useAuth();
   const [hover, setHover] = useState(false);
   const [profileMenu, setProfileMenu] = useState(false);
+  const [user, setUser] = useState({});
+
+  const { search, setSearch } = useContext(SearchContext);
+
+  const fetchAllProfile = async () => {
+    try {
+      const res = await getProfile();
+      setUser(res);
+    } catch (e) {
+      console.log(e);
+      toast.error(
+        e.response.data.message || e.message || "Failed to load User data.",
+      );
+    }
+  };
+
+  useEffect(() => {
+    fetchAllProfile();
+  }, []);
 
   const handleLogout = () => {
     logout();
@@ -113,7 +135,12 @@ function Navbar({ children, search, setSearch }) {
             <img className="h-[80px]" src={logoImage} alt="logo image" />
           </div>
           <ul className="flex justify-center items-center gap-8 text-lg font-semibold text-gray-600">
-            {children}
+            {/* {children} */}
+            <li className="hover:text-[var(--primary)] cursor-pointer text-[16px] " onClick={()=> navigate("/")}>Categories</li>
+            <li className="hover:text-[var(--primary)] cursor-pointer text-[16px] " onClick={()=> navigate("/")}>Wishlist</li>
+            <li className="hover:text-[var(--primary)] cursor-pointer text-[16px] " onClick={()=> navigate("/")}>Orders</li>
+            <li className="hover:text-[var(--primary)] cursor-pointer text-[16px] " onClick={()=> navigate("/")}>Cart</li>
+            <li className="hover:text-[var(--primary)] cursor-pointer text-[16px] " onClick={()=> navigate("/")}>Profile</li>
           </ul>
         </div>
         <div className="flex gap-4">
@@ -124,7 +151,7 @@ function Navbar({ children, search, setSearch }) {
               type="text"
               name="search"
               value={search}
-              onChange={(e)=> setSearch(e.target.value)}
+              onChange={(e) => setSearch(e.target.value)}
               id="search"
               placeholder={`Search . . .`}
             />

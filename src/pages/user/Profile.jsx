@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { useEffect } from "react";
 import { getProfile, requestSellerRole } from "../../services/auth.service";
 import { useState } from "react";
@@ -11,37 +11,40 @@ import {
   Heart,
   MapPin,
   ChevronDown,
+  Camera,
+  Pencil,
 } from "lucide-react";
 import ProfileModal from "./ProfileModal";
 import Navbar from "../../components/layout/Navbar";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import { updateProfile } from "../../services/upload.service";
 
 function Profile() {
   const [user, setUser] = useState({});
   const [modal, setModal] = useState(false);
   const [address, setAddress] = useState();
+  const [image, setImage] = useState();
 
   const navigate = useNavigate();
 
+  const fileInputRef = useRef();
+
+  const fetchProfile = async () => {
+    try {
+      const data = await getProfile();
+      // setUser(data);
+      // console.log(data);
+      setUser(data);
+    } catch (e) {
+      console.log(e);
+      toast.error(e.response.data.message);
+    }
+  };
+
   useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        const data = await getProfile();
-        // setUser(data);
-        // console.log(data);
-        setUser(data);
-      } catch (e) {
-        console.log(e);
-        toast.error(e.response.data.message);
-      }
-    };
     fetchProfile();
   }, []);
-
-  // useEffect(() => {
-  //   console.log(user);
-  // }, [user]);
 
   const handleModalOpen = () => {
     setModal(true);
@@ -56,6 +59,46 @@ function Profile() {
       console.log(e.response.data.message);
     }
   };
+
+  // const handleUploadImage = async () => {
+  //   try{
+
+  //     const formData = new FormData();
+
+  //     formData.append("image", image);
+
+  //     const res = await updateProfile(formData);
+
+  //     fetchProfile();
+
+  //     toast.success(res.message);
+  //   } catch(e){
+  //     console.log(e);
+  //     toast.error(e.response.data.message || e.message || "Image not upload.");
+  //   }
+  // }
+
+  const handleUploadImage = async (e) => {
+    let file = e.target.files[0];
+
+    if (!file) return;
+
+    try {
+      const formData = new FormData();
+
+      formData.append("image", file);
+
+      const res = await updateProfile(formData);
+
+      fetchProfile();
+
+      toast.success(res.message);
+    } catch (e) {
+      console.log(e);
+      toast.error(e.response.data.message || e.message || "Image not upload.");
+    }
+  };
+
   return (
     <div className="h-screen w-[100%]">
       {/* <Navbar>
@@ -68,13 +111,22 @@ function Profile() {
             Manage your preferences
           </p>
           <div className="flex flex-col gap-0.5">
-            <button onClick={()=> navigate("/profile")} className="hover:bg-orange-400 text-left px-2 py-2 rounded-lg transition-all duration-300 ease-in flex items-center hover:text-white">
+            <button
+              onClick={() => navigate("/profile")}
+              className="hover:bg-orange-400 text-left px-2 py-2 rounded-lg transition-all duration-300 ease-in flex items-center hover:text-white"
+            >
               <BookMarked size={14} color="brown" /> &nbsp;Profile
             </button>
-            <button onClick={()=> navigate("/my-order")} className="hover:bg-orange-400 text-left px-2 py-2 rounded-lg transition-all duration-300 ease-in flex items-center hover:text-white">
+            <button
+              onClick={() => navigate("/my-order")}
+              className="hover:bg-orange-400 text-left px-2 py-2 rounded-lg transition-all duration-300 ease-in flex items-center hover:text-white"
+            >
               <User size={14} color="brown" /> &nbsp;Order
             </button>
-            <button onClick={()=> navigate("/wishlist")} className="hover:bg-orange-400 text-left px-2 py-2 rounded-lg transition-all duration-300 ease-in flex items-center hover:text-white">
+            <button
+              onClick={() => navigate("/wishlist")}
+              className="hover:bg-orange-400 text-left px-2 py-2 rounded-lg transition-all duration-300 ease-in flex items-center hover:text-white"
+            >
               <Heart size={14} color="brown" /> &nbsp;Wishlist
             </button>
             <button className="hover:bg-orange-400 text-left px-2 py-2 rounded-lg transition-all duration-300 ease-in flex items-center hover:text-white">
@@ -85,11 +137,30 @@ function Profile() {
         <div className="flex flex-col h-screen w-full rounded-lg">
           <div className="w-full bg-white p-4 flex justify-between items-center gap-4 rounded-lg">
             <div className="flex gap-4 items-center">
-              <div className="h-[80px] w-[80px]">
+              <div className="h-[80px] w-[80px] relative">
                 <img
                   className="h-full w-full rounded-full"
                   src={user.image}
                   alt="boy image"
+                />
+                {/* <label htmlFor="upload"> upload Image
+                <input className="hidden" type="file" onChange={(e)=> setImage(e.target.files[0])}/>
+                </label>
+                <button onClick={handleUploadImage} className="bg-red-600 text-white px-4 py-1 text-lg !z-50" type="submit">upload</button> */}
+
+                <button
+                  onClick={() => fileInputRef.current.click()}
+                  type="button"
+                  className="absolute bg-white p-2 rounded-full bottom-0 right-0"
+                >
+                  <Camera size={14} />
+                </button>
+                <input
+                  className="hidden"
+                  type="file"
+                  ref={fileInputRef}
+                  accept="image/*"
+                  onChange={(e) => handleUploadImage(e)}
                 />
               </div>
               <div className="">
@@ -110,7 +181,7 @@ function Profile() {
                 onClick={handleModalOpen}
                 className="bg-yellow-700 mr-2 text-white text-[13px] font-medium py-1 px-4 rounded-md"
               >
-                Edit Profile
+                <Pencil size={16} />
               </button>
               {user?.role === "user" && (
                 <button
@@ -207,7 +278,7 @@ function Profile() {
             </div>
 
             {/* recent Orders */}
-              <div className="flex-1 bg-white h-fit rounded-lg p-4 flex flex-col gap-4">
+            <div className="flex-1 bg-white h-fit rounded-lg p-4 flex flex-col gap-4">
               <div className="flex justify-between items-center ">
                 <h1 className="text-lg font-bold">Recent Orders</h1>
                 <span className="text-sm text-orange-800 font-medium">
@@ -218,54 +289,95 @@ function Profile() {
                 <div className="flex justify-between">
                   <div className="flex gap-2">
                     <div className="h-[70px] w-[70px]">
-                      <img className="w-full h-full rounded-lg" src={boy} alt="" />
+                      <img
+                        className="w-full h-full rounded-lg"
+                        src={boy}
+                        alt=""
+                      />
                     </div>
                     <div className="flex flex-col justify-start items-start">
-                      <h4 className="text-lg font-semibold">SpeedRunner Pro X</h4>
-                      <p className="text-sm font-medium text-gray-600">Order #98231.Oct 12</p>
+                      <h4 className="text-lg font-semibold">
+                        SpeedRunner Pro X
+                      </h4>
+                      <p className="text-sm font-medium text-gray-600">
+                        Order #98231.Oct 12
+                      </p>
                     </div>
                   </div>
                   <div className="flex flex-col justify-start items-center">
-                    <h1 className="text-amber-900 font-bold text-lg mb-2">$129.99</h1>
-                    <span className="px-4 py-0.5 rounded-md text-xs font-medium bg-green-100 text-green-700
-                    border border-green-700 ">DELIVERED</span>
+                    <h1 className="text-amber-900 font-bold text-lg mb-2">
+                      $129.99
+                    </h1>
+                    <span
+                      className="px-4 py-0.5 rounded-md text-xs font-medium bg-green-100 text-green-700
+                    border border-green-700 "
+                    >
+                      DELIVERED
+                    </span>
                   </div>
                 </div>
                 <div className="flex justify-between">
                   <div className="flex gap-2">
                     <div className="h-[70px] w-[70px]">
-                      <img className="w-full h-full rounded-lg" src={boy} alt="" />
+                      <img
+                        className="w-full h-full rounded-lg"
+                        src={boy}
+                        alt=""
+                      />
                     </div>
                     <div className="flex flex-col justify-start items-start">
-                      <h4 className="text-lg font-semibold">SpeedRunner Pro X</h4>
-                      <p className="text-sm font-medium text-gray-600">Order #98231.Oct 12</p>
+                      <h4 className="text-lg font-semibold">
+                        SpeedRunner Pro X
+                      </h4>
+                      <p className="text-sm font-medium text-gray-600">
+                        Order #98231.Oct 12
+                      </p>
                     </div>
                   </div>
                   <div className="flex flex-col justify-start items-center">
-                    <h1 className="text-amber-900 font-bold text-lg mb-2">$129.99</h1>
-                    <span className="px-4 py-0.5 rounded-md text-xs font-medium bg-green-100 text-green-700
-                    border border-green-700 ">DELIVERED</span>
+                    <h1 className="text-amber-900 font-bold text-lg mb-2">
+                      $129.99
+                    </h1>
+                    <span
+                      className="px-4 py-0.5 rounded-md text-xs font-medium bg-green-100 text-green-700
+                    border border-green-700 "
+                    >
+                      DELIVERED
+                    </span>
                   </div>
                 </div>
                 <div className="flex justify-between">
                   <div className="flex gap-2">
                     <div className="h-[70px] w-[70px]">
-                      <img className="w-full h-full rounded-lg" src={boy} alt="" />
+                      <img
+                        className="w-full h-full rounded-lg"
+                        src={boy}
+                        alt=""
+                      />
                     </div>
                     <div className="flex flex-col justify-start items-start">
-                      <h4 className="text-lg font-semibold">SpeedRunner Pro X</h4>
-                      <p className="text-sm font-medium text-gray-600">Order #98231.Oct 12</p>
+                      <h4 className="text-lg font-semibold">
+                        SpeedRunner Pro X
+                      </h4>
+                      <p className="text-sm font-medium text-gray-600">
+                        Order #98231.Oct 12
+                      </p>
                     </div>
                   </div>
                   <div className="flex flex-col justify-start items-center">
-                    <h1 className="text-amber-900 font-bold text-lg mb-2">$129.99</h1>
-                    <span className="px-4 py-0.5 rounded-md text-xs font-medium bg-green-100 text-green-700
-                    border border-green-700 ">DELIVERED</span>
+                    <h1 className="text-amber-900 font-bold text-lg mb-2">
+                      $129.99
+                    </h1>
+                    <span
+                      className="px-4 py-0.5 rounded-md text-xs font-medium bg-green-100 text-green-700
+                    border border-green-700 "
+                    >
+                      DELIVERED
+                    </span>
                   </div>
                 </div>
               </div>
             </div>
-
           </div>
         </div>
       </main>
