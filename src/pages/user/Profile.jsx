@@ -19,12 +19,14 @@ import Navbar from "../../components/layout/Navbar";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { updateProfile } from "../../services/upload.service";
+import { getMyOrder } from "../../services/order.service";
 
 function Profile() {
   const [user, setUser] = useState({});
   const [modal, setModal] = useState(false);
   const [address, setAddress] = useState();
   const [image, setImage] = useState();
+  const [lastOrder, setLastOrder] = useState({});
 
   const navigate = useNavigate();
 
@@ -33,6 +35,8 @@ function Profile() {
   const fetchProfile = async () => {
     try {
       const data = await getProfile();
+      const myOrder = await getMyOrder();
+      setLastOrder(myOrder[0]);
       // setUser(data);
       // console.log(data);
       setUser(data);
@@ -176,17 +180,17 @@ function Profile() {
                 </p>
               </div>
             </div>
-            <div>
+            <div className="h-full">
               <button
                 onClick={handleModalOpen}
-                className="bg-yellow-700 mr-2 text-white text-[13px] font-medium py-1 px-4 rounded-md"
+                className=" bg-[var(--primary-light)] hover:bg-[var(--primary)] border border-[var(--primary)] text-[var(--primary)] hover:text-white text-[13px] font-medium py-2 px-2 rounded-md transition-all duration-200 ease-in"
               >
-                <Pencil size={16} />
+                <Pencil size={18} />
               </button>
               {user?.role === "user" && (
                 <button
                   onClick={handleSellerRequest}
-                  className="bg-yellow-700 text-white text-[13px] font-medium py-1 px-4 rounded-md"
+                  className=" bg-[var(--primary-light)] hover:bg-[var(--primary)] border border-[var(--primary)] text-[var(--primary)] hover:text-white text-[13px] font-medium py-1 px-4 rounded-md transition-all duration-200 ease-in"
                 >
                   Become Seller
                 </button>
@@ -286,7 +290,7 @@ function Profile() {
                 </span>
               </div>
               <div className="flex flex-col gap-2">
-                <div className="flex justify-between">
+                {/* <div className="flex justify-between">
                   <div className="flex gap-2">
                     <div className="h-[70px] w-[70px]">
                       <img
@@ -315,8 +319,8 @@ function Profile() {
                       DELIVERED
                     </span>
                   </div>
-                </div>
-                <div className="flex justify-between">
+                </div> */}
+                {/* <div className="flex justify-between">
                   <div className="flex gap-2">
                     <div className="h-[70px] w-[70px]">
                       <img
@@ -345,8 +349,8 @@ function Profile() {
                       DELIVERED
                     </span>
                   </div>
-                </div>
-                <div className="flex justify-between">
+                </div> */}
+                {/* <div className="flex justify-between">
                   <div className="flex gap-2">
                     <div className="h-[70px] w-[70px]">
                       <img
@@ -375,7 +379,45 @@ function Profile() {
                       DELIVERED
                     </span>
                   </div>
+                </div> */}
+
+                  {
+                    lastOrder?.items?.map((item)=>(
+                      <div className="flex justify-between">
+                  <div className="flex gap-2">
+                    <div className="h-[70px] w-[70px]">
+                      <img
+                        className="w-full h-full rounded-lg"
+                        src={item?.product?.image}
+                        alt=""
+                      />
+                    </div>
+                    <div className="flex flex-col justify-start items-start">
+                      <h4 className="text-lg font-semibold whitespace-nowrap truncate">
+                        {item?.product?.name}
+                      </h4>
+                      <p className="text-sm font-medium text-gray-600 ">
+                        Qyt: {item.quantity}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex flex-col justify-start items-center">
+                    <h1 className="text-amber-900 font-bold text-lg mb-2">
+                      &#8377;{item?.product?.price}
+                    </h1>
+                    <span
+                      className={`border w-fit px-4 py-0.5 rounded-md text-[12px] font-medium mt-1
+                      ${lastOrder.paymentStatus === "Paid"&&"text-green-500  border-green-500  bg-green-50 "}
+                      ${lastOrder.paymentStatus === "Pending"&&"text-orange-500  border-orange-500  bg-orange-50 "}
+                      `}
+                    >
+                      {lastOrder.paymentStatus}
+                    </span>
+                  </div>
                 </div>
+                    ))
+                  }
+
               </div>
             </div>
           </div>

@@ -4,7 +4,7 @@ import { Link, useNavigate, useOutletContext } from "react-router-dom";
 import Navbar from "../../components/layout/Navbar";
 import { deleteProduct, getAllProducts } from "../../services/product.service";
 import ProductModal from "../seller/ProductModal";
-import { addToCart } from "../../services/cart.service";
+import { addToCart, getCartItems } from "../../services/cart.service";
 import home from "../../assets/homeImageGharTak.png";
 import GharTakHomeImage from "../../assets/home/categories/GharTakHomeImage.png";
 import Gradient from "../../assets/Gradient.png";
@@ -20,7 +20,7 @@ import {
   addWishList,
   getSingleWishList,
 } from "../../services/wishlist.service";
-import { Heart, Plus, Star } from "lucide-react";
+import { Heart, Plus, ShoppingCart, Star } from "lucide-react";
 import { SearchContext } from "../../store/context/SearchContext";
 
 function Home() {
@@ -30,8 +30,12 @@ function Home() {
   const [error, setError] = useState(null);
   const [wishListProduts, setWishListProducts] = useState([]);
   const [debouncingSearch, setDbouncingSearch] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [limit, setLimit] = useState(10);
+  const [isTotalPages, setIsTotalPages] = useState([]);
+  // const [isCart, setIsCart] = useState(0);
 
-  const { search } = useContext(SearchContext);
+  const { search, isCart, setIsCart } = useContext(SearchContext);
 
   const { logout, user } = useAuth();
   const navigate = useNavigate();
@@ -47,15 +51,26 @@ function Home() {
   // get all products
   const fetchAllProducts = async () => {
     try {
-      const products = await getAllProducts(debouncingSearch);
+      const products = await getAllProducts(debouncingSearch, currentPage, limit);
+      const cartItems = await getCartItems();
       const singleWishList = await getSingleWishList();
-      console.log("these are wishlist products : ", singleWishList);
+      // console.log("these are wishlist products : ", singleWishList);
       setIsProduct(products);
       setWishListProducts(
         singleWishList.products?.map((item) => item._id || item) || [],
       );
-      // setError(e?.response?.data?.message || e.message );
-      console.log("these are all products : ", products.products);
+      console.log("these are all products : ", products);
+
+      // set array element here
+      let pageArray = [];
+      for(let i=1; i<=products.totalPages; i++){
+        pageArray[i] = i;
+      }
+
+      // console.log("this is cart items array : ", products.cartItems);
+      setIsTotalPages(pageArray);
+      setIsCart(cartItems.totalCartItems);
+
     } catch (e) {
       console.log(e.message);
       toast.error(e.response.data.message || e.message || "Product Not Found.");
@@ -74,7 +89,7 @@ function Home() {
 
   useEffect(() => {
     fetchAllProducts();
-  }, [debouncingSearch]);
+  }, [debouncingSearch, currentPage, limit]);
 
   const handleIsModalOpen = (product) => {
     setSelectedProduct(product);
@@ -108,9 +123,11 @@ function Home() {
         quantity: 1,
       });
 
-      console.log(data);
+      console.log(data); 
+
       // alert("Product added successfully in the cart section");
       toast.success(data.message);
+      fetchAllProducts();
     } catch (e) {
       toast.error(e?.response?.data?.message);
       console.log(e.response);
@@ -165,6 +182,11 @@ function Home() {
     }
   };
 
+// pagination button click handler
+  const handlePaginationButtonClick = (value) => {
+    setCurrentPage(value);
+  }
+
   return (
     <div>
       {/* <Navbar>
@@ -179,7 +201,47 @@ function Home() {
         />
       </div>
 
-      <Card className={`!mx-0 !border-none !bg-gray-100 !p-8`}>
+      <section className=" w-[100%] p-8">
+              <Card className={`!mx-0 !border-none !bg-gray-100`}>
+                <Card.Header
+                  icon={
+                    <div>
+                      <h1 className="text-[18px] font-bold text-[var(--text-primary)]">
+                        Explore Categories
+                      </h1>
+                      <p className="text-[16px] font-normal text-[var(--text-secondary)]">
+                        Find exactly what you need across our massive inventory
+                      </p>
+                    </div>
+                  }
+                >
+                  <button className="text-[16px] font-semibold text-red-900">
+                    View All
+                  </button>
+                </Card.Header>
+                <Card.Body className={`grid grid-cols-6 gap-4`}>
+                  {categories?.map((category) => (
+                    <div
+                      key={category.id}
+                      className="flex flex-col justify-center items-center gap-4 group "
+                    >
+                      <div className="h-[150px] w-full bg-[#E5EEFF] flex justify-center items-center rounded-xl border border-[#E2BFB2] cursor-pointer">
+                        <img
+                          className="group-hover:scale-125 transition-all duration-200 ease-in"
+                          src={category.icon}
+                          alt=""
+                        />
+                      </div>
+                      <p className="text-[16px] font-medium text-[#0B1C30]">
+                        {category.title}
+                      </p>
+                    </div>
+                  ))}
+                </Card.Body>
+              </Card>
+            </section>
+
+      {/* <Card className={`!mx-0 !border-none !bg-gray-100 !p-8`}>
         <Card.Header
           icon={
             <div>
@@ -209,9 +271,9 @@ function Home() {
             </div>
           ))}
         </Card.Body>
-      </Card>
-
-      <Card className={`!mx-0 !border-none  !p-8`}>
+      </Card> */}
+<section className=" w-[100%] p-8">
+      <Card className={`!mx-0 !border-none !bg-gray-100`}>
         <Card.Header
           icon={
             <h1 className="text-[16px] font-normal text[#0B1C30]">
@@ -219,7 +281,7 @@ function Home() {
             </h1>
           }
         >
-          <button>View All</button>
+          <span>Total : {isProducts.totalProducts}</span>
         </Card.Header>
         <div className="grid sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 ">
           {error && <p>{error}</p>}
@@ -371,6 +433,16 @@ function Home() {
           }
         </div>
       </Card>
+</section>
+
+      <div className="flex gap-4 mb-8 px-8">
+        {
+          isTotalPages?.map((element)=> (
+            <button onClick={() => handlePaginationButtonClick(element)} key={element} 
+            className={`border border-[var(--primary)] text-[var(--primary)] px-2 py-1 text-lg font-bold ${currentPage === element ? "bg-[var(--primary)] text-white":"bg-white text-[var(--primary)]"}`}>{element}</button>
+          ))
+        }
+      </div>
       {/* <nav class="flex items-center justify-between px-8 py-5 border-b border-gray-800">
         
         <h1 class="text-3xl font-bold text-orange-500">
@@ -426,16 +498,24 @@ function Home() {
           />
         </div> */}
       <div className="flex justify-center items-center">
-        <div className="fixed bg-white bottom-12 w-[60%] p-8 rounded-xl flex justify-between border border-gray-300 shadow-lg">
-          <div>
+        <div style={{background:"var(--gradient-primary)"}} className="fixed bottom-12 right-8 w-[80px] h-[80px] p-2 rounded-full flex justify-between border border-gray-300 shadow-lg">
+          {/* <div>
             <h1 className="text-xl font-bold">Add more items</h1>
             <p className="text-sm font-semibold text-gray-500">get new offer</p>
-          </div>
+          </div> */}
           <button
             onClick={() => navigate("/get-cart")}
-            className="border border-orange-500 text-orange-500 text-lg px-6 rounded-full"
+            className=" h-full w-full border border-[var(--primary)] flex justify-center items-center text-[var(--primary)] bg-[var(--primary-light)] text-lg  rounded-full relative"
           >
-            Go to Cart
+            <ShoppingCart size={32}/>
+            {
+              console.log("this is cart items count : ", isCart)
+            }
+            {
+              isCart !== 0 ? <span className="absolute  -top-2 -right-2 bg-[var(--danger)] text-[var(--danger-light)] text-[14px] font-semibold h-[25px] w-[25px] flex justify-center items-center rounded-full">
+               {isCart}
+              </span>:""
+            }
           </button>
         </div>
       </div>

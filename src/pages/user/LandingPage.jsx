@@ -26,6 +26,7 @@ import { useEffect } from "react";
 import logoImage from "../../assets/GharTak.png";
 import { SearchContext } from "../../store/context/SearchContext";
 import Footer from "../../components/layout/Footer";
+import Modal from "../../components/common/Modal";
 
 function LandingPage() {
   const navigate = useNavigate();
@@ -33,6 +34,7 @@ function LandingPage() {
   const [electronicsProducts, setElectronicsProducts] = useState([]);
   const [fashionProducts, setFashionProducts] = useState([]);
   const [debouncingSearch, setDbouncingSearch] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const {search} = useContext(SearchContext);
 
@@ -72,6 +74,10 @@ function LandingPage() {
   useEffect(() => {
     fetchAllProducts();
   }, [debouncingSearch]);
+
+  const handleShopNow = () => {
+    setIsModalOpen(true);
+  }
 
   const categories = [
     {
@@ -141,15 +147,25 @@ function LandingPage() {
               sellers and secure payments.
             </p>
             <div className="flex justify-start items-center gap-4">
-              <button className="bg-[var(--primary-light)]  px-4 py-2 text-[16px] font-bold text-[var(--primary)] rounded-lg hover:bg-white transition-all duration-300 ease-in">
+              <button onClick={()=> navigate("/home")}  className="bg-[var(--primary-light)]  px-4 py-2 text-[16px] font-bold text-[var(--primary)] rounded-lg hover:bg-white transition-all duration-300 ease-in">
                 Shop Now &gt;&gt;
               </button>
-              <button className="bg-white/10 px-4 py-2 text-[16px] font-bold text-white rounded-lg hover:bg-white/15 transition-all duration-200 ease-in">
+              <button onClick={handleShopNow} className="bg-white/10 px-4 py-2 text-[16px] font-bold text-white rounded-lg hover:bg-white/15 transition-all duration-200 ease-in">
                 Start Selling
               </button>
             </div>
           </div>
         </div>
+        {
+          isModalOpen?<Modal onClose={setIsModalOpen} className={`w-[30%] h-[30%] border-none`}>
+            <Modal.Header>
+              if you want to become a seller then go to profile and click on the become a seller button 
+            </Modal.Header>
+            <Modal.Body className={`flex justify-center items-center`}>
+              <button className="bg-[var(--primary)] text-white rounded-full px-4 py-2" onClick={()=> navigate("/profile")}>Go to Profile</button>
+            </Modal.Body>
+          </Modal>:""
+        }
       </section>
       <section className=" w-[100%] p-8 mb-6">
         <Card className={`!mx-0 !border-none !bg-gray-100`}>
