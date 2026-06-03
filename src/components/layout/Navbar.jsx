@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
-import { ArrowBigLeft, Search, Settings, User } from "lucide-react";
+import { ArrowBigLeft, Bell, MessageSquare, Search, Settings, User } from "lucide-react";
 import logoImage from "../../assets/GharTak.png";
 import { useState } from "react";
 import { SearchContext } from "../../store/context/SearchContext";
@@ -10,10 +10,10 @@ import { getProfile } from "../../services/auth.service";
 
 function Navbar({ children }) {
   const navigate = useNavigate();
-  const { logout } = useAuth();
+  const { logout, token } = useAuth();
   const [hover, setHover] = useState(false);
   const [profileMenu, setProfileMenu] = useState(false);
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState(null);
 
   const { search, setSearch } = useContext(SearchContext);
 
@@ -30,6 +30,9 @@ function Navbar({ children }) {
   };
 
   useEffect(() => {
+    // if token is not exist then return otherwise fetch the profile data
+    if(!token) return;
+
     fetchAllProfile();
   }, []);
 
@@ -198,6 +201,12 @@ function Navbar({ children }) {
               >
                 Logout
               </button> */}
+              <div className="flex justify-center items-center bg-[var(--primary-light)] h-[40px] w-[40px] rounded-full relative cursor-pointer text-[var(--text-primary)]"><MessageSquare size={18}/>
+                <span className="h-[10px] w-[10px] absolute bg-red-500 rounded-full top-0 right-0"></span>
+              </div>
+              <div className="flex justify-center items-center bg-[var(--primary-light)] h-[40px] w-[40px] rounded-full relative cursor-pointer text-[var(--text-primary)]"><Bell size={18}/>
+                <span className="h-[10px] w-[10px] absolute bg-red-500 rounded-full top-0 right-0"></span>
+              </div>
               <div
                 onClick={() => setProfileMenu(!profileMenu)}
                 className="relative rounded-full text-xl font-semibold bg-orange-100 text-orange-500 h-[40px] w-[40px]"
