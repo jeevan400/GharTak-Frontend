@@ -22,6 +22,8 @@ import {
 } from "../../services/wishlist.service";
 import { Heart, Plus, ShoppingCart, Star } from "lucide-react";
 import { SearchContext } from "../../store/context/SearchContext";
+import ProductCard from "../../components/common/home/ProductCard";
+import ProductCardSkeleton from "../../components/common/home/ProductCardSkeleton";
 
 function Home() {
   const [isProducts, setIsProduct] = useState([]);
@@ -33,6 +35,7 @@ function Home() {
   const [currentPage, setCurrentPage] = useState(1);
   const [limit, setLimit] = useState(10);
   const [isTotalPages, setIsTotalPages] = useState([]);
+  const [isLoading, setIsLoading] = useState(false); 
   // const [isCart, setIsCart] = useState(0);
 
   const { search, isCart, setIsCart } = useContext(SearchContext);
@@ -51,6 +54,7 @@ function Home() {
   // get all products
   const fetchAllProducts = async () => {
     try {
+      setIsLoading(true);
       const products = await getAllProducts(debouncingSearch, currentPage, limit);
       const cartItems = await getCartItems();
       const singleWishList = await getSingleWishList();
@@ -74,6 +78,8 @@ function Home() {
     } catch (e) {
       console.log(e.message);
       toast.error(e.response.data.message || e.message || "Product Not Found.");
+    } finally{
+      setIsLoading(false);
     }
   };
 
@@ -367,68 +373,19 @@ function Home() {
             //   )}
             // </div>
 
-            <div
-              key={product._id}
-              className="w-full max-h-[400px] border border-red-900/30 rounded-md hover:shadow-md transition-all duration-200 ease-in cursor-pointer"
-            >
-              <div className="w-full h-[220px] relative">
-                <Link to={`/single-product/${product._id}`}>
-                  <img
-                    className="h-full w-full rounded-tl-md rounded-tr-md"
-                    src={product?.image}
-                    alt="product image"
-                  />
-                </Link>
-                <span
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    addProductWishList(product._id);
-                  }}
-                  className="absolute top-2 right-2 bg-white p-2 rounded-lg text-[var(--text-secondary)]"
-                >
-                  {wishListProduts?.includes(product._id) ? (
-                    <i className="fa-solid fa-heart text-red-500"></i>
-                  ) : (
-                    <i className="fa-regular fa-heart"></i>
-                  )}
-                </span>
-              </div>
-              <div className="p-4 flex-1 flex flex-col justify-between gap-4 ">
-                <div className="flex flex-col gap-1">
-                  <h1 className="text-[12px] font-bold text-red-900 tracking-wider line-clamp-1">
-                    {product?.description}
-                  </h1>
-                  <p className="text-[14px] font-bold truncate">
-                    {product?.name}
-                  </p>
-                  <div className="flex gap-2 text-red-900">
-                    <Star size={16} />
-                    <Star size={16} />
-                    <Star size={16} />
-                    <Star size={16} />
-                    <Star size={16} />
-                  </div>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-xl font-bold text-red-900">
-                    &#8377;349.00
-                  </span>
-                  <span
-                    onClick={() => handleAddToCart(product._id)}
-                    className="text-white bg-black p-2 rounded-md relative hover:scale-105 transition-all duration-200 ease-in group"
-                  >
-                    <Plus
-                      className="group-hover:scale-105 transition-all duration-200 ease-in"
-                      size={16}
-                    />
-                  </span>
-                </div>
-              </div>
-            </div>
+            
+
+             isLoading?
+             <ProductCardSkeleton product={product}/>
+             :
+             <ProductCard 
+            handleAddToCart={handleAddToCart}
+            wishListProduts={wishListProduts}
+            addProductWishList={addProductWishList}
+            product={product}
+             />
           ))}
           {
-            // console.log("ksdjfksdlkfslkdf:  ", isProducts.products.length)
             isProducts?.products?.length === 0 ? <div> 404 Product Not Found. </div>:""
           }
         </div>
@@ -443,66 +400,8 @@ function Home() {
           ))
         }
       </div>
-      {/* <nav class="flex items-center justify-between px-8 py-5 border-b border-gray-800">
-        
-        <h1 class="text-3xl font-bold text-orange-500">
-          GharTak
-        </h1>
-        <div class="flex gap-4">
-          {
-            user?.role === "admin" && (
-              <button
-                onClick={()=> navigate("/admin")}
-                className="px-5 py-2 bg-red-500 rounded-lg text-white"
-              >Admin Dashboard</button>
-            )
-          }
-          <button onClick={()=> navigate("/profile")} class="px-5 py-2 border border-orange-500 rounded-lg hover:bg-orange-500 transition">
-            Profile
-          </button>
-          <div></div>
-          <button onClick={handleLogout} class="px-5 py-2 bg-orange-500 rounded-lg hover:bg-orange-600 transition text-white">
-            Logout
-          </button>
-        </div>
-        
-          </nav> */}
-
-      {/* //   <!-- Hero Section --> */}
-      {/* <section class="min-h-screen flex flex-col md:flex-row items-center justify-between px-8 md:px-20 py-20"> */}
-      {/* <!-- Left Content --> */}
-      {/* <div class="max-w-xl">
-          <h1 class="text-5xl md:text-7xl font-extrabold leading-tight">
-            Fast Delivery <br />
-            To Your <span class="text-orange-500">Doorstep</span>
-          </h1>
-          <p class="mt-6 text-gray-400 text-lg leading-8">
-            Order groceries, electronics, fashion, and daily essentials with
-            lightning fast delivery anywhere in your city.
-          </p>
-          <div class="mt-10 flex gap-5">
-            <button class="px-8 py-4 bg-orange-500 rounded-xl text-lg font-semibold hover:bg-orange-600 transition">
-              Shop Now
-            </button>
-            <button class="px-8 py-4 border border-gray-600 rounded-xl text-lg hover:border-orange-500 hover:text-orange-400 transition">
-              Explore
-            </button>
-          </div>
-        </div> */}
-      {/* <!-- Right Image --> */}
-      {/* <div class="mt-16 md:mt-0">
-          <img
-            src="https://images.unsplash.com/photo-1542838132-92c53300491e"
-            alt="delivery"
-            class="w-[500px] rounded-3xl shadow-2xl"
-          />
-        </div> */}
       <div className="flex justify-center items-center">
         <div style={{background:"var(--gradient-primary)"}} className="fixed bottom-12 right-8 w-[80px] h-[80px] p-2 rounded-full flex justify-between border border-gray-300 shadow-lg">
-          {/* <div>
-            <h1 className="text-xl font-bold">Add more items</h1>
-            <p className="text-sm font-semibold text-gray-500">get new offer</p>
-          </div> */}
           <button
             onClick={() => navigate("/get-cart")}
             className=" h-full w-full border border-[var(--primary)] flex justify-center items-center text-[var(--primary)] bg-[var(--primary-light)] text-lg  rounded-full relative"
