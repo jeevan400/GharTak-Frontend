@@ -47,10 +47,10 @@ const handleGoogleLogin = async (response) => {
 }
   
   return (
-    <div style={{background:"var(--gradient-premium)"}} className=" w-[100%] h-screen flex items-center justify-center">
+    <div className=" w-[100%] h-screen flex items-center justify-center">
         <div className="w-[40%] bg-white flex flex-col gap-4 p-6 rounded-sm">
           <div className="flex justify-center items-center">
-            <img className="h-[80px]" src={GharTakLogo} alt="" />
+            <img className="h-[70px]" src={GharTakLogo} alt="" />
             
              {/* <span className="text-xl font-bold tracking-wider text-[var(--primary)]">Welcome Back</span> */}
           </div>

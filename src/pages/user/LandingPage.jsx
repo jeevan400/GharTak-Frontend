@@ -157,7 +157,7 @@ function LandingPage() {
           </div>
         </div>
         {
-          isModalOpen?<Modal onClose={setIsModalOpen} className={`w-[30%] h-[30%] border-none`}>
+          isModalOpen?<Modal onClose={setIsModalOpen} className={`!w-[40%] !h-[40%] !border-none`}>
             <Modal.Header>
               if you want to become a seller then go to profile and click on the become a seller button 
             </Modal.Header>

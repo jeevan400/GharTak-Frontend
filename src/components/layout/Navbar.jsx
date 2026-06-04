@@ -1,12 +1,22 @@
 import React, { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
-import { ArrowBigLeft, Bell, MessageSquare, Search, Settings, User } from "lucide-react";
+import {
+  ArrowBigLeft,
+  Bell,
+  MessageSquare,
+  Search,
+  Settings,
+  User,
+} from "lucide-react";
 import logoImage from "../../assets/GharTak.png";
 import { useState } from "react";
 import { SearchContext } from "../../store/context/SearchContext";
 import toast from "react-hot-toast";
 import { getProfile } from "../../services/auth.service";
+import Modal from "../common/Modal";
+import Login from "../../pages/auth/Login";
+import DropdownMenu from "../common/navbar/DropdownMenu";
 
 function Navbar({ children }) {
   const navigate = useNavigate();
@@ -14,6 +24,115 @@ function Navbar({ children }) {
   const [hover, setHover] = useState(false);
   const [profileMenu, setProfileMenu] = useState(false);
   const [user, setUser] = useState(null);
+  const [loginModalOpen, setLoginModalOpen] = useState(false);
+
+  const categories = ["electronics",
+  "mobiles",
+  "laptops",
+  "gaming",
+  "fashion",
+  "mens-clothing",
+  "womens-clothing",
+  "footwear",
+  "watches",
+  "beauty",
+  "health",
+  "home-kitchen",
+  "furniture",
+  "books",
+  "sports",
+  "toys",
+  "grocery",
+  "automotive",
+  "jewelry",
+  "bags"]
+
+  const customerLinks = [
+    {
+      label:"Home",
+      place:"/home"
+    },
+    {
+      label:"Wishlist",
+      place:"/wishlist"
+    },
+    {
+      label:"Cart",
+      place:"/get-cart"
+    },
+    {
+      label:"Orders",
+      place:"/my-order"
+    }];
+  const sellerLinks = [
+    {
+      label:"Dashboard",
+      place:"/seller/seller-dashboard"
+    },
+    {
+      label:"My Products",
+      place:"/seller/my-products"
+    },
+    {
+      label:"Add Products",
+      place:"/seller/add-product"
+    },
+    {
+      label:"Seller Orders",
+      place:"/seller/seller-orders"
+    },
+    {
+      label:"Analytics",
+      place:"/seller/seller-analytics"
+    }];
+  const adminLinks = [
+    {
+      label:"Dashboard",
+      place:"/admin/dashboard"
+    },
+    {
+      label:"Products",
+      place:"/admin/products"
+    },
+    {
+      label:"Orders",
+      place:"/admin/orders"
+    },
+    {
+      label:"Users",
+      place:"/admin/users"
+    },
+    {
+      label:"Sellers Requests",
+      place:"/admin/seller-requests"
+    }
+  ];
+  const guestLinks = [
+    {
+      label:"Home",
+      place:"/home"
+    },
+    {
+      label:"About Us",
+      place:"/about-us"
+    },
+    {
+      label:"Contact",
+      place:"/contact"
+    }
+    ];
+  const navLinkClass =
+    "hover:text-[var(--primary)] cursor-pointer text-[16px] ";
+
+  let currentLinks = [];
+
+  if (user?.role === "user") {
+    currentLinks = customerLinks;
+  } else if (user?.role === "seller") {
+    currentLinks = sellerLinks;
+  } else if (user?.role === "admin") {
+    currentLinks = adminLinks;
+  }
 
   const { search, setSearch } = useContext(SearchContext);
 
@@ -31,7 +150,7 @@ function Navbar({ children }) {
 
   useEffect(() => {
     // if token is not exist then return otherwise fetch the profile data
-    if(!token) return;
+    if (!token) return;
 
     fetchAllProfile();
   }, []);
@@ -39,6 +158,7 @@ function Navbar({ children }) {
   const handleLogout = () => {
     logout();
   };
+
   return (
     <>
       {/* // <!-- Navbar --> */}
@@ -129,7 +249,7 @@ function Navbar({ children }) {
         style={{ boxShadow: "var(--shadow-md)" }}
         className="sticky bg-white top-0 flex justify-between items-center px-8 border-b border-red-900/15 z-50 "
       >
-        <div className="flex justify-center items-center gap-16 text-2xl font-bold cursor-pointer ">
+        <div className="flex justify-center items-center gap-8 text-2xl font-bold cursor-pointer ">
           {/* <span className="flex justify-center items-center ">
                   <ArrowBigLeft onClick={() => navigate(-1)} size={26} />
                 </span>
@@ -139,12 +259,27 @@ function Navbar({ children }) {
           </div>
           <ul className="flex justify-center items-center gap-8 text-lg font-semibold text-gray-600">
             {/* {children} */}
-            <li className="hover:text-[var(--primary)] cursor-pointer text-[16px] " onClick={()=> navigate("/")}>Categories</li>
-            <li className="hover:text-[var(--primary)] cursor-pointer text-[16px] " onClick={()=> navigate("/")}>Wishlist</li>
-            <li className="hover:text-[var(--primary)] cursor-pointer text-[16px] " onClick={()=> navigate("/")}>Orders</li>
-            <li className="hover:text-[var(--primary)] cursor-pointer text-[16px] " onClick={()=> navigate("/")}>Cart</li>
-            <li className="hover:text-[var(--primary)] cursor-pointer text-[16px] " onClick={()=> navigate("/")}>Profile</li>
+            {token
+              ? currentLinks.map((link, index) => (
+                  <li
+                    key={index}
+                    className={navLinkClass}
+                    onClick={() => navigate(link.place)}
+                  >
+                    {link.label}
+                  </li>
+                ))
+              : guestLinks.map((link, index) => (
+                  <li
+                    key={index}
+                    className={navLinkClass}
+                    onClick={() => navigate(link.place)}
+                  >
+                    {link.label}
+                  </li>
+                )) }
           </ul>
+          <DropdownMenu categories={categories} navLinkClass={navLinkClass}/>
         </div>
         <div className="flex gap-4">
           <div className="flex justify-center items-center bg-white px-4 rounded-full border border-[var(--primary)]">
@@ -163,12 +298,22 @@ function Navbar({ children }) {
           {!user ? (
             <>
               <button
-                onClick={() => navigate("/login")}
+                onClick={() => setLoginModalOpen(true)}
                 style={{ background: "var(--gradient-primary)" }}
                 className=" h-fit w-fit cursor-pointer flex gap-2 border border-[var(--primary)] px-4 py-2 justify-center items-center rounded-full  text-white hover:scale-105 transition-all duration-200 ease-in"
               >
                 Login
               </button>
+
+              {
+                loginModalOpen?
+                <Modal onClose={setLoginModalOpen} className={`!h-[95vh] `}>
+                  <Modal.Body className={`!overflow-y-auto`}>
+                    <Login/>
+                  </Modal.Body>
+                </Modal>:null
+              }
+
               {/* <button
                 onClick={() => navigate("/register")}
                 style={{background:"var(--gradient-primary)"}}
@@ -201,10 +346,12 @@ function Navbar({ children }) {
               >
                 Logout
               </button> */}
-              <div className="flex justify-center items-center bg-[var(--primary-light)] h-[40px] w-[40px] rounded-full relative cursor-pointer text-[var(--text-primary)]"><MessageSquare size={18}/>
+              <div className="flex justify-center items-center bg-[var(--primary-light)] h-[40px] w-[40px] rounded-full relative cursor-pointer text-[var(--text-primary)]">
+                <MessageSquare size={18} />
                 <span className="h-[10px] w-[10px] absolute bg-red-500 rounded-full top-0 right-0"></span>
               </div>
-              <div className="flex justify-center items-center bg-[var(--primary-light)] h-[40px] w-[40px] rounded-full relative cursor-pointer text-[var(--text-primary)]"><Bell size={18}/>
+              <div className="flex justify-center items-center bg-[var(--primary-light)] h-[40px] w-[40px] rounded-full relative cursor-pointer text-[var(--text-primary)]">
+                <Bell size={18} />
                 <span className="h-[10px] w-[10px] absolute bg-red-500 rounded-full top-0 right-0"></span>
               </div>
               <div
