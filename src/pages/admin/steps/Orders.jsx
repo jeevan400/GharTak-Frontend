@@ -132,7 +132,7 @@ function Orders() {
           </thead>
           <tbody>
             {orders?.map((order) => (
-              <tr className="">
+              <tr key={order._id} className="">
                 <td className="!py-4 flex gap-2 ">
                   <div className="flex flex-col">
                     <h1 className="text-indigo-500 text-lg font-bold">

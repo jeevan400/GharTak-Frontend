@@ -47,4 +47,8 @@ export const API_ENDPONTS = {
     // wishList end points
     ADD_WISHLIST:"/wishlists/add-wishlist",
     SINGLE_WISHLIST:"/wishlists/single-wishlist",
+
+    // notification end points
+    CREATE_NOTIFICATION: "/notifications/send-notification",
+    GET_NOTIFICATIONS: "/notifications/get-notifications",
 }

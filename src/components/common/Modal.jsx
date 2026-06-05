@@ -1,6 +1,6 @@
 import React from 'react'
 
-function Modal({children, onClose , className}) {
+function Modal({children, onClose , className, outerClassName}) {
 
     const handleModalClose = ()=>{
         onClose(false);
@@ -8,7 +8,7 @@ function Modal({children, onClose , className}) {
   return (
     <div
       onClick={handleModalClose}
-      className="fixed h-screen w-[100%] top-0 left-0 bg-black/50 flex justify-center items-center z-50"
+      className={`fixed h-screen w-[100%] top-0 left-0 bg-black/50 flex justify-center items-center z-50 ${outerClassName}`}
     >
       <div
         onClick={(e) => e.stopPropagation()}

@@ -46,7 +46,7 @@ function Users() {
         </thead>
         <tbody>
           {users?.map((user) => (
-            <tr className="hover:bg-red-900/5 transition-all duration-200 ease-in cursor-pointer border">
+            <tr key={user._id} className="hover:bg-red-900/5 transition-all duration-200 ease-in cursor-pointer border">
               <td className="flex gap-4 px-4 py-6">
                 <div className="h-[50px] w-[50px] relative">
                   {

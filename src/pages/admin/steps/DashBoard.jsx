@@ -166,8 +166,8 @@ function DashBoard() {
                 </tr>
               </thead>
               <tbody>
-                {requests?.map((request) => (
-                  <tr className="hover:bg-red-900/5 transition-all duration-200 ease-in cursor-pointer">
+                {requests?.map((request, idx) => (
+                  <tr key={idx} className="hover:bg-red-900/5 transition-all duration-200 ease-in cursor-pointer">
                     <td className="flex gap-4 px-4 py-2">
                       <div className="h-[50px] w-[50px]">
                         <img
