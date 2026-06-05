@@ -6,7 +6,7 @@ function DropdownMenu({categories, navLinkClass}) {
         <option className={navLinkClass}>Categories</option>
         {
             categories.map((category, idx) => (
-                <option className={`${navLinkClass} capitalize`}  key={idx} value={category}>{category}</option>
+                <option key={idx} className={`${navLinkClass} capitalize`} value={category}>{category}</option>
             ))
         }
     </select>

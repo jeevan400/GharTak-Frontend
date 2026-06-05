@@ -76,6 +76,7 @@ function Checkout() {
         // alert("Order Placed Successfully!");
         toast.success(data.message);
         navigate("/home");
+
       } catch (e) {
         console.log(e);
         toast.error(e.response.data.message);
@@ -145,8 +146,8 @@ function Checkout() {
   const fetchCartItems = async () => {
     try{
         const res = await getCartItems();
-        setCartData(res);
-        setCartItems(res.items);
+         setCartData(res.cart);
+         setCartItems(res.cart?.items);
     } catch(e){
         console.log(e);
         toast.error(e.response.data.message);
@@ -644,7 +645,9 @@ function Checkout() {
                     &#8377;1,250.00
                   </span>
                 </div>
-              </div> */}
+              </div> */}{
+                console.log("cart data: ", cartData)
+              }
               <div className=" border-t-2 py-4 border-red-900/25">
                 <div className="flex justify-between">
                   <span className="text-sm font-normal text-gray-600">

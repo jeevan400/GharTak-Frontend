@@ -109,8 +109,8 @@ function SellerRequest() {
               </tr>
             </thead>
             <tbody>
-              {requests?.map((request) => (
-                <tr>
+              {requests?.map((request, index) => (
+                <tr key={index}>
                   <td className="py-4 flex gap-2 ">
                     <img
                       className="h-[50px] w-[50px] rounded-lg "

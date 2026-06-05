@@ -128,10 +128,6 @@ function Home() {
         productId: id,
         quantity: 1,
       });
-
-      console.log(data); 
-
-      // alert("Product added successfully in the cart section");
       toast.success(data.message);
       fetchAllProducts();
     } catch (e) {
@@ -378,7 +374,8 @@ function Home() {
              isLoading?
              <ProductCardSkeleton product={product}/>
              :
-             <ProductCard 
+             <ProductCard
+             key={product._id} 
             handleAddToCart={handleAddToCart}
             wishListProduts={wishListProduts}
             addProductWishList={addProductWishList}

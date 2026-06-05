@@ -2,7 +2,8 @@ import axios from "axios";
 
 const axiosInstance = axios.create({
     baseURL:"http://localhost:9000/api/v1",
-    withCredentials:false
+    withCredentials:true,
+    timeout: 10000
 });
 
 //attach token on every request
@@ -16,9 +17,15 @@ axiosInstance.interceptors.request.use((config)=>{
 
 // handle UNAUTHORIZED token
 axiosInstance.interceptors.response.use((res)=> res, (err)=>{
+    // Handle 302 redirect (often caused by auth redirects)
+    if(err?.response?.status === 302){
+        console.error("302 Redirect detected - check token validity");
+        localStorage.removeItem("token");
+    }
+    // Handle 401 Unauthorized
     if(err?.response?.status === 401){
         localStorage.removeItem("token");
-        // go to login page
+        window.location.href = "/login"; // Redirect to login
     }
 
     return Promise.reject(err);

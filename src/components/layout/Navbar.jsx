@@ -17,6 +17,9 @@ import { getProfile } from "../../services/auth.service";
 import Modal from "../common/Modal";
 import Login from "../../pages/auth/Login";
 import DropdownMenu from "../common/navbar/DropdownMenu";
+import Card from "../common/Card";
+import { getNotification } from "../../services/notification.service";
+import socket from "../../socket.js";
 
 function Navbar({ children }) {
   const navigate = useNavigate();
@@ -25,6 +28,9 @@ function Navbar({ children }) {
   const [profileMenu, setProfileMenu] = useState(false);
   const [user, setUser] = useState(null);
   const [loginModalOpen, setLoginModalOpen] = useState(false);
+  const [notificationModalOpen, setNotificationModalOpen] = useState(false);
+  const [notifications, setNotifications] = useState([]);
+  const [notificationBadge, setNotificationBadge] = useState(false);
 
   const categories = ["electronics",
   "mobiles",
@@ -138,22 +144,104 @@ function Navbar({ children }) {
 
   const fetchAllProfile = async () => {
     try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        console.warn("No token available for profile");
+        return;
+      }
       const res = await getProfile();
       setUser(res);
     } catch (e) {
-      console.log(e);
-      toast.error(
-        e.response.data.message || e.message || "Failed to load User data.",
-      );
+      console.error("Profile Error:", e.response?.status, e.message);
+      if (e.response?.status === 302) {
+        console.error("Received 302 redirect - Token may be invalid or expired");
+      }
+      if (e.response?.status !== 302) {
+        toast.error(
+          e.response?.data?.message || e.message || "Failed to load User data.",
+        );
+      }
     }
   };
 
+  const allNotifications = async () => {
+    try{
+      const token = localStorage.getItem("token");
+      if (!token) {
+        console.warn("No token available for notifications");
+        return;
+      }
+      const allNotifications = await getNotification();
+      setNotifications(allNotifications.allNotifications);
+    }
+    catch(e){
+      console.error("Notification Error:", e.response?.status, e.message);
+      if (e.response?.status === 302) {
+        console.error("Received 302 redirect - Token may be invalid or expired");
+      }
+      if (e.response?.status !== 302) {
+        toast.error(e.response?.data?.message || e.message || "Failed to fetch notification data");
+      }
+    }
+  }
+
+  useEffect(() => {
+    const handleConnect = () => {
+      // console.log("Socket connected", socket.id);
+      if (user?._id) {
+        // console.log("Joining socket room after connect:", user._id);
+        socket.emit("joinRoom", user._id);
+      }
+    };
+
+    const handleConnectError = (err) => {
+      console.error("Socket connect error:", err);
+    };
+
+    const handleNewNotification = (notification) => {
+      // console.log("notification received : ", notification);
+      setNotifications((prev) => [notification, ...prev]);
+      if (notification) {
+        setNotificationBadge(true);
+      }
+    };
+
+    socket.on("connect", handleConnect);
+    socket.on("connect_error", handleConnectError);
+    socket.on("newNotification", handleNewNotification);
+
+    if (!socket.connected) {
+      socket.connect();
+    }
+
+    return () => {
+      socket.off("connect", handleConnect);
+      socket.off("connect_error", handleConnectError);
+      socket.off("newNotification", handleNewNotification);
+    };
+  }, [user]);
+
+  // useEffect(() => {
+  //   if (user?._id) {
+  //     console.log("Joining Room:", user._id);
+  //     socket.emit("joinRoom", user._id);
+  //   }
+  // }, [user]);
   useEffect(() => {
     // if token is not exist then return otherwise fetch the profile data
     if (!token) return;
 
-    fetchAllProfile();
-  }, []);
+    const loadData = async () => {
+      try {
+        await fetchAllProfile();
+        await allNotifications();
+      } catch (error) {
+        console.error("Error loading navbar data:", error);
+      }
+    };
+
+    loadData();
+  }, [token]);
 
   const handleLogout = () => {
     logout();
@@ -350,10 +438,32 @@ function Navbar({ children }) {
                 <MessageSquare size={18} />
                 <span className="h-[10px] w-[10px] absolute bg-red-500 rounded-full top-0 right-0"></span>
               </div>
-              <div className="flex justify-center items-center bg-[var(--primary-light)] h-[40px] w-[40px] rounded-full relative cursor-pointer text-[var(--text-primary)]">
+              <div onClick={()=> {
+                setNotificationModalOpen(true);
+                setNotificationBadge(false);
+              }} className="flex justify-center items-center bg-[var(--primary-light)] h-[40px] w-[40px] rounded-full relative cursor-pointer text-[var(--text-primary)]">
                 <Bell size={18} />
-                <span className="h-[10px] w-[10px] absolute bg-red-500 rounded-full top-0 right-0"></span>
+                {
+                  notificationBadge?<span className="h-[10px] w-[10px] absolute bg-red-500 rounded-full top-0 right-0"></span>:null
+                }
               </div>
+              {
+                notificationModalOpen?
+                <Modal onClose={setNotificationModalOpen} outerClassName={`!bg-transparent`}  className={`absolute right-4 top-20 !w-[270px] !h-[70vh] border border-[var(--primary)] !bg-[var(--primary-light)] !p-2 `}>
+                  <Modal.Body className={`!flex !flex-col !gap-2 !overflow-y-auto`}>
+                    {
+                      notifications?.map((notificationData)=>(
+                        <Card key={notificationData._id} className={`!bg-white !border-none !mx-0 !shadow-lg`}>
+                      <Card.Body>
+                        <h1 className="text-md font-bold text-[var(--primary)]">{notificationData.title}</h1>
+                        <p className="text-sm font-medium text-[var(--text-secondary)] ">{notificationData.message}</p>
+                      </Card.Body>
+                    </Card>
+                      ))
+                    }
+                  </Modal.Body>
+                </Modal>:null
+              }
               <div
                 onClick={() => setProfileMenu(!profileMenu)}
                 className="relative rounded-full text-xl font-semibold bg-orange-100 text-orange-500 h-[40px] w-[40px]"
