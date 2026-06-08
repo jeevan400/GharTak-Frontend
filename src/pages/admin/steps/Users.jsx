@@ -50,8 +50,8 @@ function Users() {
               <td className="flex gap-4 px-4 py-6">
                 <div className="h-[50px] w-[50px] relative">
                   {
-                    user.role === "admin"?<span className="absolute -top-1 -right-1 text-[#D4AF37]">
-                      <Crown size={16} />
+                    user.role === "admin"?<span className="absolute -top-1 right-1 text-[#D4AF37]">
+                      <Crown size={14} fill="gold" stroke="gold" />
                     </span>:''
                   }
                   <img

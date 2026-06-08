@@ -29,7 +29,7 @@ function ProductCard({
           }}
           className="absolute top-2 right-2 bg-white p-2 rounded-lg text-[var(--text-secondary)]"
         >
-          {wishListProduts?.includes(product._id) ? (
+          {wishListProduts?.includes(product._id.toString()) ? (
             <i className="fa-solid fa-heart text-red-500"></i>
           ) : (
             <i className="fa-regular fa-heart"></i>

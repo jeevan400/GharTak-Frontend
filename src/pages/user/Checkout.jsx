@@ -555,7 +555,7 @@ function Checkout() {
               title={`Payment Method`}
             ></Card.Header>
             <Card.Body>
-              <div className="grid grid-cols-3">
+              <div className="grid grid-cols-3" aria-disabled>
                 {paymentMethods.map((paymentMethod) => (
                   <div
                     key={paymentMethod.id}
@@ -645,9 +645,7 @@ function Checkout() {
                     &#8377;1,250.00
                   </span>
                 </div>
-              </div> */}{
-                console.log("cart data: ", cartData)
-              }
+              </div> */}
               <div className=" border-t-2 py-4 border-red-900/25">
                 <div className="flex justify-between">
                   <span className="text-sm font-normal text-gray-600">
