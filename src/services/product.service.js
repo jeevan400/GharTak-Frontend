@@ -50,3 +50,8 @@ export const updateReview = async (productId, reviewId, payload) => {
     const {data} = await axiosInstance.patch(`/products/${productId}/review/${reviewId}`, payload);
     return data;
 }
+
+export const blockProduct = async (productId)=>{
+    const {data} = await axiosInstance.patch(`${API_ENDPONTS.BLOCK_PRODUCT}/${productId}`);
+    return data;
+}

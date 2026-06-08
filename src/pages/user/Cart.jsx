@@ -47,9 +47,6 @@ function Cart() {
 
   return (
     <div className="bg-red-50 h-screen w-[100%]">
-      {
-        console.log("this is cart items", cartItem)
-      }
       {/* <h1>Cart</h1>
       {error && <p className="text-red-600">{error}</p>}
       {!error && cartItem?.items?.length === 0 && (
@@ -80,9 +77,6 @@ function Cart() {
             <div className="flex-1 flex flex-col justify-between">
               <div className="flex justify-between">
                 <div>
-                  {
-                    console.log(product)
-                  }
                   <h1 className="text-lg font-bold">{product.product?.name || "Product Unavailable"}</h1>
                   <p className="text-sm font-medium text-gray-500 line-clamp-1">
                     {product.product?.description || "Description not available"}

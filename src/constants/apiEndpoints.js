@@ -24,6 +24,7 @@ export const API_ENDPONTS = {
     DELETE_PRODUCT:"/products/delete-product",
     ALL_PRODUCTS:"/products/all-products",
     SINGLE_PRODUCT:"/products/single-product",
+    BLOCK_PRODUCT:"/products/diactivate-product",
 
     // cart end points
     ADD_TO_CART:"/carts/add-to-cart",

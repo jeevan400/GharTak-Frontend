@@ -35,7 +35,7 @@ function Home() {
   const [currentPage, setCurrentPage] = useState(1);
   const [limit, setLimit] = useState(10);
   const [isTotalPages, setIsTotalPages] = useState([]);
-  const [isLoading, setIsLoading] = useState(false); 
+  const [isLoading, setIsLoading] = useState(false);
   // const [isCart, setIsCart] = useState(0);
 
   const { search, isCart, setIsCart } = useContext(SearchContext);
@@ -55,43 +55,46 @@ function Home() {
   const fetchAllProducts = async () => {
     try {
       setIsLoading(true);
-      const products = await getAllProducts(debouncingSearch, currentPage, limit);
+      const products = await getAllProducts(
+        debouncingSearch,
+        currentPage,
+        limit,
+      );
       const cartItems = await getCartItems();
       const singleWishList = await getSingleWishList();
       // console.log("these are wishlist products : ", singleWishList);
       setIsProduct(products);
       setWishListProducts(
-        singleWishList.products?.map((item) => item._id || item) || [],
+        singleWishList.products?.map((item) => (item?._id ? item._id.toString() : item.toString())) || [],
       );
       console.log("these are all products : ", products);
 
       // set array element here
       let pageArray = [];
-      for(let i=1; i<=products.totalPages; i++){
+      for (let i = 1; i <= products.totalPages; i++) {
         pageArray[i] = i;
       }
 
       // console.log("this is cart items array : ", products.cartItems);
       setIsTotalPages(pageArray);
       setIsCart(cartItems.totalCartItems);
-
     } catch (e) {
       console.log(e.message);
       toast.error(e.response.data.message || e.message || "Product Not Found.");
-    } finally{
+    } finally {
       setIsLoading(false);
     }
   };
 
-  useEffect(()=>{
-    const timer = setTimeout(()=>{
+  useEffect(() => {
+    const timer = setTimeout(() => {
       setDbouncingSearch(search);
     }, 500);
 
-    return ()=>{
+    return () => {
       clearTimeout(timer);
     };
-  },[search]);
+  }, [search]);
 
   useEffect(() => {
     fetchAllProducts();
@@ -184,10 +187,10 @@ function Home() {
     }
   };
 
-// pagination button click handler
+  // pagination button click handler
   const handlePaginationButtonClick = (value) => {
     setCurrentPage(value);
-  }
+  };
 
   return (
     <div>
@@ -195,15 +198,76 @@ function Home() {
         <li className="hover:text-[var(--primary)] cursor-pointer text-[16px] " onClick={()=> navigate("/home")}>Home</li>
       </Navbar> */}
 
-      <div className="h-[100vh] w-[100%] p-8">
-        <img
-          className="h-full w-full rounded-xl"
-          src={GharTakHomeImage}
-          alt=""
-        />
-      </div>
+      <section className="w-full px-6 py-6 bg-gray-50">
+        <div className="relative overflow-hidden rounded-3xl shadow-lg">
+          <img
+            className="w-full h-[250px] md:h-[400px] lg:h-[550px] object-cover"
+            src={GharTakHomeImage}
+            alt="Banner"
+          />
 
-      <section className=" w-[100%] p-8">
+          <div className="absolute inset-0 bg-black/30"></div>
+
+          <div className="absolute left-8 top-1/2 -translate-y-1/2 text-white">
+            <span className="bg-yellow-400 text-black px-4 py-2 rounded-full text-sm font-semibold">
+              Special Offers
+            </span>
+
+            <h1 className="text-3xl md:text-5xl font-bold mt-4">
+              Everything You Need
+            </h1>
+
+            <p className="mt-3 text-white/90 max-w-md">
+              Shop electronics, fashion, home essentials and more at unbeatable
+              prices.
+            </p>
+
+            <button className="mt-6 bg-[var(--primary)] px-6 py-3 rounded-xl font-semibold hover:scale-105 transition">
+              Shop Now
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section className="w-full px-6 py-10 bg-white">
+        <div className="flex justify-between items-center mb-8">
+          <div>
+            <h2 className="text-3xl font-bold text-gray-800">
+              Shop By Category
+            </h2>
+
+            <p className="text-gray-500 mt-1">
+              Discover products from top categories
+            </p>
+          </div>
+
+          <button className="border border-[var(--primary)] text-[var(--primary)] px-5 py-2 rounded-lg hover:bg-[var(--primary)] hover:text-white transition">
+            View All
+          </button>
+        </div>
+
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
+          {categories?.map((category) => (
+            <div
+              key={category.id}
+              className="group bg-white border border-gray-200 rounded-2xl p-5 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer"
+            >
+              <div className="h-[120px] bg-gray-50 rounded-xl flex justify-center items-center overflow-hidden">
+                <img
+                  className="w-[40px] h-[40px] object-contain group-hover:scale-110 transition duration-300"
+                  src={category.icon}
+                  alt={category.title}
+                />
+              </div>
+
+              <h3 className="text-center mt-4 font-semibold text-gray-800">
+                {category.title}
+              </h3>
+            </div>
+          ))}
+        </div>
+      </section>
+      {/* <section className=" w-[100%] p-8">
               <Card className={`!mx-0 !border-none !bg-gray-100`}>
                 <Card.Header
                   icon={
@@ -241,7 +305,7 @@ function Home() {
                   ))}
                 </Card.Body>
               </Card>
-            </section>
+            </section> */}
 
       {/* <Card className={`!mx-0 !border-none !bg-gray-100 !p-8`}>
         <Card.Header
@@ -274,144 +338,156 @@ function Home() {
           ))}
         </Card.Body>
       </Card> */}
-<section className=" w-[100%] p-8">
-      <Card className={`!mx-0 !border-none !bg-gray-100`}>
-        <Card.Header
-          icon={
-            <h1 className="text-[16px] font-normal text[#0B1C30]">
-              Featured for you
-            </h1>
-          }
-        >
-          <span>Total : {isProducts.totalProducts}</span>
-        </Card.Header>
-        <div className="grid sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 ">
-          {error && <p>{error}</p>}
-          {isProducts.products?.map((product) => (
-            // <div
-            //   key={product._id}
-            //   className="relative rounded-xl pb-4 flex flex-col justify-between hover:shadow-lg transition-all duration-200 ease-in border shadow-md"
-            // >
-            //   <Link to={`/single-product/${product._id}`}>
-            //     <img
-            //       className="w-full h-[240px] rounded-tl-lg rounded-tr-lg"
-            //       src={product.image || boy}
-            //       alt="product image"
-            //     />
-            //     <span onClick={(e)=>
-            //       {
-            //         e.preventDefault();
-            //         e.stopPropagation();
-            //         addProductWishList(product._id);
-            //       }
-            //       } className="absolute top-2 right-2 bg-white p-2 rounded-lg text-[var(--text-secondary)]">
-            //       {
-            //         wishListProduts?.includes(product._id)?<i className="fa-solid fa-heart text-red-500"></i>:<i className="fa-regular fa-heart"></i>
-            //       }
-            //     </span>
-            //     <div className="flex p-2">
-            //       <div>
-            //         <h1 className="text-[16px] font-bold">{product.name}</h1>
-            //         <p className="text-[14px] font-semibold line-clamp-1 w-[70%]">
-            //           {product.description}
-            //         </p>
-            //       </div>
-            //       <div>
-            //         <span className="text-[16px] font-bold text-red-900">&#8377;{product.price}</span>
-            //       </div>
-            //     </div>
-            //   </Link>
-            //   <div>
-            //     <div></div>
-            //     <span className="p-2 text-[12px] text-green-600 font-bold">
-            //       In Stock: {product.stock}
-            //     </span>
-            //   </div>
+      <section className="w-full px-6 py-10 bg-white">
+        <Card className={`!mx-0 !border-none !bg-gray-100`}>
+          <Card.Header
+            icon={
+              <h1 className="text-3xl font-bold text-gray-800">
+                Featured for you
+              </h1>
+            }
+          >
+            <span>Total : {isProducts.totalProducts}</span>
+          </Card.Header>
+          <div className="grid sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 ">
+            {error && <p>{error}</p>}
+            {isProducts.products?.map((product, index) =>
+              // <div
+              //   key={product._id}
+              //   className="relative rounded-xl pb-4 flex flex-col justify-between hover:shadow-lg transition-all duration-200 ease-in border shadow-md"
+              // >
+              //   <Link to={`/single-product/${product._id}`}>
+              //     <img
+              //       className="w-full h-[240px] rounded-tl-lg rounded-tr-lg"
+              //       src={product.image || boy}
+              //       alt="product image"
+              //     />
+              //     <span onClick={(e)=>
+              //       {
+              //         e.preventDefault();
+              //         e.stopPropagation();
+              //         addProductWishList(product._id);
+              //       }
+              //       } className="absolute top-2 right-2 bg-white p-2 rounded-lg text-[var(--text-secondary)]">
+              //       {
+              //         wishListProduts?.includes(product._id)?<i className="fa-solid fa-heart text-red-500"></i>:<i className="fa-regular fa-heart"></i>
+              //       }
+              //     </span>
+              //     <div className="flex p-2">
+              //       <div>
+              //         <h1 className="text-[16px] font-bold">{product.name}</h1>
+              //         <p className="text-[14px] font-semibold line-clamp-1 w-[70%]">
+              //           {product.description}
+              //         </p>
+              //       </div>
+              //       <div>
+              //         <span className="text-[16px] font-bold text-red-900">&#8377;{product.price}</span>
+              //       </div>
+              //     </div>
+              //   </Link>
+              //   <div>
+              //     <div></div>
+              //     <span className="p-2 text-[12px] text-green-600 font-bold">
+              //       In Stock: {product.stock}
+              //     </span>
+              //   </div>
 
-            //   {user.role === "seller" && user.id === product.seller ? (
-            //     <>
-            //       <div className=" flex gap-4 justify-between p-2">
-            //         <button
-            //           onClick={() => handleIsModalOpen(product)}
-            //           className="flex-1 bg-orange-400 text-[14px] font-medium text-white rounded-lg px-4 py-2 whitespace-nowrap"
-            //         >
-            //           Edit
-            //         </button>
-            //         <button
-            //           onClick={() => handleDeleteData(product._id)}
-            //           className="flex-1 bg-gray-900 text-[14px] font-medium text-white rounded-lg px-4 py-2 whitespace-nowrap"
-            //         >
-            //           Delete
-            //         </button>
-            //       </div>
-            //       {console.log("this is user id : ", user)}
-            //       {isModalOpen && selectedProduct ? (
-            //         <ProductModal
-            //           product={selectedProduct}
-            //           onClose={setIsModalOpen}
-            //           refreshProducts={fetchAllProducts}
-            //         />
-            //       ) : (
-            //         ""
-            //       )}
-            //     </>
-            //   ) : (
-            //     <>
-            //       <div className=" flex gap-4 justify-between p-2">
-            //         <button className="flex-1 bg-orange-400 text-[14px] font-medium text-white rounded-lg px-4 py-2 whitespace-nowrap">
-            //           Buy
-            //         </button>
-            //         <button onClick={()=> handleAddToCart(product._id)} className="flex-1 bg-gray-900 text-[14px] font-medium text-white rounded-lg px-4 py-2 whitespace-nowrap">
-            //           Add to Cart
-            //         </button>
-            //       </div>
-            //     </>
-            //   )}
-            // </div>
+              //   {user.role === "seller" && user.id === product.seller ? (
+              //     <>
+              //       <div className=" flex gap-4 justify-between p-2">
+              //         <button
+              //           onClick={() => handleIsModalOpen(product)}
+              //           className="flex-1 bg-orange-400 text-[14px] font-medium text-white rounded-lg px-4 py-2 whitespace-nowrap"
+              //         >
+              //           Edit
+              //         </button>
+              //         <button
+              //           onClick={() => handleDeleteData(product._id)}
+              //           className="flex-1 bg-gray-900 text-[14px] font-medium text-white rounded-lg px-4 py-2 whitespace-nowrap"
+              //         >
+              //           Delete
+              //         </button>
+              //       </div>
+              //       {console.log("this is user id : ", user)}
+              //       {isModalOpen && selectedProduct ? (
+              //         <ProductModal
+              //           product={selectedProduct}
+              //           onClose={setIsModalOpen}
+              //           refreshProducts={fetchAllProducts}
+              //         />
+              //       ) : (
+              //         ""
+              //       )}
+              //     </>
+              //   ) : (
+              //     <>
+              //       <div className=" flex gap-4 justify-between p-2">
+              //         <button className="flex-1 bg-orange-400 text-[14px] font-medium text-white rounded-lg px-4 py-2 whitespace-nowrap">
+              //           Buy
+              //         </button>
+              //         <button onClick={()=> handleAddToCart(product._id)} className="flex-1 bg-gray-900 text-[14px] font-medium text-white rounded-lg px-4 py-2 whitespace-nowrap">
+              //           Add to Cart
+              //         </button>
+              //       </div>
+              //     </>
+              //   )}
+              // </div>
 
-            
+              isLoading ? (
+                <ProductCardSkeleton product={product} key={index}/>
+              ) : (
+                <ProductCard
+                  key={product._id}
+                  handleAddToCart={handleAddToCart}
+                  wishListProduts={wishListProduts}
+                  addProductWishList={addProductWishList}
+                  product={product}
+                />
+              ),
+            )}
+            {isProducts?.products?.length === 0 ? (
+              <div> 404 Product Not Found. </div>
+            ) : (
+              ""
+            )}
+          </div>
+        </Card>
+      </section>
 
-             isLoading?
-             <ProductCardSkeleton product={product}/>
-             :
-             <ProductCard
-             key={product._id} 
-            handleAddToCart={handleAddToCart}
-            wishListProduts={wishListProduts}
-            addProductWishList={addProductWishList}
-            product={product}
-             />
-          ))}
-          {
-            isProducts?.products?.length === 0 ? <div> 404 Product Not Found. </div>:""
-          }
-        </div>
-      </Card>
-</section>
-
-      <div className="flex gap-4 mb-8 px-8">
-        {
-          isTotalPages?.map((element)=> (
-            <button onClick={() => handlePaginationButtonClick(element)} key={element} 
-            className={`border border-[var(--primary)] text-[var(--primary)] px-2 py-1 text-lg font-bold ${currentPage === element ? "bg-[var(--primary)] text-white":"bg-white text-[var(--primary)]"}`}>{element}</button>
-          ))
-        }
+      <div className="flex justify-center items-center gap-2 my-10">
+        {isTotalPages?.map((element) => (
+          <button
+            key={element}
+            onClick={() => handlePaginationButtonClick(element)}
+            className={`h-11 w-11 rounded-full font-medium transition-all duration-300
+      ${
+        currentPage === element
+          ? "bg-[var(--primary)] text-white shadow-lg scale-110"
+          : "bg-white border border-gray-300 text-gray-700 hover:bg-[var(--primary-light)] hover:border-[var(--primary)]"
+      }`}
+          >
+            {element}
+          </button>
+        ))}
       </div>
       <div className="flex justify-center items-center">
-        <div style={{background:"var(--gradient-primary)"}} className="fixed bottom-12 right-8 w-[80px] h-[80px] p-2 rounded-full flex justify-between border border-gray-300 shadow-lg">
+        <div
+          style={{ background: "var(--gradient-primary)" }}
+          className="fixed bottom-12 right-8 w-[80px] h-[80px] p-2 rounded-full flex justify-between border border-gray-300 shadow-lg"
+        >
           <button
             onClick={() => navigate("/get-cart")}
             className=" h-full w-full border border-[var(--primary)] flex justify-center items-center text-[var(--primary)] bg-[var(--primary-light)] text-lg  rounded-full relative"
           >
-            <ShoppingCart size={32}/>
-            {
-              console.log("this is cart items count : ", isCart)
-            }
-            {
-              isCart !== 0 ? <span className="absolute  -top-2 -right-2 bg-[var(--danger)] text-[var(--danger-light)] text-[14px] font-semibold h-[25px] w-[25px] flex justify-center items-center rounded-full">
-               {isCart}
-              </span>:""
-            }
+            <ShoppingCart size={32} />
+            {console.log("this is cart items count : ", isCart)}
+            {isCart !== 0 || isCart !== "undefined" ? (
+              <span className="absolute  -top-2 -right-2 bg-[var(--danger)] text-[var(--danger-light)] text-[14px] font-semibold h-[25px] w-[25px] flex justify-center items-center rounded-full">
+                {isCart}
+              </span>
+            ) : (
+              null
+            )}
           </button>
         </div>
       </div>

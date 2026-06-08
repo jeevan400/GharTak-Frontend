@@ -103,15 +103,15 @@ function Orders() {
     <Card className={`overflow-auto`}>
       <Card.Header
         icon={
-          <h1 className="text-xl font-bold text-black ">Seller Applications</h1>
+          <h1 className="text-[16px] font-bold text-black ">Seller Applications</h1>
         }
         title={
-          <span className="bg-red-900/10 text-red-900 py-1 px-2 rounded-lg text-sm font-semibold">
+          <span className="bg-red-900/10 text-red-900 py-1 px-2 rounded-lg text-[12px] font-semibold">
             Live Queue
           </span>
         }
       >
-        <div className="flex justify-center items-center gap-2  text-lg font-semibold border border-red-900 rounded-md text-red-900 bg-red-900/5 px-2 py-1">
+        <div className="flex justify-center items-center gap-2  text-[14px] font-semibold border border-red-900 rounded-md text-red-900 bg-red-900/5 px-2 py-1">
           <Filter size={18} /> Filter
         </div>
       </Card.Header>
@@ -119,15 +119,15 @@ function Orders() {
         <table className="">
           <thead>
             <tr className="bg-red-900/20 ">
-              <th className="text-left px-4 whitespace-nowrap">ORDER ID</th>
-              <th className="px-4 whitespace-nowrap">CUSTOMER</th>
-              <th className="px-4 whitespace-nowrap">PRODUCTS</th>
-              <th className="px-4 whitespace-nowrap">TOTAL PRICE</th>
-              <th className="px-4 whitespace-nowrap">ORDER STATUS</th>
-              <th className="px-4 whitespace-nowrap">DELIVERY METHOD</th>
-              <th className="px-4 whitespace-nowrap">PAYMENT METHOD</th>
-              <th className="px-4 whitespace-nowrap">PAYMENT STATUS</th>
-              <th className="px-4 whitespace-nowrap">ACTION</th>
+              <th className="text-left px-4 whitespace-nowrap text-[14px]">ORDER ID</th>
+              <th className="px-4 whitespace-nowrap text-[14px]">CUSTOMER</th>
+              <th className="px-4 whitespace-nowrap text-[14px]">PRODUCTS</th>
+              <th className="px-4 whitespace-nowrap text-[14px]">TOTAL PRICE</th>
+              <th className="px-4 whitespace-nowrap text-[14px]">ORDER STATUS</th>
+              <th className="px-4 whitespace-nowrap text-[14px]">DELIVERY METHOD</th>
+              <th className="px-4 whitespace-nowrap text-[14px]">PAYMENT METHOD</th>
+              <th className="px-4 whitespace-nowrap text-[14px]">PAYMENT STATUS</th>
+              <th className="px-4 whitespace-nowrap text-[14px]">ACTION</th>
             </tr>
           </thead>
           <tbody>
@@ -135,10 +135,10 @@ function Orders() {
               <tr key={order._id} className="">
                 <td className="!py-4 flex gap-2 ">
                   <div className="flex flex-col">
-                    <h1 className="text-indigo-500 text-lg font-bold">
+                    <h1 className="text-indigo-500 text-[12px] font-bold">
                       {order._id}
                     </h1>
-                    <p className="text-sm font-semibold italic text-gray-500">
+                    <p className="text-[10px] font-semibold italic text-gray-500">
                       {getTimeAgo(order.createdAt)}
                     </p>
                   </div>
@@ -147,11 +147,11 @@ function Orders() {
                   <div>
                     <h1
                       onClick={() => handleModalOpen(order.user)}
-                      className=" text-[18px] font-semibold capitalize hover:text-red-900 cursor-pointer"
+                      className=" text-[14px] font-semibold capitalize hover:text-red-900 cursor-pointer"
                     >
                       {order?.user?.name}
                     </h1>
-                    <p className="text-sm font-medium text-gray-500">
+                    <p className="text-[12px] font-medium text-gray-500">
                       {order?.user?.email}
                     </p>
                   </div>
@@ -167,17 +167,17 @@ function Orders() {
                       alt=""
                     />
                     <div>
-                      <h1 className=" text-lg font-bold capitalize line-clamp-1">
+                      <h1 className=" text-[14px] font-bold capitalize line-clamp-1">
                         {order?.items[0]?.product?.name}
                       </h1>
-                      <p className="text-sm font-semibold text-gray-500 line-clamp-1">
+                      <p className="text-[12px] font-semibold text-gray-500 line-clamp-1">
                         {order?.items[0]?.product?.description}
                       </p>
                     </div>
                   </div>
                 </td>
                 <td className="">
-                  <div className="flex justify-center items-center">
+                  <div className="flex justify-center items-center text-[14px]">
                     &#8377;{order.totalPrice}
                   </div>
                 </td>
@@ -186,7 +186,7 @@ function Orders() {
                     {order.orderStatus}
                   </span>
                 </td>
-                <td>
+                <td className="text-[14px] font-semibold">
                   {/* <div className="flex gap-4">
                       <div
                         onClick={() => handleApprove(request._id)}
@@ -203,8 +203,8 @@ function Orders() {
                     </div> */}
                   {order.deliveryMethod}
                 </td>
-                <td>{order.paymentMethod}</td>
-                <td>{order.paymentStatus}</td>
+                <td className="text-[14px] font-semibold">{order.paymentMethod}</td>
+                <td className="text-[14px] font-semibold">{order.paymentStatus}</td>
                 <td>
                   <select
                     value={order.orderStatus}
@@ -226,7 +226,7 @@ function Orders() {
         {modalOpen ? (
           <Modal onClose={setModalOpen} className={`!w-[50%]`}>
             <Modal.Header>
-              <h1 className="w-full flex justify-center items-center text-3xl font-bold py-4">
+              <h1 className="w-full flex justify-center items-center text-[24px] font-bold py-4">
                 User Details
               </h1>
             </Modal.Header>
@@ -234,13 +234,13 @@ function Orders() {
               <div className="p-8 h-full flex justify-center items-start gap-20">
                 <div className="pt-10 flex flex-col gap-10">
                   <img
-                    className="h-[14rem] w-[14rem]  rounded-full "
+                    className="h-[12rem] w-[12rem]  rounded-full "
                     src={user.image}
                     alt="user profile"
                   />
                   <button
                     onClick={() => handleDeactivateUserAccount(user._id)}
-                    className={`px-4 py-2 rounded-xl text-lg font-bold flex justify-center items-center border  
+                    className={`px-4 py-2 rounded-xl text-[14px] font-bold flex justify-center items-center border  
                       ${user.isBlocked ? "border-green-600 text-green-600 bg-green-50" : "border-red-600 text-red-600 bg-red-50"}`}
                   >
                     {user.isBlocked ? "Activate" : "Deactivate"}
@@ -248,45 +248,45 @@ function Orders() {
                 </div>
                 <div className="">
                   <div className="flex justify-between gap-20 py-10">
-                    <h1 className="text-3xl font-bold capitalize">
+                    <h1 className="text-[14px] font-bold capitalize">
                       {user.name}
                     </h1>
-                    <p className="border border-blue-600 w-fit h-fit px-4 py-1 rounded-lg bg-blue-50 text-blue-600 text-sm font-semibold">
+                    <p className="border border-blue-600 w-fit h-fit px-4 py-1 rounded-lg bg-blue-50 text-blue-600 text-[12px] font-semibold">
                       {user.role}
                     </p>
                   </div>
                   <div className="flex  gap-10">
                     <div className="flex flex-col gap-6">
-                      <p className="text-[18px] font-semibold text-gray-500">
+                      <p className="text-[14px] font-semibold text-gray-500">
                         Email:{" "}
                       </p>
-                      <p className="text-[18px] font-semibold text-gray-500">
+                      <p className="text-[14px] font-semibold text-gray-500">
                         City:
                       </p>
-                      <p className="text-[18px] font-semibold text-gray-500">
+                      <p className="text-[14px] font-semibold text-gray-500">
                         State:
                       </p>
-                      <p className="text-[18px] font-semibold text-gray-500">
+                      <p className="text-[14px] font-semibold text-gray-500">
                         Pincode:{" "}
                       </p>
-                      <p className="text-[18px] font-semibold text-gray-500">
+                      <p className="text-[14px] font-semibold text-gray-500">
                         Phone:{" "}
                       </p>
                     </div>
                     <div className="flex flex-col gap-6">
-                      <span className="text-gray-700 font-bold text-[18px]">
+                      <span className="text-gray-700 font-bold text-[14px]">
                         {user.email}
                       </span>
-                      <span className="text-gray-700 font-bold text-[18px]">
+                      <span className="text-gray-700 font-bold text-[14px]">
                         {user.address.city}
                       </span>
-                      <span className="text-gray-700 font-bold text-[18px]">
+                      <span className="text-gray-700 font-bold text-[14px]">
                         {user.address.state}
                       </span>
-                      <span className="text-gray-700 font-bold text-[18px]">
+                      <span className="text-gray-700 font-bold text-[14px]">
                         {user.address.pincode}
                       </span>
-                      <span className="text-gray-700 font-bold text-[18px]">
+                      <span className="text-gray-700 font-bold text-[14px]">
                         {user.phone}
                       </span>
                     </div>
@@ -380,7 +380,7 @@ function Orders() {
                     </div>
                     <div className="flex flex-col justify-between">
                       <div className="text-right">
-                        <h1 className="text-lg font-bold">&#8377;{item.quantity * item.product.price}</h1>
+                        <h1 className="text-[14px] font-bold">&#8377;{item.quantity * item.product.price}</h1>
                         <span className="text-xs font-medium text-gray-400">&#8377;{item.product.price}/unit</span>
                       </div>
                       <button className="text-xs font-medium text-blue-700">Track Item</button>

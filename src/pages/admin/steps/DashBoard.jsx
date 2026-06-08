@@ -60,7 +60,7 @@ function DashBoard() {
     <div className="h-full overflow-y-auto">
       <div className="p-4">
         <h1 className="text-xl font-bold">Marketplace Pulse</h1>
-        <p className="text-sm font-semibold text-gray-500">
+        <p className="text-[12px] font-semibold text-gray-500">
           Overview of today's performance and operations.
         </p>
       </div>
@@ -79,8 +79,8 @@ function DashBoard() {
             </div>
           </Card.Header>
           <Card.Body>
-            <h1 className="text-sm font-semibold text-gray-600">TOTAL SALES</h1>
-            <p className="text-lg font-bold">&#8377; 4,28,900</p>
+            <h1 className="text-[12px] font-semibold text-gray-600">TOTAL SALES</h1>
+            <p className="text-[14px] font-bold">&#8377; 4,28,900</p>
           </Card.Body>
         </Card>
         <Card className={`!mx-0`}>
@@ -97,8 +97,8 @@ function DashBoard() {
             </div>
           </Card.Header>
           <Card.Body>
-            <h1 className="text-sm font-semibold text-gray-600">NEW SELLERS</h1>
-            <p className="text-lg font-bold"> 42</p>
+            <h1 className="text-[12px] font-semibold text-gray-600">NEW SELLERS</h1>
+            <p className="text-[14px] font-bold"> 42</p>
           </Card.Body>
         </Card>
         <Card className={`!mx-0`}>
@@ -115,10 +115,10 @@ function DashBoard() {
             </div>
           </Card.Header>
           <Card.Body>
-            <h1 className="text-sm font-semibold text-gray-600">
+            <h1 className="text-[12px] font-semibold text-gray-600">
               PENDING ORDERS
             </h1>
-            <p className="text-lg font-bold"> 1,024</p>
+            <p className="text-[14px] font-bold"> 1,024</p>
           </Card.Body>
         </Card>
         <Card className={`!mx-0`}>
@@ -135,26 +135,26 @@ function DashBoard() {
             </div>
           </Card.Header>
           <Card.Body>
-            <h1 className="text-sm font-semibold text-gray-600">
+            <h1 className="text-[12px] font-semibold text-gray-600">
               ACTIVE USERS
             </h1>
-            <p className="text-lg font-bold"> 1,024</p>
+            <p className="text-[14px] font-bold"> 1,024</p>
           </Card.Body>
         </Card>
       </div>
       <div className="">
         <Card className={`!p-0`}>
           <Card.Header title={`Pending Seller Approvals`} className={`p-4`}>
-            <button className="text-lg font-light text-red-900">
+            <button className="text-[14px] font-light text-red-900">
               View All
             </button>
           </Card.Header>
           <Card.Body>
             {/* <div className="grid grid-cols-4 gap-4 -mx-4 p-4 bg-green-100">
-              <div className="text-md font-bold">Seller Name</div>
-              <div className="text-md font-bold">Category</div>
-              <div className="text-md font-bold">Status</div>
-              <div className="text-md font-bold flex justify-end">Actions</div>
+              <div className="text-[12px] font-bold">Seller Name</div>
+              <div className="text-[12px] font-bold">Category</div>
+              <div className="text-[12px] font-bold">Status</div>
+              <div className="text-[12px] font-bold flex justify-end">Actions</div>
             </div> */}
             <table className="w-full">
               <thead>
@@ -177,10 +177,10 @@ function DashBoard() {
                         />
                       </div>
                       <div>
-                        <h1 className="text-lg font-bold capitalize">
+                        <h1 className="text-[14px] font-bold capitalize">
                           {request.name}
                         </h1>
-                        <p className="text-sm font-medium text-gray-600">
+                        <p className="text-[12px] font-medium text-gray-600">
                           {request.email}
                         </p>
                       </div>
@@ -222,8 +222,8 @@ function DashBoard() {
                 <div className='text-[12px] text-green-600 font-bold'>+12%</div>
               </div>
               <div>
-                <h1 className='text-sm font-medium text-gray-600'>TOTAL PRODUCTS</h1>
-                <p className='text-md font-bold'>1,284</p>
+                <h1 className='text-[12px] font-medium text-gray-600'>TOTAL PRODUCTS</h1>
+                <p className='text-[12px] font-bold'>1,284</p>
               </div>
             </div>
             <div className='bg-white p-4 rounded-lg shadow-lg border border-gray-600/15 flex flex-col gap-4'>
@@ -232,8 +232,8 @@ function DashBoard() {
                 <div className='text-[12px] text-green-600 font-bold'>+12%</div>
               </div>
               <div>
-                <h1 className='text-sm font-medium text-gray-600'>TOTAL PRODUCTS</h1>
-                <p className='text-md font-bold'>1,284</p>
+                <h1 className='text-[12px] font-medium text-gray-600'>TOTAL PRODUCTS</h1>
+                <p className='text-[12px] font-bold'>1,284</p>
               </div>
             </div>
             <div className='bg-white p-4 rounded-lg shadow-lg border border-gray-600/15 flex flex-col gap-4'>
@@ -242,8 +242,8 @@ function DashBoard() {
                 <div className='text-[12px] text-green-600 font-bold'>+12%</div>
               </div>
               <div>
-                <h1 className='text-sm font-medium text-gray-600'>TOTAL PRODUCTS</h1>
-                <p className='text-md font-bold'>1,284</p>
+                <h1 className='text-[12px] font-medium text-gray-600'>TOTAL PRODUCTS</h1>
+                <p className='text-[12px] font-bold'>1,284</p>
               </div>
             </div>
             <div className='bg-white p-4 rounded-lg shadow-lg border border-gray-600/15 flex flex-col gap-4'>
@@ -252,8 +252,8 @@ function DashBoard() {
                 <div className='text-[12px] text-green-600 font-bold'>+12%</div>
               </div>
               <div>
-                <h1 className='text-sm font-medium text-gray-600'>TOTAL PRODUCTS</h1>
-                <p className='text-md font-bold'>1,284</p>
+                <h1 className='text-[12px] font-medium text-gray-600'>TOTAL PRODUCTS</h1>
+                <p className='text-[12px] font-bold'>1,284</p>
               </div>
             </div>
             <div className='bg-white p-4 rounded-lg shadow-lg border border-gray-600/15 flex flex-col gap-4'>
@@ -262,8 +262,8 @@ function DashBoard() {
                 <div className='text-[12px] text-green-600 font-bold'>+12%</div>
               </div>
               <div>
-                <h1 className='text-sm font-medium text-gray-600'>TOTAL PRODUCTS</h1>
-                <p className='text-md font-bold'>1,284</p>
+                <h1 className='text-[12px] font-medium text-gray-600'>TOTAL PRODUCTS</h1>
+                <p className='text-[12px] font-bold'>1,284</p>
               </div>
             </div>
             <div className='bg-white p-4 rounded-lg shadow-lg border border-gray-600/15 flex flex-col gap-4'>
@@ -272,8 +272,8 @@ function DashBoard() {
                 <div className='text-[12px] text-green-600 font-bold'>+12%</div>
               </div>
               <div>
-                <h1 className='text-sm font-medium text-gray-600'>TOTAL PRODUCTS</h1>
-                <p className='text-md font-bold'>1,284</p>
+                <h1 className='text-[12px] font-medium text-gray-600'>TOTAL PRODUCTS</h1>
+                <p className='text-[12px] font-bold'>1,284</p>
               </div>
             </div>
           </div> */}

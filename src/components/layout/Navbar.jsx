@@ -456,8 +456,12 @@ function Navbar({ children }) {
                         <Card key={notificationData._id} className={`!bg-white !border-none !mx-0 !shadow-lg`}>
                       <Card.Body>
                         <h1 className="text-md font-bold text-[var(--primary)]">{notificationData.title}</h1>
-                        <p className="text-sm font-medium text-[var(--text-secondary)] ">{notificationData.message}</p>
+                        <p className="text-sm font-medium text-[var(--text-secondary)] line-clamp-2">{notificationData.message}</p>
                       </Card.Body>
+                      <Card.Footer className={`flex justify-between items-center pt-4`}>
+                        <p className="text-[10px] font-medium text-[var(--primary)]">{notificationData.createdAt.slice(0, 10)}</p>
+                        <p className="text-[10px] font-medium text-[var(--primary)]">{notificationData.createdAt.slice(11, 16)}</p>
+                      </Card.Footer>
                     </Card>
                       ))
                     }
@@ -465,7 +469,7 @@ function Navbar({ children }) {
                 </Modal>:null
               }
               <div
-                onClick={() => setProfileMenu(!profileMenu)}
+                onClick={() => setProfileMenu(true)}
                 className="relative rounded-full text-xl font-semibold bg-orange-100 text-orange-500 h-[40px] w-[40px]"
               >
                 <img
@@ -475,7 +479,9 @@ function Navbar({ children }) {
                 />
               </div>
               {profileMenu ? (
-                <div className="absolute w-[250px] top-16 right-8 bg-white p-4 flex flex-col gap-2 rounded-md border border-[var(--border-medium)]">
+                <Modal onClose={setProfileMenu} outerClassName={`!bg-transparent`} className={`!w-[220px] !h-fit !absolute !right-8 !top-20 !p-2 !rounded-sm`}>
+                  <Modal.Body className={`!flex !flex-col !gap-2`}>
+                    {/* <div className="absolute w-[250px] top-16 right-8 bg-white p-4 flex flex-col gap-2 rounded-md border border-[var(--border-medium)]"> */}
                   {user?.role === "admin" && (
                     <button
                       onClick={() => navigate("/admin")}
@@ -505,7 +511,9 @@ function Navbar({ children }) {
                   >
                     Logout
                   </button>
-                </div>
+                {/* </div> */}
+                  </Modal.Body>
+                </Modal>
               ) : (
                 ""
               )}
