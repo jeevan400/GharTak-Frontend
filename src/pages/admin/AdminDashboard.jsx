@@ -140,12 +140,12 @@ function AdminDashboard() {
           ))}
         </div>
       </div>
-      <div className="col-span-10 sticky top-0 flex bg-white shadow-sm items-center z-50 py-2">
+      <div className="col-span-10 sticky top-0 flex bg-white shadow-sm items-center z-50">
         <div className="flex-1 flex items-center  px-4 justify-between">
           <div className="flex justify-center items-center bg-white px-4 rounded-full border border-[var(--primary)]">
             <Search size={18} color="gray" />
             <input
-              className=" rounded-full text-[16px] font-normal p-2 focus:ring-0 outline-none"
+              className=" rounded-full text-[16px] font-normal py-1 focus:ring-0 outline-none"
               type="text"
               name="search"
               id="search"
@@ -166,8 +166,8 @@ function AdminDashboard() {
           onClick={() => navigate("/profile")}
           className="px-4 flex cursor-pointer"
         >
-          <div className="h-[40px] w-[40px] rounded-full border-2 border-black mr-2">
-            <img className="rounded-full" src={userPorfile?.image} alt="" />
+          <div className="h-[40px] w-[40px] rounded-full border border-black mr-2">
+            <img className="h-full w-full rounded-full" src={userPorfile?.image} alt="" />
           </div>
           <div>
             <h1 className="text-md font-bold">{userPorfile?.name}</h1>
