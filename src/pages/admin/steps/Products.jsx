@@ -52,7 +52,7 @@ function Products() {
 
   return (
     <div className="p-4 h-full">
-      <div className="bg-[var(--bg-card)] rounded-md shadow-md overflow-hidden h-[80%]">
+      <div className="bg-[var(--bg-card)] rounded-md shadow-md overflow-hidden h-[85%]">
         <div className="overflow-x-auto overflow-y-auto h-full">
           <table className="w-full relative">
             <thead>

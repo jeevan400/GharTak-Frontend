@@ -21,8 +21,8 @@ export const updateOrderStatus = async (orderId, status) => {
     return data;
 }
 
-export const getAllOrders = async () => {
-    const { data } = await axios.get(API_ENDPONTS.GET_ALL_ORDERS);
+export const getAllOrders = async (debouncingSearch, currentPage, limit) => {
+    const { data } = await axios.get(`${API_ENDPONTS.GET_ALL_ORDERS}?search=${debouncingSearch}&page=${currentPage}&limit=${limit}`);
     return data;
 }
 
