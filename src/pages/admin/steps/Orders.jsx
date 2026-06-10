@@ -596,34 +596,38 @@ function Orders() {
         </div>
         <div className="flex justify-between items-center bg-[var(--bg-card)] rounded-b-md">
           <div className=" flex justify-center items-center gap-2 my-4 px-2">
-          {isTotalPages?.map((element) => (
-            <button
-              key={element}
-              onClick={() => handlePaginationButtonClick(element)}
-              className={`h-8 w-8 rounded-full text-[14px] font-medium transition-all duration-300
+            {isTotalPages?.map((element) => (
+              <button
+                key={element}
+                onClick={() => handlePaginationButtonClick(element)}
+                className={`h-8 w-8 rounded-full text-[14px] font-medium transition-all duration-300
       ${
         currentPage === element
           ? "bg-[var(--primary)] text-white shadow-lg scale-110"
           : "bg-white border border-gray-300 text-gray-700 hover:bg-[var(--primary-light)] hover:border-[var(--primary)]"
       }`}
+              >
+                {element}
+              </button>
+            ))}
+          </div>
+          <div className="bg-[var(--primary)] px-2 py-2 rounded-md">
+            <span className="text-[var(--primary-light)] text-[14px] font-semibold">
+              Limit &nbsp;
+            </span>
+            <select
+              className="text-[12px] p-1"
+              value={limit}
+              onChange={(e) => setLimit(e.target.value)}
+              name="limit"
+              id=""
             >
-              {element}
-            </button>
-          ))}
-        </div>
-        <div className="bg-[var(--primary)] px-2 py-2 rounded-md">
-          <span className="text-[var(--primary-light)] text-[14px] font-semibold">Limit &nbsp;</span>
-          <select
-          className="text-[12px] p-1"
-          value={limit}
-          onChange={(e)=> setLimit(e.target.value)}
-          name="limit" id="">
-            <option value={`5`}>5</option>
-            <option value={`10`}>10</option>
-            <option value={`50`}>50</option>
-            <option value={`100`}>100</option>
-          </select>
-        </div>
+              <option value={`5`}>5</option>
+              <option value={`10`}>10</option>
+              <option value={`50`}>50</option>
+              <option value={`100`}>100</option>
+            </select>
+          </div>
         </div>
       </div>
     </>
