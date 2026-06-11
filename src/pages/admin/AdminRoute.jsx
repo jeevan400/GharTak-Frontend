@@ -1,15 +1,23 @@
 import React from 'react'
+import { lazy, Suspense } from 'react'
 import { Route, Routes } from 'react-router-dom'
-import AdminDashboard from './AdminDashboard'
-import DashBoard from './steps/DashBoard'
-import SellerRequest from './steps/SellerRequest'
-import Users from './steps/Users'
-import Products from './steps/Products'
-import Orders from './steps/Orders'
-import Analytics from './steps/Analytics'
+const AdminDashboard = lazy(()=> import('./AdminDashboard') );
+const DashBoard = lazy(()=> import('./steps/DashBoard') );
+const SellerRequest = lazy(()=> import('./steps/SellerRequest') );
+const Users = lazy(()=> import('./steps/Users') );
+const Products = lazy(()=> import('./steps/Products') );
+const Orders = lazy(()=> import('./steps/Orders') );
+const Analytics = lazy(()=> import('./steps/Analytics') );
+// import DashBoard from './steps/DashBoard'
+// import SellerRequest from './steps/SellerRequest'
+// import Users from './steps/Users'
+// import Products from './steps/Products'
+// import Orders from './steps/Orders'
+// import Analytics from './steps/Analytics'
 
 function AdminRoute() {
   return (
+    <Suspense fallback={<h1>Loading...</h1>}>
         <Routes>
             <Route path='/admin' element={<AdminDashboard/>}>
                 <Route path="dashboard" element={<DashBoard/>}/>
@@ -20,6 +28,7 @@ function AdminRoute() {
                 <Route path="analytics" element={<Analytics/>}/>
             </Route>
         </Routes>
+        </Suspense>
   )
 }
 
