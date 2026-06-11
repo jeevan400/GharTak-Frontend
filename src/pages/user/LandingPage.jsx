@@ -216,21 +216,65 @@ function LandingPage() {
           </div>
         </div>
         {isModalOpen ? (
+          // <Modal
+          //   onClose={setIsModalOpen}
+          //   className={`!w-[40%] !h-[40%] !border-none`}
+          // >
+          //   <Modal.Header>
+          //     if you want to become a seller then go to profile and click on the
+          //     become a seller button
+          //   </Modal.Header>
+          //   <Modal.Body className={`flex justify-center items-center`}>
+          //     <button
+          //       className="bg-[var(--primary)] text-white rounded-full px-4 py-2"
+          //       onClick={() => navigate("/profile")}
+          //     >
+          //       Go to Profile
+          //     </button>
+          //   </Modal.Body>
+          // </Modal>
           <Modal
             onClose={setIsModalOpen}
-            className={`!w-[40%] !h-[40%] !border-none`}
+            className="!w-[450px] !max-w-[90vw] !h-[250px] !border-none !rounded-3xl !overflow-hidden"
           >
-            <Modal.Header>
-              if you want to become a seller then go to profile and click on the
-              become a seller button
+            <Modal.Header className="!border-none !pb-0">
+              <div className="flex items-center text-center">
+                <div className="w-16 h-16 flex items-center justify-center rounded-full bg-[var(--primary)]/10">
+                  <span className="text-3xl">🛍️</span>
+                </div>
+
+                <h2 className="text-2xl font-bold text-[var(--text-primary)]">
+                  Become a Seller
+                </h2>
+              </div>
             </Modal.Header>
-            <Modal.Body className={`flex justify-center items-center`}>
-              <button
-                className="bg-[var(--primary)] text-white rounded-full px-4 py-2"
-                onClick={() => navigate("/profile")}
-              >
-                Go to Profile
-              </button>
+
+            <Modal.Body>
+              <p className="text-center text-[var(--text-muted)] leading-relaxed mt-2">
+                Start selling your products on <strong>GharTak</strong>. To
+                become a seller, please visit your profile and click on
+                <span className="font-semibold text-[var(--primary)]">
+                  {" "}
+                  "Become a Seller"
+                </span>
+                .
+              </p>
+
+              <div className="flex justify-end px-4 gap-3 mt-8">
+                <button
+                  onClick={() => setIsModalOpen(false)}
+                  className="px-5 py-2.5 rounded-full border border-gray-300 hover:bg-gray-100 transition-all"
+                >
+                  Cancel
+                </button>
+
+                <button
+                  onClick={() => navigate("/profile")}
+                  className="px-6 py-2.5 rounded-full bg-[var(--primary)] text-white font-medium hover:scale-105 transition-all duration-300 shadow-lg"
+                >
+                  Go to Profile →
+                </button>
+              </div>
             </Modal.Body>
           </Modal>
         ) : (

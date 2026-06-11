@@ -38,6 +38,7 @@ export const API_ENDPONTS = {
     UPDATE_ORDER_STATUS:"/orders/update-order-status",
     GET_ALL_ORDERS:"/orders/all-orders",
     CANCEL_ORDER:"/orders/cancel-order",
+    TODAYS_REVENUE:"/orders/today-revenue",
 
     // address end points
     ADD_USER_ADDRESS:"/address/add-address",

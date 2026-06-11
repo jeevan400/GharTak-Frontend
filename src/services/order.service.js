@@ -30,3 +30,8 @@ export const cancelOrder = async (id) => {
     const { data } = await axios.patch(`${API_ENDPONTS.CANCEL_ORDER}/${id}`);
     return data;
 }
+
+export const getRevenue = async () => {
+    const {data} = await axios.get(API_ENDPONTS.TODAYS_REVENUE);
+    return data;
+}
