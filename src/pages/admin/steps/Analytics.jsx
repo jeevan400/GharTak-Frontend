@@ -8,6 +8,8 @@ function Analytics() {
 
   const [todayRevenue, setTodayRevenue] = useState(0);
   const [yesterdayRevenue, setYesterdayRevenue] = useState(0);
+  const [monthRevenue, setMonthRevenue] = useState(0);
+  const [totalRevenu, setTotalRevenue] = useState(0);
 
   const fetchData = async () => {
     try{
@@ -15,8 +17,11 @@ function Analytics() {
     getRevenue()
   ]);
 
-  setTodayRevenue(revenue.totalRevenue);
-  setYesterdayRevenue(revenue.yesterdayTotalRevenue)
+  console.log("totoal revenue: ", revenue);
+  setTodayRevenue(revenue.todaySell[0].revenue);
+  setYesterdayRevenue(revenue.yesterdaySell[0].revenue);
+  setMonthRevenue(revenue.monthSell[0].revenue);
+  setTotalRevenue(revenue.overAllRevenue[0].revenue);
 
     } catch(e){
       console.log(e);
@@ -43,13 +48,13 @@ function Analytics() {
     },
     {
       title: "This Month Revenue",
-      value: "900",
+      value:monthRevenue.toLocaleString("en-IN"),
       icon: <Wallet size={20} />,
       growth: "+15%",
     },
     {
       title: "Total Revenue",
-      value: "900",
+      value:totalRevenu.toLocaleString("en-IN"),
       icon: <TrendingUp size={20} />,
       growth: "+5%",
     },

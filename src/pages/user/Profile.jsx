@@ -104,12 +104,9 @@ function Profile() {
   };
 
   return (
-    <div className="h-screen w-[100%]">
-      {/* <Navbar>
-        <li className="hover:text-[var(--primary)] cursor-pointer text-[16px] " onClick={()=> navigate("/home")}>Home</li>
-      </Navbar> */}
-      <main className="py-6 px-8 flex gap-4 bg-gray-200">
-        <div className="!w-[300px] bg-blue-50 rounded-lg h-fit p-4">
+    <div className="h-[80vh] w-[100%] grid grid-cols-12 grid-rows-12">
+      <div className="col-span-3 row-span-12 p-4 sticky top-0">
+        <div className="p-4 rounded-lg bg-[var(--primary-light)]">
           <h1 className="text-xl font-bold">Account Settings</h1>
           <p className="text-[13px] font-semibold text-gray-500 mb-4 -mt-1">
             Manage your preferences
@@ -138,6 +135,8 @@ function Profile() {
             </button>
           </div>
         </div>
+      </div>
+      <div className="p-4 col-span-9 row-span-12 overflow-y-auto">
         <div className="flex flex-col h-screen w-full rounded-lg">
           <div className="w-full bg-white p-4 flex justify-between items-center gap-4 rounded-lg">
             <div className="flex gap-4 items-center">
@@ -147,11 +146,6 @@ function Profile() {
                   src={user.image}
                   alt="boy image"
                 />
-                {/* <label htmlFor="upload"> upload Image
-                <input className="hidden" type="file" onChange={(e)=> setImage(e.target.files[0])}/>
-                </label>
-                <button onClick={handleUploadImage} className="bg-red-600 text-white px-4 py-1 text-lg !z-50" type="submit">upload</button> */}
-
                 <button
                   onClick={() => fileInputRef.current.click()}
                   type="button"
@@ -280,8 +274,6 @@ function Profile() {
                 </div>
               </div>
             </div>
-
-            {/* recent Orders */}
             <div className="flex-1 bg-white h-fit rounded-lg p-4 flex flex-col gap-4">
               <div className="flex justify-between items-center ">
                 <h1 className="text-lg font-bold">Recent Orders</h1>
@@ -290,139 +282,45 @@ function Profile() {
                 </span>
               </div>
               <div className="flex flex-col gap-2">
-                {/* <div className="flex justify-between">
-                  <div className="flex gap-2">
-                    <div className="h-[70px] w-[70px]">
-                      <img
-                        className="w-full h-full rounded-lg"
-                        src={boy}
-                        alt=""
-                      />
+                {lastOrder?.items?.map((item) => (
+                  <div className="flex justify-between">
+                    <div className="flex gap-2">
+                      <div className="h-[70px] w-[70px]">
+                        <img
+                          className="w-full h-full rounded-lg"
+                          src={item?.product?.image}
+                          alt=""
+                        />
+                      </div>
+                      <div className="flex flex-col justify-start items-start">
+                        <h4 className="text-lg font-semibold whitespace-nowrap truncate">
+                          {item?.product?.name}
+                        </h4>
+                        <p className="text-sm font-medium text-gray-600 ">
+                          Qyt: {item.quantity}
+                        </p>
+                      </div>
                     </div>
-                    <div className="flex flex-col justify-start items-start">
-                      <h4 className="text-lg font-semibold">
-                        SpeedRunner Pro X
-                      </h4>
-                      <p className="text-sm font-medium text-gray-600">
-                        Order #98231.Oct 12
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex flex-col justify-start items-center">
-                    <h1 className="text-amber-900 font-bold text-lg mb-2">
-                      $129.99
-                    </h1>
-                    <span
-                      className="px-4 py-0.5 rounded-md text-xs font-medium bg-green-100 text-green-700
-                    border border-green-700 "
-                    >
-                      DELIVERED
-                    </span>
-                  </div>
-                </div> */}
-                {/* <div className="flex justify-between">
-                  <div className="flex gap-2">
-                    <div className="h-[70px] w-[70px]">
-                      <img
-                        className="w-full h-full rounded-lg"
-                        src={boy}
-                        alt=""
-                      />
-                    </div>
-                    <div className="flex flex-col justify-start items-start">
-                      <h4 className="text-lg font-semibold">
-                        SpeedRunner Pro X
-                      </h4>
-                      <p className="text-sm font-medium text-gray-600">
-                        Order #98231.Oct 12
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex flex-col justify-start items-center">
-                    <h1 className="text-amber-900 font-bold text-lg mb-2">
-                      $129.99
-                    </h1>
-                    <span
-                      className="px-4 py-0.5 rounded-md text-xs font-medium bg-green-100 text-green-700
-                    border border-green-700 "
-                    >
-                      DELIVERED
-                    </span>
-                  </div>
-                </div> */}
-                {/* <div className="flex justify-between">
-                  <div className="flex gap-2">
-                    <div className="h-[70px] w-[70px]">
-                      <img
-                        className="w-full h-full rounded-lg"
-                        src={boy}
-                        alt=""
-                      />
-                    </div>
-                    <div className="flex flex-col justify-start items-start">
-                      <h4 className="text-lg font-semibold">
-                        SpeedRunner Pro X
-                      </h4>
-                      <p className="text-sm font-medium text-gray-600">
-                        Order #98231.Oct 12
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex flex-col justify-start items-center">
-                    <h1 className="text-amber-900 font-bold text-lg mb-2">
-                      $129.99
-                    </h1>
-                    <span
-                      className="px-4 py-0.5 rounded-md text-xs font-medium bg-green-100 text-green-700
-                    border border-green-700 "
-                    >
-                      DELIVERED
-                    </span>
-                  </div>
-                </div> */}
-
-                  {
-                    lastOrder?.items?.map((item)=>(
-                      <div className="flex justify-between">
-                  <div className="flex gap-2">
-                    <div className="h-[70px] w-[70px]">
-                      <img
-                        className="w-full h-full rounded-lg"
-                        src={item?.product?.image}
-                        alt=""
-                      />
-                    </div>
-                    <div className="flex flex-col justify-start items-start">
-                      <h4 className="text-lg font-semibold whitespace-nowrap truncate">
-                        {item?.product?.name}
-                      </h4>
-                      <p className="text-sm font-medium text-gray-600 ">
-                        Qyt: {item.quantity}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex flex-col justify-start items-center">
-                    <h1 className="text-amber-900 font-bold text-lg mb-2">
-                      &#8377;{item?.product?.price}
-                    </h1>
-                    <span
-                      className={`border w-fit px-4 py-0.5 rounded-md text-[12px] font-medium mt-1
-                      ${lastOrder.paymentStatus === "Paid"&&"text-green-500  border-green-500  bg-green-50 "}
-                      ${lastOrder.paymentStatus === "Pending"&&"text-orange-500  border-orange-500  bg-orange-50 "}
+                    <div className="flex flex-col justify-start items-center">
+                      <h1 className="text-amber-900 font-bold text-lg mb-2">
+                        &#8377;{item?.product?.price}
+                      </h1>
+                      <span
+                        className={`border w-fit px-4 py-0.5 rounded-md text-[12px] font-medium mt-1
+                      ${lastOrder.paymentStatus === "Paid" && "text-green-500  border-green-500  bg-green-50 "}
+                      ${lastOrder.paymentStatus === "Pending" && "text-orange-500  border-orange-500  bg-orange-50 "}
                       `}
-                    >
-                      {lastOrder.paymentStatus}
-                    </span>
+                      >
+                        {lastOrder.paymentStatus}
+                      </span>
+                    </div>
                   </div>
-                </div>
-                    ))
-                  }
-
+                ))}
               </div>
             </div>
           </div>
         </div>
-      </main>
+      </div>
     </div>
   );
 }
