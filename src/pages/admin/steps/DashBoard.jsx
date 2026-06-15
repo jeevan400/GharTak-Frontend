@@ -329,10 +329,12 @@ function DashBoard() {
       const users = totalUser.filter((user)=> user.role === "user");
       const sellers = totalUser.filter((seller)=> seller.role === "seller");
 
+      console.log("these are requests: ", res);
+
       setTotalUsers(users.length);
       setTotalSellers(sellers.length);
       setTotalOrdercount(orders.totalOrders);
-      setTodaysRevenue(revenue.totalRevenue);
+      setTodaysRevenue(revenue.todaySell[0].revenue);
       setRequests(res);
     } catch (e) {
       toast.error(e?.response?.data?.message);
@@ -623,15 +625,15 @@ function DashBoard() {
                       <div className="flex gap-4">
                         <div
                           onClick={() => handleApprove(request._id)}
-                          className="h-[35px] w-[35px] flex justify-center items-center rounded-full border border-green-500 text-green-500 cursor-pointer"
+                          className="px-3 py-1 rounded bg-[var(--success)] text-white cursor-pointer flex gap-2 justify-center items-center"
                         >
-                          <Check size={18} />
+                          <Check size={12} /> Approve
                         </div>
                         <div
                           onClick={() => handleReject(request._id)}
-                          className="h-[35px] w-[35px] flex justify-center items-center rounded-full border border-red-500 text-red-500 cursor-pointer"
+                          className="px-3 py-1 rounded bg-[var(--danger)] text-white cursor-pointer flex gap-2 justify-center items-center"
                         >
-                          <X size={18} />
+                          <X size={12} /> Reject
                         </div>
                       </div>
                     </td>

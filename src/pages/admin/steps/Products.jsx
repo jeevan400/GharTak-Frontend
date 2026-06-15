@@ -16,6 +16,7 @@ function Products() {
   const [currentPage, setCurrentPage] = useState(1);
   const [isActive, setIsActive] = useState();
   const [editModalOpen, setEditModalOpen] = useState(false);
+  const [productId, setProductId] = useState(null);
   const [form, setForm] = useState({
     name:"",
     description:"",
@@ -24,7 +25,7 @@ function Products() {
     brand:"",
     stock:"",
     image:"",
-  })
+  });
 
   const fetechAllProducts = async () => {
     try {
@@ -64,10 +65,10 @@ function Products() {
     }
   };
 
-  const handleProductUpdate = ()=>{
+  const handleProductUpdate = async (productId)=>{
     try{
-      // const data = await updateProduct(productId, form);
-      // toast.success(data.message);
+      const data = await updateProduct(productId, form);
+      toast.success(data.message);
     } catch(e){
       console.log(e);
       toast.error(e.response.data.message || e.message);
@@ -153,7 +154,11 @@ function Products() {
                       </button>
 
                       <button
-                        onClick={() => setEditModalOpen(true)}
+                        onClick={() => {
+                          setEditModalOpen(true);
+                          setProductId(product._id);
+                        }
+                        }
                         className="px-3 py-1 rounded bg-[var(--warning)] text-white"
                       >
                         Edit
@@ -271,7 +276,7 @@ function Products() {
                   <button
                     style={{ background: "var(--gradient-primary)" }}
                     className="w-full mt-6 text-white py-3 rounded-lg font-semibold hover:shadow-lg transition"
-                    onClick={handleProductUpdate}
+                    onClick={()=>handleProductUpdate(productId)}
                   >
                     Update Product
                   </button>
