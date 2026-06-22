@@ -37,8 +37,6 @@ function Profile() {
       const data = await getProfile();
       const myOrder = await getMyOrder();
       setLastOrder(myOrder[0]);
-      // setUser(data);
-      // console.log(data);
       setUser(data);
     } catch (e) {
       console.log(e);
@@ -265,7 +263,7 @@ function Profile() {
               </div>
               <div className="flex flex-col gap-2">
                 {lastOrder?.items?.map((item) => (
-                  <div className="flex justify-between">
+                  <div key={item?.product?._id} className="flex justify-between">
                     <div className="flex gap-2">
                       <div className="h-[70px] w-[70px]">
                         <img

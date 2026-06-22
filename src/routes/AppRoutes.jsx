@@ -33,7 +33,6 @@ import Layout from "../pages/Layout";
 
 const AppRoutes = () => {
   const { user } = useAuth();
-  // console.log("this is app route user ", user);
   return (
     <Routes>
       <Route path="/login" element={<Login />} />

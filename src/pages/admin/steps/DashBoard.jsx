@@ -37,9 +37,9 @@ function DashBoard() {
 
   const location = useLocation();
 
-useEffect(() => {
-  console.log("Current Path:", location.pathname);
-}, [location]);
+// useEffect(() => {
+//   console.log("Current Path:", location.pathname);
+// }, [location]);
 
   const fetchRequests = async () => {
     try {
@@ -49,26 +49,18 @@ useEffect(() => {
         getAllOrders("", 0, 0),
         getRevenue(),
       ]);
-      // const res = await getSellerRequest();
-      // const totalUser = await getAllUser();
-      // const orders = await getAllOrders("", 0, 0);
-      // const revenue = await getRevenue();
       
       const users = totalUser.filter((user)=> user.role === "user");
       const sellers = totalUser.filter((seller)=> seller.role === "seller");
 
-      console.log("these are requests: ", res);
 
       setTotalUsers(users.length);
       setTotalSellers(sellers.length);
       setTotalOrdercount(orders.totalOrders);
       setTodaysRevenue(revenue?.todaySell[0]?.revenue);
       setRequests(res);
-      console.log("Success");
     } catch (e) {
       toast.error(e?.response?.data?.message);
-      console.log("ERROR STATUS:", e?.response?.status);
-    console.log("ERROR DATA:", e?.response?.data);
     console.log("FULL ERROR:", e);
     }
   };
@@ -327,9 +319,6 @@ useEffect(() => {
                 </tr>
               </thead>
             <tbody>
-              {
-                console.log("this is request object : ", requests)
-              }
               {requests?.map((request, idx) => (
                 <tr key={idx} className="hover:bg-[var(--primary-light)] transition-all duration-200 ease-in cursor-pointer">
                   <td className="flex gap-4 px-4 py-2">

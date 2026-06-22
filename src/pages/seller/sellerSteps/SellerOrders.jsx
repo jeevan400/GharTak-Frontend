@@ -12,7 +12,6 @@ function SellerOrders() {
     try {
       const orders = await getSellerOrder();
       setOrderData(orders);
-      // console.log("this is orders ",orders);
       const data = jwtDecode(localStorage.getItem("token"));
       setUser(data);
     } catch (e) {
@@ -39,7 +38,6 @@ function SellerOrders() {
         ),
       );
 
-      console.log(data);
       toast.success(data.message);
     } catch (e) {
       console.log(e);

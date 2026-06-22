@@ -42,7 +42,6 @@ function AdminDashboard() {
       const data2 = await getProfile();
       setRequests(data);
       setUserProfile(data2);
-      // console.log(data2, "this is data 2 and user profile");
     } catch (e) {
       console.log(e.response.data.message);
     }

@@ -66,7 +66,6 @@ function Home() {
           item?._id ? item._id.toString() : item.toString(),
         ) || [],
       );
-      console.log("these are all products : ", products);
 
       // set array element here
       let pageArray = [];
@@ -320,7 +319,6 @@ function Home() {
             className=" h-full w-full border border-[var(--primary)] flex justify-center items-center text-[var(--primary)] bg-[var(--primary-light)] text-lg  rounded-full relative"
           >
             <ShoppingCart size={32} />
-            {console.log("this is cart items count : ", isCart)}
             {isCart !== 0 || isCart !== "undefined" ? (
               <span className="absolute  -top-2 -right-2 bg-[var(--danger)] text-[var(--danger-light)] text-[14px] font-semibold h-[25px] w-[25px] flex justify-center items-center rounded-full">
                 {isCart}
