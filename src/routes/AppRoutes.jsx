@@ -56,28 +56,6 @@ const AppRoutes = () => {
         <Route path="wishlist" element={<WishlistProduct />} />
       </Route>
 
-      {/* <Route
-        path="/seller"
-        element={
-          <PrivateRoute>
-            <RoleRoute role="seller">
-              <SellerDashboard />
-            </RoleRoute>
-          </PrivateRoute>
-        }
-      /> */}
-
-      {/* <Route
-        path="/admin"
-        element={
-          <PrivateRoute>
-            <RoleRoute role="admin">
-              <AdminDashboard />
-            </RoleRoute>
-          </PrivateRoute>
-        }
-      /> */}
-
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/profile" element={<Profile />} />
       <Route
@@ -119,11 +97,6 @@ const AppRoutes = () => {
         <Route path="orders" element={<SellerOrdersStep />} />
         <Route path="seller-orders" element={<SellerOrders />} />
       </Route>
-      {/* <Route path="/single-product/:id" element={<ProductDetail/>}/> */}
-      {/* <Route path="/get-cart" element={<Cart/>}/> */}
-      {/* <Route path="/order" element={<Checkout/>}/> */}
-      {/* <Route path="/my-order" element={<MyOrder/>}/> */}
-      {/* <Route path="/wishlist" element={<WishlistProduct/>}/> */}
     </Routes>
   );
 };

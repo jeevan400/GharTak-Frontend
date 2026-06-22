@@ -44,15 +44,15 @@ function Checkout() {
     city: "",
     state: "",
     pincode: "",
-    country: "India"
+    country: "India",
   });
 
   const [modalOpen, setModalOpen] = useState(false);
   const [addresses, setAddresses] = useState([]);
   const [selectedAddress, setSelectedAddress] = useState(null);
   const [deliveryMethod, setDeliveryMethod] = useState({
-    type:"Standard Delivery",
-    price:40,
+    type: "Standard Delivery",
+    price: 40,
   });
   const [isPaymentMethod, setIsPaymentMethod] = useState("COD");
   const [cartItems, setCartItems] = useState([]);
@@ -65,23 +65,22 @@ function Checkout() {
     });
   };
 
-    const handleCreateOrder = async (e) => {
-      try {
-        e.preventDefault();
-        const data = await createOrder({
-            ...formData,
-            deliveryMethod:deliveryMethod.type,
-            isPaymentMethod
-        });
-        // alert("Order Placed Successfully!");
-        toast.success(data.message);
-        navigate("/home");
-
-      } catch (e) {
-        console.log(e);
-        toast.error(e.response.data.message);
-      }
-    };
+  const handleCreateOrder = async (e) => {
+    try {
+      e.preventDefault();
+      const data = await createOrder({
+        ...formData,
+        deliveryMethod: deliveryMethod.type,
+        isPaymentMethod,
+      });
+      // alert("Order Placed Successfully!");
+      toast.success(data.message);
+      navigate("/home");
+    } catch (e) {
+      console.log(e);
+      toast.error(e.response.data.message);
+    }
+  };
 
   const handleEditAddress = (address) => {
     // store selected Address
@@ -144,15 +143,15 @@ function Checkout() {
   };
 
   const fetchCartItems = async () => {
-    try{
-        const res = await getCartItems();
-         setCartData(res.cart);
-         setCartItems(res.cart?.items);
-    } catch(e){
-        console.log(e);
-        toast.error(e.response.data.message);
+    try {
+      const res = await getCartItems();
+      setCartData(res.cart);
+      setCartItems(res.cart?.items);
+    } catch (e) {
+      console.log(e);
+      toast.error(e.response.data.message);
     }
-  }
+  };
 
   useEffect(() => {
     fetchUserAddress();
@@ -165,13 +164,13 @@ function Checkout() {
     setSelectedAddress(null);
 
     setFormData({
-        fullname:"",
-        phone:"",
-        city:"",
-        state:"",
-        pincode:"",
-        country:"",
-        address:""
+      fullname: "",
+      phone: "",
+      city: "",
+      state: "",
+      pincode: "",
+      country: "",
+      address: "",
     });
   };
 
@@ -189,64 +188,27 @@ function Checkout() {
 
   const paymentMethods = [
     {
-        id: 1,
+      id: 1,
       icon: <QrCode />,
       title: "UPI/QR",
-      method: "UPI/QR"
+      method: "UPI/QR",
     },
     {
-        id: 2,
+      id: 2,
       icon: <CreditCard />,
       title: "Card",
-      method:'Card'
+      method: "Card",
     },
     {
-        id: 3,
+      id: 3,
       icon: <Landmark />,
       title: "Net Banking",
-      method:'Net Banking'
+      method: "Net Banking",
     },
-    
   ];
 
   return (
-    // <div>
-    //   <form onSubmit={handleCreateOrder}>
-    //     <div>
-    //         <label htmlFor="">Full Name</label> <br /><br />
-    //         <input type="text" name='fullname' onChange={handleChange} placeholder='FullName' /> <br />
-    //     </div>
-    //     <div>
-    //         <label htmlFor="">Phone</label> <br /><br />
-    //         <input type="text" name='phone' onChange={handleChange} placeholder='Phone' /> <br />
-    //     </div>
-    //     <div>
-    //         <label htmlFor="">Address</label> <br /><br />
-    //         <input type="text" name='address' onChange={handleChange} placeholder='Address' /> <br />
-    //     </div>
-    //     <div>
-    //         <label htmlFor="">City</label> <br /><br />
-    //         <input type="text" name='city' onChange={handleChange} placeholder='City' /> <br />
-    //     </div>
-    //     <div>
-    //         <label htmlFor="">State</label> <br /><br />
-    //         <input type="text" name='state' onChange={handleChange} placeholder='State' /> <br />
-    //     </div>
-    //     <div>
-    //         <label htmlFor="">Pincode</label> <br /><br />
-    //         <input type="text" name='pincode' onChange={handleChange} placeholder='Pincode' /> <br />
-    //     </div>
-    //     <div>
-    //         <label htmlFor="">Country</label> <br /><br />
-    //         <input type="text" name='country' onChange={handleChange} placeholder='Country' /> <br />
-    //     </div>
-    //     <br />
-    //     <button type='submit'>Place Order</button>
-    //   </form>
-    // </div>
-
     <div className="h-screen w-[100%] overflow-y-auto">
-      {/* <Navbar/> */}
       <main className="grid grid-cols-12 bg-red-50 py-6">
         <div className=" h-full  col-span-8">
           <div className="flex justify-between items-center py-8 px-14">
@@ -328,9 +290,7 @@ function Checkout() {
                 <Modal onClose={setModalOpen}>
                   <Modal.Header className={``}>
                     <h1 className="text-xl font-semibold">
-                        {
-                            selectedAddress? "Update Address" : "Add New Address"
-                        }
+                      {selectedAddress ? "Update Address" : "Add New Address"}
                     </h1>
                     <div
                       onClick={() => setModalOpen(false)}
@@ -480,13 +440,11 @@ function Checkout() {
                       </div>
 
                       <div className="border-t border-red-900/20 -mx-6 flex justify-center items-center ">
-                      <button
+                        <button
                           className="text-lg bg-red-900 w-full mx-6 rounded-lg p-2 text-white font-semibold mt-6"
                           type="submit"
                         >
-                          {
-                            selectedAddress? "Update Address" : "Save Address "
-                          }
+                          {selectedAddress ? "Update Address" : "Save Address "}
                         </button>
                       </div>
                     </form>
@@ -501,10 +459,15 @@ function Checkout() {
           <Card className="mt-4">
             <Card.Header icon={<Gauge />} title="Delivery Method"></Card.Header>
             <Card.Body className="flex flex-col gap-4">
-              <div onClick={()=> setDeliveryMethod({
-                type:"Standard Delivery",
-                price:40
-              })} className={`flex justify-between items-center transition-all duration-200 ease-in cursor-pointer bg-white mx-4 p-4 rounded-lg border border-red-900/25 ${deliveryMethod.type === "Standard Delivery" ? `!border-red-900  !bg-red-900/5`:`hover:border-red-900 hover:bg-red-900/5`}`}>
+              <div
+                onClick={() =>
+                  setDeliveryMethod({
+                    type: "Standard Delivery",
+                    price: 40,
+                  })
+                }
+                className={`flex justify-between items-center transition-all duration-200 ease-in cursor-pointer bg-white mx-4 p-4 rounded-lg border border-red-900/25 ${deliveryMethod.type === "Standard Delivery" ? `!border-red-900  !bg-red-900/5` : `hover:border-red-900 hover:bg-red-900/5`}`}
+              >
                 <div className="flex items-center gap-4">
                   <div className="flex justify-center items-center">
                     <input
@@ -524,10 +487,15 @@ function Checkout() {
                 </div>
                 <div className="text-lg font-semibold">&#8377;40</div>
               </div>
-              <div onClick={()=> setDeliveryMethod({
-                type:"Express Delivery",
-                price:150
-              })} className={`flex justify-between items-center  transition-all duration-200 ease-in cursor-pointer bg-white mx-4 p-4 rounded-lg border border-red-900/25 ${deliveryMethod.type === "Express Delivery" ? `!border-red-900  !bg-red-900/5`:`hover:border-red-900 hover:bg-red-900/5`}`}>
+              <div
+                onClick={() =>
+                  setDeliveryMethod({
+                    type: "Express Delivery",
+                    price: 150,
+                  })
+                }
+                className={`flex justify-between items-center  transition-all duration-200 ease-in cursor-pointer bg-white mx-4 p-4 rounded-lg border border-red-900/25 ${deliveryMethod.type === "Express Delivery" ? `!border-red-900  !bg-red-900/5` : `hover:border-red-900 hover:bg-red-900/5`}`}
+              >
                 <div className="flex items-center gap-4">
                   <div className="flex justify-center items-center">
                     <input
@@ -559,8 +527,8 @@ function Checkout() {
                 {paymentMethods.map((paymentMethod) => (
                   <div
                     key={paymentMethod.id}
-                  onClick={()=> setIsPaymentMethod(paymentMethod.method)}
-                    className={`flex flex-col justify-center items-center gap-2 mx-4 p-4 rounded-lg border border-red-900/25 transition-all duration-200 ease-in cursor-pointer ${isPaymentMethod === paymentMethod.method ? "text-red-900 !border-red-900 bg-red-900/5" :"hover:text-red-900 bg-white hover:border-red-900"}`}
+                    onClick={() => setIsPaymentMethod(paymentMethod.method)}
+                    className={`flex flex-col justify-center items-center gap-2 mx-4 p-4 rounded-lg border border-red-900/25 transition-all duration-200 ease-in cursor-pointer ${isPaymentMethod === paymentMethod.method ? "text-red-900 !border-red-900 bg-red-900/5" : "hover:text-red-900 bg-white hover:border-red-900"}`}
                   >
                     {paymentMethod.icon}
                     <h1 className="text-md font-medium ">
@@ -588,9 +556,6 @@ function Checkout() {
               </Card>
             </Card.Body>
           </Card>
-          {/* <div className='bg-white mx-4 p-4 rounded-lg border border-red-900/25'>
-                    
-                </div> */}
           <div></div>
         </div>
         <div className="flex-1 h-full col-span-4">
@@ -600,59 +565,33 @@ function Checkout() {
               className="bg-red-900/10 p-4 border-b border-red-900/25"
             />
             <Card.Body className={`bg-white p-4`}>
-                {
-                    cartItems?.map((cartItem)=>(
-                        <div key={cartItem?.product?._id} className="flex gap-2 mb-2">
-                <img
-                  className="h-[70px] w-[70px] rounded-lg"
-                  src={cartItem?.product?.image}
-                  alt=""
-                />
-                <div>
-                  <h1 className="text-md font-medium line-clamp-1">{cartItem?.product?.name}</h1>
-                  <p className="text-sm font-light line-clamp-1">Qty:{cartItem?.quantity} {cartItem?.product?.description}</p>
-                  <span className="text-sm font-medium text-red-900">
-                    &#8377;{cartItem?.price}
-                  </span>
+              {cartItems?.map((cartItem) => (
+                <div key={cartItem?.product?._id} className="flex gap-2 mb-2">
+                  <img
+                    className="h-[70px] w-[70px] rounded-lg"
+                    src={cartItem?.product?.image}
+                    alt=""
+                  />
+                  <div>
+                    <h1 className="text-md font-medium line-clamp-1">
+                      {cartItem?.product?.name}
+                    </h1>
+                    <p className="text-sm font-light line-clamp-1">
+                      Qty:{cartItem?.quantity} {cartItem?.product?.description}
+                    </p>
+                    <span className="text-sm font-medium text-red-900">
+                      &#8377;{cartItem?.price}
+                    </span>
+                  </div>
                 </div>
-              </div>
-                    ))
-                }
-              {/* <div className="flex gap-2 mb-2">
-                <img
-                  className="h-[70px] w-[70px] rounded-lg"
-                  src={boy}
-                  alt=""
-                />
-                <div>
-                  <h1 className="text-md font-medium">Hand-Woven Clay Pot</h1>
-                  <p className="text-sm font-light">Qty:1 Brown Terracotta</p>
-                  <span className="text-sm font-medium text-red-900">
-                    &#8377;1,250.00
-                  </span>
-                </div>
-              </div>
-              <div className="flex gap-2 mb-2">
-                <img
-                  className="h-[70px] w-[70px] rounded-lg"
-                  src={boy}
-                  alt=""
-                />
-                <div>
-                  <h1 className="text-md font-medium">Hand-Woven Clay Pot</h1>
-                  <p className="text-sm font-light">Qty:1 Brown Terracotta</p>
-                  <span className="text-sm font-medium text-red-900">
-                    &#8377;1,250.00
-                  </span>
-                </div>
-              </div> */}
+              ))}
               <div className=" border-t-2 py-4 border-red-900/25">
                 <div className="flex justify-between">
                   <span className="text-sm font-normal text-gray-600">
                     Subtotal
                   </span>
                   <span className="text-sm font-normal text-gray-600">
-                    &#8377;{cartData?.totalPrice }
+                    &#8377;{cartData?.totalPrice}
                   </span>
                 </div>
                 <div className="flex justify-between">
@@ -668,7 +607,7 @@ function Checkout() {
                     Tax &#40;GST 18%&#41;
                   </span>
                   <span className="text-sm font-normal text-gray-600">
-                    &#8377;{(cartData?.totalPrice * 18)/100}
+                    &#8377;{(cartData?.totalPrice * 18) / 100}
                   </span>
                 </div>
               </div>
@@ -677,11 +616,17 @@ function Checkout() {
                   <h1 className="flex justify-between text-lg font-bold">
                     Total{" "}
                     <span className="text-xl text-red-900">
-                      &#8377;{cartData?.totalPrice + deliveryMethod.price + Number(`${(cartData?.totalPrice * 18)/100}`)}
+                      &#8377;
+                      {cartData?.totalPrice +
+                        deliveryMethod.price +
+                        Number(`${(cartData?.totalPrice * 18) / 100}`)}
                     </span>
                   </h1>
                 </div>
-                <button onClick={handleCreateOrder} className="flex justify-center items-center w-full mt-4 bg-orange-500 rounded-lg py-2 text-lg">
+                <button
+                  onClick={handleCreateOrder}
+                  className="flex justify-center items-center w-full mt-4 bg-orange-500 rounded-lg py-2 text-lg"
+                >
                   Place Order <ArrowRight />
                 </button>
               </div>

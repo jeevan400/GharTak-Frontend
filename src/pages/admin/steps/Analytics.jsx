@@ -18,10 +18,10 @@ function Analytics() {
   ]);
 
   console.log("totoal revenue: ", revenue);
-  setTodayRevenue(revenue.todaySell[0].revenue);
-  setYesterdayRevenue(revenue.yesterdaySell[0].revenue);
-  setMonthRevenue(revenue.monthSell[0].revenue);
-  setTotalRevenue(revenue.overAllRevenue[0].revenue);
+  setTodayRevenue(revenue?.todaySell[0]?.revenue);
+  setYesterdayRevenue(revenue?.yesterdaySell[0]?.revenue);
+  setMonthRevenue(revenue?.monthSell[0]?.revenue);
+  setTotalRevenue(revenue?.overAllRevenue[0]?.revenue);
 
     } catch(e){
       console.log(e);
@@ -31,30 +31,30 @@ function Analytics() {
 
   useEffect(()=>{
     fetchData();
-  },[]);
+  }, []);
 
   const stats = [
     {
       title: "Today Revenue",
-      value: todayRevenue.toLocaleString("en-IN"),
+      value: todayRevenue?.toLocaleString("en-IN"),
       icon: <IndianRupee size={20} />,
       growth: "+12%",
     },
     {
       title: "Yesturday Revenue",
-      value: yesterdayRevenue.toLocaleString("en-IN"),
+      value: yesterdayRevenue?.toLocaleString("en-IN"),
       icon: <Calendar size={20} />,
       growth: "+8%",
     },
     {
       title: "This Month Revenue",
-      value:monthRevenue.toLocaleString("en-IN"),
+      value:monthRevenue?.toLocaleString("en-IN"),
       icon: <Wallet size={20} />,
       growth: "+15%",
     },
     {
       title: "Total Revenue",
-      value:totalRevenu.toLocaleString("en-IN"),
+      value:totalRevenu?.toLocaleString("en-IN"),
       icon: <TrendingUp size={20} />,
       growth: "+5%",
     },

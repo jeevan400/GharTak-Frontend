@@ -49,7 +49,10 @@ const Register = () => {
       if (e.code === "ECONNABORTED" || e.message?.includes("timeout")) {
         setError("Request timed out. Please try again in a moment.");
       } else if (e?.response?.status === 409) {
-        setError(e.response?.data?.message || "Conflict error. Please verify your email or try again.");
+        setError(
+          e.response?.data?.message ||
+            "Conflict error. Please verify your email or try again.",
+        );
       } else {
         setError(e?.response?.data?.message || "Failed to send OTP");
       }
@@ -91,7 +94,6 @@ const Register = () => {
     try {
       const data = await registerUser({ ...form, email });
       setError("");
-      // alert("Registered");
       toast.success(data.message);
       navigate("/login");
     } catch (e) {

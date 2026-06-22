@@ -112,99 +112,10 @@ function AdminDashboard() {
   const notmalClass =
     "text-[var(--primary)] hover:bg-[var(--primary-light)] border-b hover:border-[var(--primary)]";
   return (
-//     <div className="bg-[var(--primary-light)] min-h-screen w-full grid grid-cols-12">
-
-//   {/* Sidebar */}
-//   <div className="hidden lg:block lg:col-span-2 bg-white overflow-y-auto">
-//     <div
-//       onClick={() => navigate("/home")}
-//       className="mb-2 flex justify-center items-center cursor-pointer"
-//     >
-//       <img
-//         className="h-[80px]"
-//         src={GharTakLogoImage}
-//         alt="logo image"
-//       />
-//     </div>
-
-//     <div className="px-2">
-//       {adminDashboardSidebar?.map((tab) => (
-//         <NavLink
-//           key={tab.id}
-//           to={tab.href}
-//           className={({ isActive }) =>
-//             `${
-//               isActive ? activeClass : notmalClass
-//             } p-4 mb-2 flex gap-2 items-center text-sm font-semibold transition-all duration-100`
-//           }
-//         >
-//           {tab.icon}
-//           {tab.text}
-//         </NavLink>
-//       ))}
-//     </div>
-//   </div>
-
-//   {/* Main Section */}
-//   <div className="col-span-12 lg:col-span-10 flex flex-col">
-
-//     {/* Header */}
-//     <div className="sticky top-0 z-50 bg-white shadow-sm">
-//       <div className="flex items-center justify-between p-3 md:p-4">
-
-//         {/* Search */}
-//         <div className="flex items-center border border-[var(--primary)] rounded-full px-3 py-1 w-[60%] sm:w-[50%] md:w-[300px]">
-//           <Search size={18} color="gray" />
-
-//           <input
-//             className="w-full ml-2 text-sm md:text-base outline-none"
-//             type="text"
-//             placeholder="Search..."
-//           />
-//         </div>
-
-//         {/* Right Section */}
-//         <div className="flex items-center gap-3 md:gap-5">
-
-//           <Bell className="cursor-pointer" />
-
-//           <MessageSquareText className="cursor-pointer" />
-
-//           {/* Profile */}
-//           <div
-//             onClick={() => navigate("/profile")}
-//             className="flex items-center cursor-pointer"
-//           >
-//             <div className="h-9 w-9 md:h-10 md:w-10 rounded-full border overflow-hidden">
-//               <img
-//                 className="h-full w-full object-cover"
-//                 src={userPorfile?.image}
-//                 alt=""
-//               />
-//             </div>
-
-//             <div className="hidden sm:block ml-2">
-//               <h1 className="text-sm md:text-base font-bold">
-//                 {userPorfile?.name}
-//               </h1>
-//               <p className="text-[10px] font-semibold">
-//                 ADMINISTRATOR
-//               </p>
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-
-//     {/* Content */}
-//     <div className="flex-1 overflow-y-auto">
-//       <Outlet />
-//     </div>
-
-//   </div>
-// </div>
     <div className="bg-[var(--primary-light)] h-screen w-[100%] grid grid-cols-12 grid-rows-12">
-      <div className={`col-span-12 lg:col-span-2 row-span-12 overflow-y-auto bg-white lg:block ${sidebarOpen ? "block" : "hidden"} lg:static fixed inset-y-0 left-0 z-50 w-full max-w-[280px] lg:w-auto lg:shadow-none shadow-xl`}>
+      <div
+        className={`col-span-12 lg:col-span-2 row-span-12 overflow-y-auto bg-white lg:block ${sidebarOpen ? "block" : "hidden"} lg:static fixed inset-y-0 left-0 z-50 w-full max-w-[280px] lg:w-auto lg:shadow-none shadow-xl`}
+      >
         <div
           onClick={() => {
             navigate("/home");
@@ -213,15 +124,8 @@ function AdminDashboard() {
           className="mb-2 flex justify-center items-center cursor-pointer text-white "
         >
           <img className="h-[80px]" src={GharTakLogoImage} alt="logo image" />
-          {/* <h1 className="text-3xl font-bold text-white">GharTak</h1> */}
-          {/* <p className="text-[var(--text-primary)] text-md font-semibold flex justify-center items-center">ADMIN CONSOLE</p> */}
         </div>
         <div>
-          {/* className={({ isActive }) =>
-    isActive
-      ? "bg-indigo-600 text-white px-4 py-2 rounded"
-      : "text-gray-700 px-4 py-2"
-  } */}
           {adminDashboardSidebar?.map((tab) => (
             <NavLink
               key={tab.id}
@@ -255,7 +159,6 @@ function AdminDashboard() {
               id="search"
               placeholder={`Search . . .`}
             />
-            {/* <button className='h-fit w-fit bg-red-900 text-white justify-center items-center  p-2 rounded-full'><Search/></button> */}
           </div>
           <div className="flex gap-4">
             <span>
@@ -271,7 +174,11 @@ function AdminDashboard() {
           className="px-4 flex cursor-pointer"
         >
           <div className="h-[40px] w-[40px] rounded-full border border-black mr-2">
-            <img className="h-full w-full rounded-full" src={userPorfile?.image} alt="" />
+            <img
+              className="h-full w-full rounded-full"
+              src={userPorfile?.image}
+              alt=""
+            />
           </div>
           <div>
             <h1 className="text-md font-bold">{userPorfile?.name}</h1>
