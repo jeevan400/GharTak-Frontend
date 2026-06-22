@@ -46,14 +46,14 @@ function SellerOrders() {
   };
 
   return (
-    <>
+    <div className="w-full h-full grid grid-cols-1 p-4 gap-4">
       {/* <Navbar /> */}
       {orderData?.map((order) => (
         <div
           key={order?._id}
-          className="w-[80%] m-auto flex flex-col justify-center items-start bg-red-50 mt-6 rounded-lg border border-red-800"
+          className="w-full m-auto flex flex-col justify-center items-start rounded-lg bg-white"
         >
-          <h1 className="text-xl font-bold border-b border-b-red-900 w-full p-4 flex justify-between items-center">
+          <h1 className="text-xl font-bold w-full p-4 flex justify-between items-center">
             Items{" "}
             <span className="text-red-800">&#8377;{order?.totalPrice || "N/A"}</span>{" "}
           </h1>
@@ -114,7 +114,7 @@ function SellerOrders() {
           </div>
         </div>
       ))}
-    </>
+    </div>
   );
 }
 

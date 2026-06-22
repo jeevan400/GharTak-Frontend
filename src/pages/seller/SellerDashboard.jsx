@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom'
 import useAuth from '../../hooks/useAuth';
-import { Bell, MessageSquareText, Archive   } from 'lucide-react';
+import { Bell, MessageSquareText, Archive, Plus, ListOrdered, Dessert, HandCoins, UserPlus, LayoutDashboard, ShoppingBasket, ShoppingBag, ChartNoAxesColumn, Search, Menu   } from 'lucide-react';
 import { getProfile } from '../../services/auth.service';
+import GharTakLogoImage from "../../assets/GharTak.png";
 
 function SellerDashboard() {
   const navigate = useNavigate();
   const {user} = useAuth();
   const [userProfile, setUserProfile] = useState();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const fetectProfile = async () => {
     try{
@@ -27,173 +29,144 @@ function SellerDashboard() {
     {
       id:1,
       text:"Dashboard",
-      icon:"",
+      icon:<LayoutDashboard size={18} />,
       href:"/seller/seller-dashboard"
     },
     {
       id:2,
       text:"Add Product",
-      icon:"",
+      icon:<Plus size={18}/>,
       href:"/seller/add-product"
     },
     {
       id:3,
       text:"My Products",
-      icon:"",
+      icon:<ShoppingBag size={18} />,
       href:"/seller/my-products"
     },
     {
       id:4,
       text:"Orders",
-      icon:"",
+      icon:<ListOrdered size={18}/>,
       href:"/seller/orders"
     },
     {
       id:5,
       text:"Customers",
-      icon:"",
+      icon:<Dessert size={18}/>,
       href:"/seller/customers"
     },
     {
       id:6,
       text:"Earnings",
-      icon:"",
+      icon:<HandCoins size={18} />,
       href:"/seller/earnings",
     },
     {
       id:7,
       text:"Analytics",
-      icon:"",
+      icon:<ChartNoAxesColumn size={18}/>,
       href:"/seller/seller-analytics",
     },
     {
       id:8,
       text:"Profile",
-      icon:"",
+      icon:<UserPlus size={18}/>,
       href:"/profile"
     },
     {
       id:9,
-      text:"Seller Orders",
-      icon:"",
+      text:"Customer Orders",
+      icon:<ShoppingBasket size={18}/>,
       href:"/seller/seller-orders"
     }
   ];
 
-  const activeClass = "text-white bg-red-900 border-l-4 border-red-900";
-  const notmalClass = "text-red-900 hover:bg-red-900/10 border-l-4 border-red-900/5 hover:border-red-900";
-
+  const activeClass =
+    "text-white bg-[var(--primary)] border-b border-[var(--primary)]";
+  const normalClass =
+    "text-[var(--primary)] hover:bg-[var(--primary-light)] border-b hover:border-[var(--primary)]";
   return (
-    <div className=' h-screen w-[100%] flex'>
-      <div className='h-full w-[270px] bg-red-900/25 text-red-900'>
-        <div onClick={()=> navigate("/home")} className='mb-6 p-4 cursor-pointer text-white bg-red-900'>
-          <h1 className='text-3xl font-bold text-white'>GharTak</h1>
-        <p className='text-md font-semibold'>SELLER PROFILE</p>
-        </div>
-        <div>
-          {
-            sellerDashboardSidebar?.map((tab)=>(
-              <NavLink key={tab.id} to={tab.href} className={({isActive})=>
-              `${isActive?activeClass:notmalClass} p-4 mb-2 cursor-pointer text-lg font-semibold transition-all duration-100 ease-in flex gap-2 justify-start items-center`
-              }>
-                {tab.text}
-              </NavLink>
-            ))
-          }
-        </div>
-
+    <>
+    <div
+    className='bg-[var(--primary-light)] h-screen w-[100%] grid grid-cols-10 grid-rows-9'
+    >
+      <div className={`col-span-10 lg:col-span-2 row-span-9 overflow-y-auto bg-white lg:block ${sidebarOpen ? "block" : "hidden"} lg:static fixed inset-y-0 left-0 z-50 w-full max-w-[280px] lg:w-auto lg:shadow-none shadow-xl`}>
+        <div
+                  onClick={() => {
+                    navigate("/home");
+                    setSidebarOpen(false);
+                  }}
+                  className="mb-2 flex justify-center items-center cursor-pointer bg-white sticky top-0 z-50"
+                >
+                  <img className="h-[80px]" src={GharTakLogoImage} alt="logo image" />
+                </div>
+                <div>
+                  {sellerDashboardSidebar?.map((tab) => (
+                    <NavLink
+                      key={tab.id}
+                      to={tab.href}
+                      onClick={() => setSidebarOpen(false)}
+                      className={({ isActive }) =>
+                        `${isActive ? activeClass : normalClass} p-4 mb-2 cursor-pointer text-[14px] font-semibold transition-all duration-100 ease-in flex gap-2 justify-start items-center`
+                      }
+                    >
+                      {tab.icon}
+                      {tab.text}
+                    </NavLink>
+                  ))}
+                </div>
       </div>
-      <div className='flex-1 bg-red-900/10'>
-        <nav className='sticky top-0 flex bg-red-50 h-[60px] border-b border-black/20 items-center '>
-          <div className='flex-1 flex items-center  px-4 justify-between'>
-            <input className='h-[30px] rounded-full px-4' type="text" placeholder='Search orders, products...' />
-            <div className='flex gap-4'>
-              <span><Bell/></span>
-              <span><MessageSquareText/></span>
-            </div>
+      <div className='className="col-span-10 lg:col-span-8 sticky top-0 flex bg-white shadow-sm items-center z-50"'>
+                  <div className="flex-1 flex items-center px-4 justify-between gap-3">
+          <button
+            type="button"
+            className="lg:hidden p-2 rounded-full border border-[var(--primary)] text-[var(--primary)]"
+            onClick={() => setSidebarOpen((prev) => !prev)}
+          >
+            <Menu size={20} />
+          </button>
+          <div className="flex-1 flex justify-center items-center bg-white px-4 rounded-full border border-[var(--primary)]">
+            <Search size={18} color="gray" />
+            <input
+              className=" rounded-full text-[16px] font-normal py-1 focus:ring-0 outline-none"
+              type="text"
+              name="search"
+              id="search"
+              placeholder={`Search . . .`}
+            />
           </div>
-          <div className='px-4 flex'>
-            <div className='h-[40px] w-[40px] rounded-full border-2 border-black mr-2'>
-              <img className='rounded-full w-full h-full' src={userProfile?.image} alt="" />
-            </div>
-            <div>
-              <h1 className='text-md font-bold'>{userProfile?.name}</h1>
-            <p className='text-[10px] font-semibold  '>PREMIUM SELLER</p>
-            </div>
+          <div className="flex gap-4">
+            <span>
+              <Bell />
+            </span>
+            <span>
+              <MessageSquareText />
+            </span>
           </div>
-        </nav>
-        <div className='h-full overflow-y-auto'>
-          <Outlet />
-          {/* <div className='p-4'>
-            <h1 className='text-xl font-bold'>Dashboard Overview</h1>
-            <p className='text-sm font-semibold text-gray-500'>Good morning, Rajesh. Here's what's happenig with your shop today.</p>
-          </div>
-          <div className='p-4 grid grid-cols-3 grid-rows-2 gap-4'>
-            <div className='bg-white p-4 rounded-lg shadow-lg border border-gray-600/15 flex flex-col gap-4'>
-              <div className='flex justify-between items-start'>
-                <div className='bg-red-300/30 p-2 rounded-lg'><Archive size={18} /></div>
-                <div className='text-[12px] text-green-600 font-bold'>+12%</div>
-              </div>
-              <div>
-                <h1 className='text-sm font-medium text-gray-600'>TOTAL PRODUCTS</h1>
-                <p className='text-md font-bold'>1,284</p>
-              </div>
-            </div>
-            <div className='bg-white p-4 rounded-lg shadow-lg border border-gray-600/15 flex flex-col gap-4'>
-              <div className='flex justify-between items-start'>
-                <div className='bg-red-300/30 p-2 rounded-lg'><Archive size={18} /></div>
-                <div className='text-[12px] text-green-600 font-bold'>+12%</div>
-              </div>
-              <div>
-                <h1 className='text-sm font-medium text-gray-600'>TOTAL PRODUCTS</h1>
-                <p className='text-md font-bold'>1,284</p>
-              </div>
-            </div>
-            <div className='bg-white p-4 rounded-lg shadow-lg border border-gray-600/15 flex flex-col gap-4'>
-              <div className='flex justify-between items-start'>
-                <div className='bg-red-300/30 p-2 rounded-lg'><Archive size={18} /></div>
-                <div className='text-[12px] text-green-600 font-bold'>+12%</div>
-              </div>
-              <div>
-                <h1 className='text-sm font-medium text-gray-600'>TOTAL PRODUCTS</h1>
-                <p className='text-md font-bold'>1,284</p>
-              </div>
-            </div>
-            <div className='bg-white p-4 rounded-lg shadow-lg border border-gray-600/15 flex flex-col gap-4'>
-              <div className='flex justify-between items-start'>
-                <div className='bg-red-300/30 p-2 rounded-lg'><Archive size={18} /></div>
-                <div className='text-[12px] text-green-600 font-bold'>+12%</div>
-              </div>
-              <div>
-                <h1 className='text-sm font-medium text-gray-600'>TOTAL PRODUCTS</h1>
-                <p className='text-md font-bold'>1,284</p>
-              </div>
-            </div>
-            <div className='bg-white p-4 rounded-lg shadow-lg border border-gray-600/15 flex flex-col gap-4'>
-              <div className='flex justify-between items-start'>
-                <div className='bg-red-300/30 p-2 rounded-lg'><Archive size={18} /></div>
-                <div className='text-[12px] text-green-600 font-bold'>+12%</div>
-              </div>
-              <div>
-                <h1 className='text-sm font-medium text-gray-600'>TOTAL PRODUCTS</h1>
-                <p className='text-md font-bold'>1,284</p>
-              </div>
-            </div>
-            <div className='bg-white p-4 rounded-lg shadow-lg border border-gray-600/15 flex flex-col gap-4'>
-              <div className='flex justify-between items-start'>
-                <div className='bg-red-300/30 p-2 rounded-lg'><Archive size={18} /></div>
-                <div className='text-[12px] text-green-600 font-bold'>+12%</div>
-              </div>
-              <div>
-                <h1 className='text-sm font-medium text-gray-600'>TOTAL PRODUCTS</h1>
-                <p className='text-md font-bold'>1,284</p>
-              </div>
-            </div>
-          </div> */}
         </div>
-        {/* <button className='mt-6 ml-6 py-2 px-4 bg-orange-400 text-white font-bold rounded-full' onClick={()=> navigate("/add-product")}>Add Product</button> */}
+        <div
+          onClick={() => navigate("/profile")}
+          className="px-4 flex cursor-pointer"
+        >
+          <div className="h-[40px] w-[40px] rounded-full border border-black mr-2">
+            <img
+              className="h-full w-full rounded-full"
+              src={userProfile?.image}
+              alt=""
+            />
+          </div>
+          <div>
+            <h1 className="text-md font-bold">{userProfile?.name}</h1>
+            <p className="text-[10px] font-semibold  ">SELLER</p>
+          </div>
+        </div>
+      </div>
+      <div className="col-span-10 lg:col-span-8 row-span-8 overflow-y-auto">
+                  <Outlet/>
       </div>
     </div>
+  </>
   )
 }
 

@@ -1,5 +1,6 @@
 import {io} from "socket.io-client";
+import server from "./environment";
 
-const socket = io(import.meta.env.VITE_BACKEND_SERVICE);
+const socket = io(server);
 
 export default socket;

@@ -32,7 +32,6 @@ function MyProduct() {
       const data = await deleteProduct(id);
 
       setProducts((prev) => prev.filter((product) => product._id !== id));
-      // alert("Product Deleted successfully.");
       toast.success(data.message);
     } catch (e) {
       console.log(e);
@@ -41,14 +40,14 @@ function MyProduct() {
   };
 
   return (
-    <div>
+    <div className="grid grid-cols-4 p-4 gap-6">
       {products?.map((product) => (
         <div
-          className="w-[270px] shadow-lg mt-4 ml-4 rounded-xl pb-4 border relative"
+          className="shadow-lg rounded-xl pb-2 border relative"
           key={product._id}
         >
           <img
-            className="w-full h-[300px]"
+            className="w-full h-[220px] rounded-tl-xl rounded-tr-xl"
             src={product.image || boy}
             alt="product image"
           />
@@ -61,35 +60,37 @@ function MyProduct() {
               Disabled
             </span>
           )}
-          <div className="flex p-2">
+          <div className="flex justify-between items-center p-2">
             <div>
-              <h1 className="text-xl font-bold">{product.name}</h1>
-              <p className="font-semibold line-clamp-1 w-[70%]">
+              <h1 className="text-[18px] font-bold">{product.name}</h1>
+              <p className="text-[12px] font-semibold line-clamp-1 w-[70%]">
                 {product.description}
               </p>
             </div>
-            <div>
-              <span className="text-xl">&#8377;{product.price}</span>
+            <div className="flex flex-col justify-center items-center">
+              <span className="text-xl font-bold text-[var(--primary)]">
+                &#8377;{product.price}
+              </span>
+              <span className="text-[12px] text-green-600 font-bold whitespace-nowrap">
+                Stock: {product.stock}
+              </span>
             </div>
           </div>
           <div>
             <div></div>
-            <span className="p-2 text-green-600 font-bold">
-              In Stock: {product.stock}
-            </span>
           </div>
           {user.role === "seller" ? (
             <>
               <div className=" flex gap-4 justify-end p-2">
                 <button
                   onClick={() => handleProductModalOpen(product)}
-                  className="bg-orange-400 text-xs font-semibold text-white rounded-lg px-4 py-1"
+                  className="bg-[var(--accent)] text-xs font-semibold text-white rounded-lg px-4 py-1"
                 >
                   Edit
                 </button>
                 <button
                   onClick={() => handleDeleteData(product._id)}
-                  className="bg-gray-900 text-xs font-semibold text-white rounded-lg px-4 py-1"
+                  className="bg-[var(--bg-dark)] text-xs font-semibold text-white rounded-lg px-4 py-2"
                 >
                   Delete
                 </button>
