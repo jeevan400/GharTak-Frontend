@@ -36,7 +36,6 @@ function Home() {
   const [limit, setLimit] = useState(10);
   const [isTotalPages, setIsTotalPages] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  // const [isCart, setIsCart] = useState(0);
 
   const { search, isCart, setIsCart } = useContext(SearchContext);
 
@@ -48,7 +47,6 @@ function Home() {
 
   const showToken = () => {
     const token = localStorage.getItem("token");
-    // console.log(token);
   };
 
   // get all products
@@ -62,10 +60,11 @@ function Home() {
       );
       const cartItems = await getCartItems();
       const singleWishList = await getSingleWishList();
-      // console.log("these are wishlist products : ", singleWishList);
       setIsProduct(products);
       setWishListProducts(
-        singleWishList.products?.map((item) => (item?._id ? item._id.toString() : item.toString())) || [],
+        singleWishList.products?.map((item) =>
+          item?._id ? item._id.toString() : item.toString(),
+        ) || [],
       );
       console.log("these are all products : ", products);
 
@@ -74,8 +73,6 @@ function Home() {
       for (let i = 1; i <= products.totalPages; i++) {
         pageArray[i] = i;
       }
-
-      // console.log("this is cart items array : ", products.cartItems);
       setIsTotalPages(pageArray);
       setIsCart(cartItems.totalCartItems);
     } catch (e) {
@@ -114,7 +111,6 @@ function Home() {
         products: prev.products.filter((product) => product._id !== id),
       }));
 
-      // alert("Product Deleted successfully.");
       toast.success("product Deleted successfully.");
     } catch (e) {
       console.log(e);
@@ -194,10 +190,6 @@ function Home() {
 
   return (
     <div>
-      {/* <Navbar>
-        <li className="hover:text-[var(--primary)] cursor-pointer text-[16px] " onClick={()=> navigate("/home")}>Home</li>
-      </Navbar> */}
-
       <section className="w-full px-6 py-6 bg-gray-50">
         <div className="relative overflow-hidden rounded-3xl shadow-lg">
           <img
@@ -267,77 +259,6 @@ function Home() {
           ))}
         </div>
       </section>
-      {/* <section className=" w-[100%] p-8">
-              <Card className={`!mx-0 !border-none !bg-gray-100`}>
-                <Card.Header
-                  icon={
-                    <div>
-                      <h1 className="text-[18px] font-bold text-[var(--text-primary)]">
-                        Explore Categories
-                      </h1>
-                      <p className="text-[16px] font-normal text-[var(--text-secondary)]">
-                        Find exactly what you need across our massive inventory
-                      </p>
-                    </div>
-                  }
-                >
-                  <button className="text-[16px] font-semibold text-red-900">
-                    View All
-                  </button>
-                </Card.Header>
-                <Card.Body className={`grid grid-cols-6 gap-4`}>
-                  {categories?.map((category) => (
-                    <div
-                      key={category.id}
-                      className="flex flex-col justify-center items-center gap-4 group "
-                    >
-                      <div className="h-[150px] w-full bg-[#E5EEFF] flex justify-center items-center rounded-xl border border-[#E2BFB2] cursor-pointer">
-                        <img
-                          className="group-hover:scale-125 transition-all duration-200 ease-in"
-                          src={category.icon}
-                          alt=""
-                        />
-                      </div>
-                      <p className="text-[16px] font-medium text-[#0B1C30]">
-                        {category.title}
-                      </p>
-                    </div>
-                  ))}
-                </Card.Body>
-              </Card>
-            </section> */}
-
-      {/* <Card className={`!mx-0 !border-none !bg-gray-100 !p-8`}>
-        <Card.Header
-          icon={
-            <div>
-              <h1 className="text-[16px] font-normal text[#0B1C30]">
-                Explore Categories
-              </h1>
-              <p className="text-[16px] font-normal text-[#5A4138]">
-                Find exactly what you need across our massive inventory
-              </p>
-            </div>
-          }
-        >
-          <button>View All</button>
-        </Card.Header>
-        <Card.Body className={`flex justify-start items-center gap-4`}>
-          {categories?.map((category) => (
-            <div
-              key={category.id}
-              className="flex flex-col justify-center items-center gap-4"
-            >
-              <div className="h-[150px] w-[150px] bg-[#E5EEFF] flex justify-center items-center rounded-xl border border-[#E2BFB2]">
-                <img src={category.icon} alt="" />
-              </div>
-              <p className="text-[16px] font-medium text-[#0B1C30]">
-                {category.title}
-              </p>
-            </div>
-          ))}
-        </Card.Body>
-      </Card> */}
       <section className="w-full px-6 py-10 bg-white">
         <Card className={`!mx-0 !border-none !bg-gray-100`}>
           <Card.Header
@@ -352,89 +273,8 @@ function Home() {
           <div className="grid sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 ">
             {error && <p>{error}</p>}
             {isProducts.products?.map((product, index) =>
-              // <div
-              //   key={product._id}
-              //   className="relative rounded-xl pb-4 flex flex-col justify-between hover:shadow-lg transition-all duration-200 ease-in border shadow-md"
-              // >
-              //   <Link to={`/single-product/${product._id}`}>
-              //     <img
-              //       className="w-full h-[240px] rounded-tl-lg rounded-tr-lg"
-              //       src={product.image || boy}
-              //       alt="product image"
-              //     />
-              //     <span onClick={(e)=>
-              //       {
-              //         e.preventDefault();
-              //         e.stopPropagation();
-              //         addProductWishList(product._id);
-              //       }
-              //       } className="absolute top-2 right-2 bg-white p-2 rounded-lg text-[var(--text-secondary)]">
-              //       {
-              //         wishListProduts?.includes(product._id)?<i className="fa-solid fa-heart text-red-500"></i>:<i className="fa-regular fa-heart"></i>
-              //       }
-              //     </span>
-              //     <div className="flex p-2">
-              //       <div>
-              //         <h1 className="text-[16px] font-bold">{product.name}</h1>
-              //         <p className="text-[14px] font-semibold line-clamp-1 w-[70%]">
-              //           {product.description}
-              //         </p>
-              //       </div>
-              //       <div>
-              //         <span className="text-[16px] font-bold text-red-900">&#8377;{product.price}</span>
-              //       </div>
-              //     </div>
-              //   </Link>
-              //   <div>
-              //     <div></div>
-              //     <span className="p-2 text-[12px] text-green-600 font-bold">
-              //       In Stock: {product.stock}
-              //     </span>
-              //   </div>
-
-              //   {user.role === "seller" && user.id === product.seller ? (
-              //     <>
-              //       <div className=" flex gap-4 justify-between p-2">
-              //         <button
-              //           onClick={() => handleIsModalOpen(product)}
-              //           className="flex-1 bg-orange-400 text-[14px] font-medium text-white rounded-lg px-4 py-2 whitespace-nowrap"
-              //         >
-              //           Edit
-              //         </button>
-              //         <button
-              //           onClick={() => handleDeleteData(product._id)}
-              //           className="flex-1 bg-gray-900 text-[14px] font-medium text-white rounded-lg px-4 py-2 whitespace-nowrap"
-              //         >
-              //           Delete
-              //         </button>
-              //       </div>
-              //       {console.log("this is user id : ", user)}
-              //       {isModalOpen && selectedProduct ? (
-              //         <ProductModal
-              //           product={selectedProduct}
-              //           onClose={setIsModalOpen}
-              //           refreshProducts={fetchAllProducts}
-              //         />
-              //       ) : (
-              //         ""
-              //       )}
-              //     </>
-              //   ) : (
-              //     <>
-              //       <div className=" flex gap-4 justify-between p-2">
-              //         <button className="flex-1 bg-orange-400 text-[14px] font-medium text-white rounded-lg px-4 py-2 whitespace-nowrap">
-              //           Buy
-              //         </button>
-              //         <button onClick={()=> handleAddToCart(product._id)} className="flex-1 bg-gray-900 text-[14px] font-medium text-white rounded-lg px-4 py-2 whitespace-nowrap">
-              //           Add to Cart
-              //         </button>
-              //       </div>
-              //     </>
-              //   )}
-              // </div>
-
               isLoading ? (
-                <ProductCardSkeleton product={product} key={index}/>
+                <ProductCardSkeleton product={product} key={index} />
               ) : (
                 <ProductCard
                   key={product._id}
@@ -485,9 +325,7 @@ function Home() {
               <span className="absolute  -top-2 -right-2 bg-[var(--danger)] text-[var(--danger-light)] text-[14px] font-semibold h-[25px] w-[25px] flex justify-center items-center rounded-full">
                 {isCart}
               </span>
-            ) : (
-              null
-            )}
+            ) : null}
           </button>
         </div>
       </div>

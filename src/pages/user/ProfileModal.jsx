@@ -23,9 +23,7 @@ function ProfileModal({ onClose }) {
   const handleUpdateData = async () => {
     try {
       const updateUser = await updateProfile(form);
-      // console.log(updateUser);
-      // alert("Profile Updated successfully.");
-      toast.success(updateUser.message)
+      toast.success(updateUser.message);
       onClose(false);
     } catch (e) {
       console.log(e);

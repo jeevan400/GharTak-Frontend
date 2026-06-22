@@ -64,24 +64,6 @@ function Profile() {
     }
   };
 
-  // const handleUploadImage = async () => {
-  //   try{
-
-  //     const formData = new FormData();
-
-  //     formData.append("image", image);
-
-  //     const res = await updateProfile(formData);
-
-  //     fetchProfile();
-
-  //     toast.success(res.message);
-  //   } catch(e){
-  //     console.log(e);
-  //     toast.error(e.response.data.message || e.message || "Image not upload.");
-  //   }
-  // }
-
   const handleUploadImage = async (e) => {
     let file = e.target.files[0];
 

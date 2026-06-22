@@ -8,6 +8,7 @@ export const AuthProvider = ({children})=>{
     const navigate = useNavigate();
     const [token, setToken] = useState(localStorage.getItem("token") || null);
     const [user, setUser] = useState(null); //decoded
+    const [loading, setLoading] = useState(true);
 
     useEffect(()=>{
         if(token){
@@ -20,6 +21,7 @@ export const AuthProvider = ({children})=>{
         } else{
             setUser(null);
         }
+        setLoading(false);
     },[token]);
 
     const login = (token)=>{
@@ -35,7 +37,7 @@ export const AuthProvider = ({children})=>{
     };
 
     return (
-        <AuthContext.Provider value={{token, user, login, logout}}>
+        <AuthContext.Provider value={{token, user, login, logout, loading}}>
             {children}
         </AuthContext.Provider>
     )
