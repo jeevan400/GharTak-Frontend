@@ -30,15 +30,12 @@ function Products() {
   const fetechAllProducts = async () => {
     try {
       const res = await getAllProducts("", currentPage, 10);
-      console.log(res);
       setAllProducts(res.products);
 
       let pageArray = [];
       for (let i = 1; i <= res.totalPages; i++) {
         pageArray[i] = i;
       }
-
-      // console.log("this is cart items array : ", products.cartItems);
       setIsTotalPages(pageArray);
     } catch (e) {
       console.log(e);

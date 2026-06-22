@@ -17,7 +17,6 @@ function Analytics() {
     getRevenue()
   ]);
 
-  console.log("totoal revenue: ", revenue);
   setTodayRevenue(revenue?.todaySell[0]?.revenue);
   setYesterdayRevenue(revenue?.yesterdaySell[0]?.revenue);
   setMonthRevenue(revenue?.monthSell[0]?.revenue);

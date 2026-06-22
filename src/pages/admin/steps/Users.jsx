@@ -9,7 +9,6 @@ function Users() {
   const fetchAllUsers = async () => {
     try {
       const res = await getAllUser();
-      console.log(res);
       setUsers(res);
     } catch (e) {
       console.log(e);

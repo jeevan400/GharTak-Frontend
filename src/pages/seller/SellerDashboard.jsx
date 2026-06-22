@@ -12,8 +12,6 @@ function SellerDashboard() {
   const fetectProfile = async () => {
     try{
       const res = await getProfile();
-
-      console.log(res);
       setUserProfile(res);
 
     } catch(e){
