@@ -1,7 +1,8 @@
 import axios from "axios";
+import server from "../environment";
 
 const axiosInstance = axios.create({
-    baseURL:`${import.meta.env.VITE_BACKEND_SERVICE}/api/v1`,
+    baseURL:`${server}/api/v1`,
     withCredentials:true,
     timeout: 30000
 });
