@@ -3,14 +3,24 @@ import boy from "../../assets/boy.jpg";
 import { cancelOrder, getMyOrder } from "../../services/order.service";
 import Navbar from "../../components/layout/Navbar";
 import toast from "react-hot-toast";
+import Modal from "../../components/common/Modal";
+import { getProfile, productOwner } from "../../services/auth.service";
+import { useNavigate } from "react-router-dom";
+import { MessageSquare } from "lucide-react";
 
 function MyOrder() {
   const [orderData, setOrderData] = useState();
   const [items, setItems] = useState();
+  const [modalOpen, setModalOpen] = useState(false);
+  const [sellerId, setSellerId] = useState();
+  const [sellerData, setSellerData] = useState({});
+
+  const navigate = useNavigate();
 
   const fetchMyOrder = async () => {
     try {
       const orders = await getMyOrder();
+      console.log(orders);
       setOrderData(orders);
       setItems();
     } catch (e) {
@@ -22,6 +32,17 @@ function MyOrder() {
   useEffect(() => {
     fetchMyOrder();
   }, []);
+
+  const handleProductOwnerData = async (id) => {
+    try {
+      const sellerProfile = await productOwner(id);
+      console.log(sellerProfile);
+      setSellerData(sellerProfile);
+    } catch (e) {
+      console.log(e);
+      toast.error(e.response.data.message);
+    }
+  };
 
   const handleCancelOrder = async (id) => {
     try {
@@ -95,16 +116,139 @@ function MyOrder() {
                       </p>
                     </div>
                   </div>
-                  <div className="flex flex-col justify-start items-center">
+                  <div className="flex flex-col justify-between items-center">
                     <h1 className="text-amber-900 font-bold text-lg mb-2">
                       &#8377;{item.price}
                     </h1>
+                    <div
+                      onClick={() => {
+                        setModalOpen(true);
+                        handleProductOwnerData(item.product?.seller._id);
+                      }}
+                      className="flex justify-center items-center gap-1 shadow-md py-1 px-2 rounded-md cursor-pointer bg-[var(--primary-light)]"
+                    >
+                      <img
+                        className="h-4 w-4 rounded-full"
+                        src={item.product?.seller?.image}
+                        alt=""
+                      />
+                      <span className="text-[10px] font-medium">
+                        {item.product?.seller?.name.slice(0, 6)}
+                      </span>
+                    </div>
                   </div>
                 </div>
               ))}
           </div>
         </div>
       ))}
+
+      {modalOpen ? (
+        <Modal onClose={setModalOpen}>
+          <Modal.Body className="h-full overflow-y-auto">
+            <div className="h-full bg-[var(--bg-main)]">
+              {/* Header */}
+              <div className="bg-[var(--gradient-primary)] p-8 rounded-t-xl">
+                <div className="flex flex-col items-center">
+                  <div className="w-28 h-28 rounded-full border-4 border-black overflow-hidden shadow-lg">
+                    <img
+                      src={
+                        sellerData?.image ||
+                        "https://ui-avatars.com/api/?name=" + sellerData?.name
+                      }
+                      alt={sellerData?.name}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+
+                  <h2 className="mt-4 text-3xl font-bold text-[var(--text-primary)] capitalize">
+                    {sellerData?.name}
+                  </h2>
+
+                  <span className="mt-2 px-4 py-1 rounded-full bg-[var(--primary-light)] text-[var(--primary)] text-sm">
+                    Verified Seller
+                  </span>
+                </div>
+              </div>
+
+              {/* Seller Details */}
+              <div className="p-8">
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div className="bg-white rounded-xl p-5 shadow-md border border-[var(--border-light)]">
+                    <h3 className="text-sm text-[var(--text-secondary)]">
+                      Email
+                    </h3>
+
+                    <p className="font-semibold text-[var(--text-primary)] mt-1">
+                      {sellerData?.email}
+                    </p>
+                  </div>
+
+                  <div className="bg-white rounded-xl p-5 shadow-md border border-[var(--border-light)]">
+                    <h3 className="text-sm text-[var(--text-secondary)]">
+                      Phone
+                    </h3>
+
+                    <p className="font-semibold text-[var(--text-primary)] mt-1">
+                      {sellerData?.phone || "Not Available"}
+                    </p>
+                  </div>
+
+                  <div className="bg-white rounded-xl p-5 shadow-md border border-[var(--border-light)]">
+                    <h3 className="text-sm text-[var(--text-secondary)]">
+                      Joined On
+                    </h3>
+
+                    <p className="font-semibold text-[var(--text-primary)] mt-1">
+                      {new Date(sellerData?.createdAt).toLocaleDateString()}
+                    </p>
+                  </div>
+
+                  <div className="bg-white rounded-xl p-5 shadow-md border border-[var(--border-light)]">
+                    <h3 className="text-sm text-[var(--text-secondary)]">
+                      Status
+                    </h3>
+
+                    <span className="inline-flex items-center mt-2 px-3 py-1 rounded-full bg-[var(--success-light)] text-[var(--success)] text-sm font-medium">
+                      Active {sellerData?.role || "user"}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Action Buttons */}
+
+                <div className="mt-8 flex gap-4">
+                  <button
+                    onClick={() =>
+                      navigate("/message", {
+                        state: {
+                          seller: sellerData,
+                        },
+                      })
+                    }
+                    className="flex-1 py-3 rounded-lg font-semibold text-white
+            bg-[var(--primary)]
+            hover:bg-[var(--primary-hover)]
+            transition flex justify-center items-center gap-2"
+                  >
+                    <MessageSquare size={18} /> Chat with Seller
+                  </button>
+
+                  <button
+                    onClick={() => setModalOpen(false)}
+                    className="flex-1 py-3 rounded-lg font-semibold border
+            border-[var(--border-medium)]
+            text-[var(--text-primary)]
+            hover:bg-gray-50 transition"
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+            </div>
+          </Modal.Body>
+        </Modal>
+      ) : null}
     </>
   );
 }

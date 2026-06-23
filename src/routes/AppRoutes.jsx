@@ -30,6 +30,7 @@ import Checkout from "../pages/user/Checkout";
 import MyOrder from "../pages/user/MyOrder";
 import WishlistProduct from "../pages/user/WishlistProduct";
 import Layout from "../pages/Layout";
+import Chat from "../pages/user/Chat";
 
 const AppRoutes = () => {
   const { user } = useAuth();
@@ -96,6 +97,8 @@ const AppRoutes = () => {
         <Route path="orders" element={<SellerOrdersStep />} />
         <Route path="seller-orders" element={<SellerOrders />} />
       </Route>
+      
+        <Route path="message" element={<Chat />} />
     </Routes>
   );
 };

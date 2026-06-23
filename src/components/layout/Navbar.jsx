@@ -5,7 +5,7 @@ import { Bell, Menu, MessageSquare, Search, X } from "lucide-react";
 import logoImage from "../../assets/GharTak.png";
 import { SearchContext } from "../../store/context/SearchContext";
 import toast from "react-hot-toast";
-import { getProfile } from "../../services/auth.service";
+import { getProfile, productOwner } from "../../services/auth.service";
 import Modal from "../common/Modal";
 import Login from "../../pages/auth/Login";
 import DropdownMenu from "../common/navbar/DropdownMenu";
@@ -124,6 +124,7 @@ function Navbar({ children }) {
       try {
         await fetchAllProfile();
         await allNotifications();
+        await handlesellerData();
       } catch (error) {
         console.error("Error loading navbar data:", error);
       }
@@ -132,6 +133,19 @@ function Navbar({ children }) {
   }, [token]);
 
   const handleLogout = () => logout();
+
+  let sellerId = "69fde7cf308518713d1b7968";
+  const [seller, setSeller] = useState({});
+
+  const handlesellerData = async() => {
+    try{
+      const sellerData = await productOwner(sellerId);
+      setSeller(sellerData);
+    } catch(e){
+      console.log(e);
+      toast.error(e.response.data.message);
+    }
+  }
 
   return (
     <>
@@ -197,9 +211,15 @@ function Navbar({ children }) {
               </>
             ) : (
               <>
-                <div className="flex justify-center items-center bg-[var(--primary-light)] h-[40px] w-[40px] rounded-full relative cursor-pointer text-[var(--text-primary)]">
+                <div onClick={()=> {
+                  navigate("/message", {
+                  state:{
+                    seller: seller,
+                  }
+                });
+                }} className="flex justify-center items-center bg-[var(--primary-light)] h-[40px] w-[40px] rounded-full relative cursor-pointer text-[var(--text-primary)]">
                   <MessageSquare size={18} />
-                  <span className="h-[10px] w-[10px] absolute bg-red-500 rounded-full top-0 right-0"></span>
+                  {/* <span className="h-[10px] w-[10px] absolute bg-red-500 rounded-full top-0 right-0"></span> */}
                 </div>
 
                 <div
