@@ -86,3 +86,8 @@ export const ToggleBlockUser = async (id) => {
     const {data} = await axios.patch(`${API_ENDPONTS.BLOCK_USER}/${id}`);
     return data;
 }
+
+export const productOwner = async (ownerId) => {
+    const {data} = await axios.get(`${API_ENDPONTS.OWNER}/${ownerId}`);
+    return data;
+}

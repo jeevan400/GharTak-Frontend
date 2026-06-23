@@ -16,6 +16,7 @@ export const API_ENDPONTS = {
     REJECT_REQUEST:"/users/reject-request",
     ALL_USERS:"/users/all-users",
     BLOCK_USER:"/users/block-user",
+    OWNER:"/users/owner",
 
     //products end points
     ADD_PRODUCT: "/products/add-product",
@@ -53,4 +54,7 @@ export const API_ENDPONTS = {
     // notification end points
     CREATE_NOTIFICATION: "/notifications/send-notification",
     GET_NOTIFICATIONS: "/notifications/get-notifications",
+
+    // conversation end points
+    GET_CONVERSATION: "/chats/all-conversations",
 }
