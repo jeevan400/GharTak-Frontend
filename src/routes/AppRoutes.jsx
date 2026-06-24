@@ -30,7 +30,7 @@ import Checkout from "../pages/user/Checkout";
 import MyOrder from "../pages/user/MyOrder";
 import WishlistProduct from "../pages/user/WishlistProduct";
 import Layout from "../pages/Layout";
-import Chat from "../pages/user/Chat";
+import Chat from "../components/common/chat/Chat";
 
 const AppRoutes = () => {
   const { user } = useAuth();

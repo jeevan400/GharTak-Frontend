@@ -124,7 +124,7 @@ function Navbar({ children }) {
       try {
         await fetchAllProfile();
         await allNotifications();
-        await handlesellerData();
+        // await handlesellerData();
       } catch (error) {
         console.error("Error loading navbar data:", error);
       }
@@ -134,18 +134,18 @@ function Navbar({ children }) {
 
   const handleLogout = () => logout();
 
-  let sellerId = "69fde7cf308518713d1b7968";
-  const [seller, setSeller] = useState({});
+  // let sellerId = "69fde7cf308518713d1b7968";
+  // const [seller, setSeller] = useState({});
 
-  const handlesellerData = async() => {
-    try{
-      const sellerData = await productOwner(sellerId);
-      setSeller(sellerData);
-    } catch(e){
-      console.log(e);
-      toast.error(e.response.data.message);
-    }
-  }
+  // const handlesellerData = async() => {
+  //   try{
+  //     const sellerData = await productOwner(sellerId);
+  //     setSeller(sellerData);
+  //   } catch(e){
+  //     console.log(e);
+  //     toast.error(e.response.data.message);
+  //   }
+  // }
 
   return (
     <>
@@ -212,11 +212,7 @@ function Navbar({ children }) {
             ) : (
               <>
                 <div onClick={()=> {
-                  navigate("/message", {
-                  state:{
-                    seller: seller,
-                  }
-                });
+                  navigate("/message");
                 }} className="flex justify-center items-center bg-[var(--primary-light)] h-[40px] w-[40px] rounded-full relative cursor-pointer text-[var(--text-primary)]">
                   <MessageSquare size={18} />
                   {/* <span className="h-[10px] w-[10px] absolute bg-red-500 rounded-full top-0 right-0"></span> */}

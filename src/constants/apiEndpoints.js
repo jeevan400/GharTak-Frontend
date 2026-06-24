@@ -56,5 +56,11 @@ export const API_ENDPONTS = {
     GET_NOTIFICATIONS: "/notifications/get-notifications",
 
     // conversation end points
+    CREATE_CONVERSATION: "/chats/message-room",
     GET_CONVERSATION: "/chats/all-conversations",
+
+    // message end points
+    CREATE_MESSAGE: "/messages/send-message",
+    GET_ALL_MESSAGES: "/messages/get-all-messages",
+    DELETE_MESSAGE: "/messages/delete-messages",
 }
