@@ -1,3 +1,4 @@
+import { Check, CheckCheck, Clock } from "lucide-react";
 import React from "react";
 
 function MessagesBubble({ msg, handleDeleteMessage, user }) {
@@ -39,6 +40,11 @@ function MessagesBubble({ msg, handleDeleteMessage, user }) {
             >
               Delete
             </button>
+          )}
+          {msg.sender._id === user.id && (
+          <div className={`inline-block ml-1 ${msg.read ? "text-[#34B7F1]" : "text-[var(--primary-light)]"}`}>
+              <CheckCheck size={14}/>
+          </div>
           )}
         </div>
       </div>

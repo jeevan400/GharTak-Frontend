@@ -1,5 +1,5 @@
 import { X } from "lucide-react";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { IoSend } from "react-icons/io5";
 import MessagesBubble from "./MessagesBubble";
 
@@ -13,6 +13,19 @@ function ChatRoom({
   message,
   handleSendMessage
 }) {
+
+  const messageEndRef = useRef(null);
+
+  const scrollToBottom = () => {
+    messageEndRef.current?.scrollIntoView({
+      behavior: "smooth",
+    });
+  };
+
+  useEffect(()=>{
+    scrollToBottom();
+  },[allMessages])
+
   return (
     <div className="flex flex-col h-screen bg-[var(--bg-main)]">
       {/* Header */}
@@ -50,8 +63,10 @@ function ChatRoom({
             msg={msg}
             handleDeleteMessage={handleDeleteMessage}
             user={user}
+            scrollToBottom={scrollToBottom}
           />
         ))}
+        <div ref={messageEndRef}></div>
       </div>
 
       {/* Input */}
