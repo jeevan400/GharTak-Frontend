@@ -1,13 +1,5 @@
-import {
-  AlignLeftIcon,
-  ArrowBigLeft,
-  MessageCircle,
-  SkipBackIcon,
-  X,
-} from "lucide-react";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { IoSend } from "react-icons/io5";
 import { useLocation, useNavigate } from "react-router-dom";
 import { getConverSation } from "../../../services/conversation.service.js";
 import {
@@ -16,10 +8,10 @@ import {
   messageDelete,
 } from "../../../services/message.service.js";
 import useAuth from "../../../hooks/useAuth.js";
-import MessagesBubble from "./MessagesBubble.jsx";
 import ConverSationList from "./ConverSationList.jsx";
 import EmptyChatState from "./EmptyChatState.jsx";
 import ChatRoom from "./ChatRoom.jsx";
+import socket from "../../../socket.js";
 
 const Chat = () => {
   const { user } = useAuth();
@@ -33,6 +25,7 @@ const Chat = () => {
   const [room, setRoom] = useState();
   const [openRoom, setOpenRoom] = useState(false);
   const [allMessages, setAllMessages] = useState([]);
+  const [unReadCount, setUnReadCount] = useState(0);
 
   const fetchConversation = async () => {
     try {
@@ -48,11 +41,37 @@ const Chat = () => {
     fetchConversation();
   }, []);
 
+  // create conversation room
+  useEffect(()=>{
+    if(room && room._id){
+      console.log("joined room",room);
+      socket.emit("joinConversation", room._id)
+    }
+  },[room]);
+
+  useEffect(()=> {
+    socket.on("receiveMessage", (message)=>{
+      console.log(message);
+      setAllMessages((prev) => [...prev, message]);
+    });
+
+    return () => {
+      socket.off("receiveMessage");
+    };
+
+  },[])
+
   const handleChatUser = (item) => {
     const otherParticipant = item.participants.find(
       (participant) => participant._id !== user.id,
     );
     setChatUser(otherParticipant);
+
+    setConverSation((prev) =>
+      prev.map((conv) =>
+        conv._id === item._id ? { ...conv, unreadCount: 0 } : conv
+      )
+    );
   };
 
 
@@ -61,7 +80,7 @@ const Chat = () => {
       const res = await createMessage(room._id, message);
       toast.success("Message sent");
       setMessage({ text: "" }); // Clear the input field
-      handleAllMessages(); // Fetch the latest messages so it shows up in the chat
+      // handleAllMessages(); // Fetch the latest messages so it shows up in the chat
     } catch (e) {
       console.log(e);
       toast.error(e.response?.data?.message || e.message);
@@ -71,7 +90,9 @@ const Chat = () => {
   const handleAllMessages = async () => {
     try {
       const res = await getAllConversationMessages(room._id);
+      console.log("this is message data: ", res);
       setAllMessages(res.messages || []);
+      setUnReadCount(res.unReadMessageCount);
     } catch (e) {
       console.log(e);
       toast.error(e.response?.data?.message || e.message);
