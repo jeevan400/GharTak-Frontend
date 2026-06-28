@@ -47,72 +47,116 @@ const Login = () => {
   };
 
   return (
-    <div className=" w-[100%] h-screen flex items-center justify-center">
-      <div className="w-[40%] bg-white flex flex-col gap-4 p-6 rounded-sm">
-        <div className="flex justify-center items-center">
-          <img className="h-[70px]" src={GharTakLogo} alt="" />
-        </div>
-        <p className="text-[14px] font-semibold -mt-8 flex justify-center items-center ">
-          Access your home service dashboard
-        </p>
-        <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
-          <div className="w-full ">
-            <label className="text-[14px] font-medium" htmlFor="email">
-              Email
-            </label>
-            <input
-              className=" py-2 px-4 text-[16px] w-full border border-[var(--primary)] rounded-md focus:ring-0 outline-none"
-              type="email"
-              placeholder="Enter your email"
-              value={form.email}
-              onChange={(e) => setForm({ ...form, email: e.target.value })}
-            />
+    <div className="min-h-screen bg-[var(--bg-main)] flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+      <div className="sm:mx-auto sm:w-full sm:max-w-md px-4 sm:px-0">
+        <div className="bg-white py-8 px-4 sm:px-10 shadow-[var(--shadow-lg)] border border-[var(--border-light)] sm:rounded-3xl">
+          <div className="flex flex-col items-center gap-3 mb-8">
+            <img className="h-[65px] object-contain" src={GharTakLogo} alt="GharTak Logo" />
+            <p className="text-[14px] font-medium text-[var(--text-secondary)] text-center">
+              Access your home service dashboard
+            </p>
           </div>
-          <div className="w-full">
-            <label htmlFor="password">Password</label>
-            <input
-              className=" py-2 px-4 text-[16px] w-full border border-[var(--primary)] rounded-md focus:ring-0 outline-none"
-              type="password"
-              placeholder="Password"
-              value={form.password}
-              onChange={(e) => setForm({ ...form, password: e.target.value })}
-            />
-          </div>
-          <Link
-            to="/forgot-password"
-            className="text-xs font-semibold text-[var(--primary)] hover:text-[var(--primary-hover)] -mt-2 mb-2"
-          >
-            Forgot Password
-          </Link>
-          <button
-            style={{ background: "var(--gradient-primary)" }}
-            className=" rounded-lg p-2 cursor-pointer text-white text-[16px] font-semibold hover:shadow-lg transition-all duration-200 ease-linear"
-            disabled={loading}
-          >
-            {loading ? "Loading..." : `LOGIN`}
-          </button>
-        </form>
-        <div className="flex justify-center items-center">
-          <div className="flex-1 h-[1px] bg-[var(--border-medium)]"></div>
-          <span className="px-4 text-[var(--text-secondary)] text-[14px] py-2">
-            Or continue with
-          </span>
-          <div className="flex-1 h-[1px] bg-[var(--border-medium)]"></div>
-        </div>
-        <GoogleLogin
-          onSuccess={(res) => handleGoogleLogin(res)}
-          onError={() => console.log("Login failed")}
-        />
+          
+          <form className="space-y-5" onSubmit={handleSubmit}>
+            <div>
+              <label className="text-[13px] font-extrabold text-[var(--text-primary)] mb-1.5 block" htmlFor="email">
+                Email Address
+              </label>
+              <div className="mt-1">
+                <input
+                  className="appearance-none block w-full px-4 py-3 border border-[var(--border-medium)] rounded-xl shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:border-transparent sm:text-sm transition-all"
+                  type="email"
+                  id="email"
+                  placeholder="Enter your email"
+                  value={form.email}
+                  onChange={(e) => setForm({ ...form, email: e.target.value })}
+                  required
+                />
+              </div>
+            </div>
+            
+            <div>
+              <div className="flex justify-between items-center mb-1.5">
+                <label className="text-[13px] font-extrabold text-[var(--text-primary)] block" htmlFor="password">
+                  Password
+                </label>
+                <Link
+                  to="/forgot-password"
+                  className="text-xs font-bold text-[var(--primary)] hover:text-[var(--primary-hover)] transition-colors"
+                >
+                  Forgot Password?
+                </Link>
+              </div>
+              <div className="mt-1">
+                <input
+                  className="appearance-none block w-full px-4 py-3 border border-[var(--border-medium)] rounded-xl shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:border-transparent sm:text-sm transition-all"
+                  type="password"
+                  id="password"
+                  placeholder="Enter your password"
+                  value={form.password}
+                  onChange={(e) => setForm({ ...form, password: e.target.value })}
+                  required
+                />
+              </div>
+            </div>
+            
+            <div className="pt-2">
+              <button
+                type="submit"
+                style={{ background: "var(--gradient-primary)" }}
+                className="w-full flex justify-center items-center gap-2 py-3 px-4 border border-transparent rounded-xl shadow-sm text-sm font-bold text-white hover:shadow-[0_4px_12px_rgba(249,115,22,0.3)] hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--primary)] transition-all duration-200"
+                disabled={loading}
+              >
+                {loading ? (
+                  <span className="flex items-center gap-2">
+                    <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                    Signing in...
+                  </span>
+                ) : (
+                  <>
+                    <LockIcon size={16} />
+                    SIGN IN
+                  </>
+                )}
+              </button>
+            </div>
+          </form>
+          
+          <div className="mt-8">
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-[var(--border-medium)]" />
+              </div>
+              <div className="relative flex justify-center text-sm">
+                <span className="px-3 bg-white text-[var(--text-secondary)] font-medium">
+                  Or continue with
+                </span>
+              </div>
+            </div>
 
-        <p className="text-[14px] font-normal flex justify-center items-center">
-          Don't have an account?{" "}
-          <Link
-            className="text-[var(--primary)] font-bold underline"
-            to="/register"
-          >
-            &nbsp;Sign Up for free
-          </Link>
-        </p>
+            <div className="mt-6 flex justify-center">
+              <GoogleLogin
+                onSuccess={(res) => handleGoogleLogin(res)}
+                onError={() => console.log("Login failed")}
+                size="large"
+                theme="outline"
+                shape="pill"
+              />
+            </div>
+          </div>
+
+          <div className="mt-8 flex justify-center">
+            <p className="text-[14px] font-medium text-[var(--text-secondary)]">
+              Don't have an account?{" "}
+              <Link
+                className="font-bold text-[var(--primary)] hover:text-[var(--primary-hover)] transition-colors"
+                to="/register"
+              >
+                Sign Up for free
+              </Link>
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   );

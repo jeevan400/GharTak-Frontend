@@ -51,11 +51,11 @@ function SellerRequest() {
   };
 
   const handleBlockedUser = async (id) => {
-    try{
+    try {
       const res = await ToggleBlockUser(id);
       toast.success(res.message);
       fetchRequests();
-    } catch(e){
+    } catch (e) {
       console.log(e);
       toast.error(e.response.data.message || e.message);
     }

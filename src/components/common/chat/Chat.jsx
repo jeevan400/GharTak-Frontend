@@ -117,17 +117,30 @@ const Chat = () => {
 
   return (
     <>
-      <div className="h-screen w-full grid grid-cols-12 grid-rows-9">
-        <div className="bg-[var(--primary-light)] row-span-9 col-span-3">
-          <ConverSationList
-            handleChatUser={handleChatUser}
-            setRoom={setRoom}
-            setOpenRoom={setOpenRoom}
-            converSation={converSation}
-            user={user}
-          />
+      <div className="h-screen w-full flex bg-[var(--bg-main)] overflow-hidden">
+        {/* Sidebar: Conversation List */}
+        <div 
+          className={`w-full md:w-80 lg:w-96 flex-shrink-0 bg-white border-r border-[var(--border-light)] shadow-[var(--shadow-md)] flex-col
+            ${openRoom ? "hidden md:flex" : "flex"}
+          `}
+        >
+          <div className="flex-1 overflow-y-auto">
+            <ConverSationList
+              handleChatUser={handleChatUser}
+              setRoom={setRoom}
+              setOpenRoom={setOpenRoom}
+              converSation={converSation}
+              user={user}
+            />
+          </div>
         </div>
-        <div className="row-span-9 col-span-9">
+        
+        {/* Main Area: Chat Room / Empty State */}
+        <div 
+          className={`flex-1 flex-col bg-[var(--bg-main)] relative
+            ${!openRoom ? "hidden md:flex" : "flex"}
+          `}
+        >
           {openRoom ? (
             <ChatRoom
               chatUser={chatUser}
@@ -138,6 +151,7 @@ const Chat = () => {
               setMessage={setMessage}
               message={message}
               handleSendMessage={handleSendMessage}
+              setOpenRoom={setOpenRoom}
             />
           ) : (
             <EmptyChatState
