@@ -136,236 +136,200 @@ function DashBoard() {
   ];
 
   return (
-    <div className="p-4 space-y-6">
+    <div className="p-4 sm:p-6 lg:p-8 space-y-8 font-sans pb-24">
       {/* Header */}
-
       <div>
-        <h1 className="text-3xl font-bold text-[var(--primary)]">
+        <h1 className="text-2xl sm:text-3xl font-extrabold text-[var(--text-primary)]">
           GharTak Admin Dashboard
         </h1>
-
-        <p className="text-gray-500 text-sm">
+        <p className="text-[var(--text-secondary)] text-[14px] font-medium mt-1">
           Manage marketplace operations, sellers, users and orders.
         </p>
       </div>
 
       {/* Stats */}
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
         {stats.map((item, index) => (
-          <Card key={index} className="!mx-0">
-            <Card.Body>
-              <div className="flex justify-between items-start">
-                <div className="bg-[var(--primary-light)] p-3 rounded-xl text-[var(--primary)]">
-                  {item.icon}
-                </div>
-
-                <span className="text-green-600 text-xs font-bold">
-                  {item.growth}
-                </span>
+          <div key={index} className="bg-white rounded-[24px] p-6 shadow-[var(--shadow-md)] border border-[var(--border-light)] flex flex-col hover:shadow-lg transition-shadow">
+            <div className="flex justify-between items-start mb-4">
+              <div className="w-12 h-12 rounded-2xl bg-orange-50 text-[var(--primary)] flex items-center justify-center">
+                {item.icon}
               </div>
-
-              <div className="mt-4">
-                <h2 className="text-gray-500 text-sm">{item.title}</h2>
-
-                <p className="text-2xl font-bold">&#8377;{item.value}</p>
-              </div>
-            </Card.Body>
-          </Card>
+              <span className="text-green-600 text-[12px] font-bold bg-green-50 px-2 py-1 rounded-lg border border-green-100">
+                {item.growth}
+              </span>
+            </div>
+            <div>
+              <h2 className="text-[var(--text-secondary)] text-[13px] font-bold mb-1 uppercase tracking-wider">{item.title}</h2>
+              <p className="text-3xl font-black text-[var(--text-primary)]">
+                {item.title === "Revenue" ? `₹${item.value || 0}` : item.value || 0}
+              </p>
+            </div>
+          </div>
         ))}
       </div>
 
       {/* Analytics */}
-
-      <div className="grid grid-cols-1 xl:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
         {/* Chart */}
-
-        <Card className="xl:col-span-2 !mx-0">
-          <Card.Header title="Sales Analytics" />
-
-          <Card.Body>
-            <div className="h-[350px]">
-              <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={salesData}>
-                  <XAxis dataKey="month" />
-                  <YAxis />
-                  <Tooltip />
-
-                  <Area
-                    type="monotone"
-                    dataKey="sales"
-                    stroke="#7c3aed"
-                    fill="#c4b5fd"
-                  />
-                </AreaChart>
-              </ResponsiveContainer>
-            </div>
-          </Card.Body>
-        </Card>
+        <div className="xl:col-span-2 bg-white rounded-[24px] shadow-[var(--shadow-md)] border border-[var(--border-light)] p-6 sm:p-8">
+          <h2 className="text-[18px] font-extrabold text-[var(--text-primary)] mb-6">Sales Analytics</h2>
+          <div className="h-[320px] w-full">
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart data={salesData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                <defs>
+                  <linearGradient id="colorSales" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="var(--primary)" stopOpacity={0.3}/>
+                    <stop offset="95%" stopColor="var(--primary)" stopOpacity={0}/>
+                  </linearGradient>
+                </defs>
+                <XAxis dataKey="month" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#9ca3af', fontWeight: 'bold' }} dy={10} />
+                <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#9ca3af', fontWeight: 'bold' }} />
+                <Tooltip 
+                  contentStyle={{ borderRadius: '16px', border: 'none', boxShadow: '0 10px 25px rgba(0,0,0,0.1)', fontWeight: 'bold' }} 
+                  itemStyle={{ color: 'var(--primary)' }}
+                />
+                <Area
+                  type="monotone"
+                  dataKey="sales"
+                  stroke="var(--primary)"
+                  strokeWidth={3}
+                  fillOpacity={1}
+                  fill="url(#colorSales)"
+                />
+              </AreaChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
 
         {/* Activities */}
-
-        <Card className="!mx-0">
-          <Card.Header title="Recent Activities" />
-
-          <Card.Body>
-            <div className="space-y-4">
-              {activities.map((activity, index) => (
-                <div
-                  key={index}
-                  className="flex items-center gap-3 border-b pb-3"
-                >
-                  <Activity
-                    size={16}
-                    className="text-[var(--primary)]"
-                  />
-
-                  <span className="text-sm">{activity}</span>
+        <div className="bg-white rounded-[24px] shadow-[var(--shadow-md)] border border-[var(--border-light)] p-6 sm:p-8">
+          <h2 className="text-[18px] font-extrabold text-[var(--text-primary)] mb-6">Recent Activities</h2>
+          <div className="flex flex-col gap-6">
+            {activities.map((activity, index) => (
+              <div key={index} className="flex items-center gap-4">
+                <div className="w-10 h-10 rounded-full bg-orange-50 text-[var(--primary)] flex items-center justify-center shrink-0 border border-orange-100">
+                  <Activity size={18} strokeWidth={2.5} />
                 </div>
-              ))}
-            </div>
-          </Card.Body>
-        </Card>
+                <span className="text-[14px] font-bold text-[var(--text-primary)] leading-tight">{activity}</span>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
 
       {/* Marketplace Insights */}
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
-        <Card className="!mx-0 !border-none shadow-md">
-          <Card.Body>
-            <div className="flex justify-between">
-              <Truck className="text-blue-600" />
-              <span className="text-blue-600 text-xs font-semibold">
-                Active
-              </span>
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
+        <div className="bg-white rounded-[24px] shadow-[var(--shadow-sm)] border border-[var(--border-light)] p-6 hover:-translate-y-1 transition-transform">
+          <div className="flex justify-between items-center mb-4">
+            <div className="w-10 h-10 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center">
+              <Truck size={20} />
             </div>
+            <span className="text-blue-600 text-[11px] font-bold bg-blue-50 px-2 py-1 rounded-md uppercase tracking-wider">Active</span>
+          </div>
+          <h2 className="text-[13px] font-bold text-[var(--text-secondary)] mb-1">Deliveries Running</h2>
+          <p className="text-2xl font-black text-[var(--text-primary)]">432</p>
+        </div>
 
-            <h2 className="mt-4 text-gray-500 text-sm">
-              Deliveries Running
-            </h2>
-
-            <p className="text-2xl font-bold">432</p>
-          </Card.Body>
-        </Card>
-
-        <Card className="!mx-0 !border-none shadow-md">
-          <Card.Body>
-            <div className="flex justify-between">
-              <Clock3 className="text-orange-500" />
-              <span className="text-orange-500 text-xs font-semibold">
-                Pending
-              </span>
+        <div className="bg-white rounded-[24px] shadow-[var(--shadow-sm)] border border-[var(--border-light)] p-6 hover:-translate-y-1 transition-transform">
+          <div className="flex justify-between items-center mb-4">
+            <div className="w-10 h-10 rounded-full bg-orange-50 text-orange-500 flex items-center justify-center">
+              <Clock3 size={20} />
             </div>
+            <span className="text-orange-500 text-[11px] font-bold bg-orange-50 px-2 py-1 rounded-md uppercase tracking-wider">Pending</span>
+          </div>
+          <h2 className="text-[13px] font-bold text-[var(--text-secondary)] mb-1">Pending Orders</h2>
+          <p className="text-2xl font-black text-[var(--text-primary)]">89</p>
+        </div>
 
-            <h2 className="mt-4 text-gray-500 text-sm">
-              Pending Orders
-            </h2>
-
-            <p className="text-2xl font-bold">89</p>
-          </Card.Body>
-        </Card>
-
-        <Card className="!mx-0 !border-none shadow-md">
-          <Card.Body>
-            <div className="flex justify-between">
-              <AlertTriangle className="text-red-500" />
-              <span className="text-red-500 text-xs font-semibold">
-                Alert
-              </span>
+        <div className="bg-white rounded-[24px] shadow-[var(--shadow-sm)] border border-[var(--border-light)] p-6 hover:-translate-y-1 transition-transform">
+          <div className="flex justify-between items-center mb-4">
+            <div className="w-10 h-10 rounded-full bg-red-50 text-red-500 flex items-center justify-center">
+              <AlertTriangle size={20} />
             </div>
+            <span className="text-red-500 text-[11px] font-bold bg-red-50 px-2 py-1 rounded-md uppercase tracking-wider">Alert</span>
+          </div>
+          <h2 className="text-[13px] font-bold text-[var(--text-secondary)] mb-1">Return Requests</h2>
+          <p className="text-2xl font-black text-[var(--text-primary)]">17</p>
+        </div>
 
-            <h2 className="mt-4 text-gray-500 text-sm">
-              Return Requests
-            </h2>
-
-            <p className="text-2xl font-bold">17</p>
-          </Card.Body>
-        </Card>
-
-        <Card className="!mx-0 !border-none shadow-md">
-          <Card.Body>
-            <div className="flex justify-between">
-              <Store className="text-green-600" />
-              <span className="text-green-600 text-xs font-semibold">
-                Growth
-              </span>
+        <div className="bg-white rounded-[24px] shadow-[var(--shadow-sm)] border border-[var(--border-light)] p-6 hover:-translate-y-1 transition-transform">
+          <div className="flex justify-between items-center mb-4">
+            <div className="w-10 h-10 rounded-full bg-green-50 text-green-600 flex items-center justify-center">
+              <Store size={20} />
             </div>
-
-            <h2 className="mt-4 text-gray-500 text-sm">
-              Active Sellers
-            </h2>
-
-            <p className="text-2xl font-bold">432</p>
-          </Card.Body>
-        </Card>
+            <span className="text-green-600 text-[11px] font-bold bg-green-50 px-2 py-1 rounded-md uppercase tracking-wider">Growth</span>
+          </div>
+          <h2 className="text-[13px] font-bold text-[var(--text-secondary)] mb-1">Active Sellers</h2>
+          <p className="text-2xl font-black text-[var(--text-primary)]">432</p>
+        </div>
       </div>
 
-      {/* Top Sellers */}
-
-      <Card className={`!p-0 !mx-0 !border-none shadow-md`}>
-          <Card.Header title={`Pending Seller Approvals`} className={`p-4`}>
-            <button className="text-[14px] font-medium text-[var(--primary)]">
-              View All
-            </button>
-          </Card.Header>
-          <Card.Body>
-            <table className="w-full">
-              <thead>
-                <tr className="text-left text-white bg-[var(--primary)] px-4 py-2">
-                  <th className="px-4 py-2">Seller Name</th>
-                  <th>Category</th>
-                  <th>Status</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-            <tbody>
+      {/* Top Sellers Table */}
+      <div className="bg-white rounded-[32px] shadow-[var(--shadow-md)] border border-[var(--border-light)] overflow-hidden">
+        <div className="p-6 border-b border-[var(--border-light)] flex justify-between items-center bg-gray-50/30">
+          <h2 className="text-[18px] sm:text-xl font-extrabold text-[var(--text-primary)]">Pending Seller Approvals</h2>
+          <button className="text-[13px] font-bold text-[var(--primary)] hover:text-orange-600 transition-colors bg-orange-50 px-4 py-2 rounded-xl border border-orange-100">
+            View All
+          </button>
+        </div>
+        <div className="w-full overflow-x-auto">
+          <table className="w-full min-w-[700px] text-left border-collapse">
+            <thead>
+              <tr className="bg-white border-b border-[var(--border-light)]">
+                <th className="px-6 py-5 text-[12px] font-bold text-gray-400 uppercase tracking-wider">Seller Profile</th>
+                <th className="px-6 py-5 text-[12px] font-bold text-gray-400 uppercase tracking-wider">Phone</th>
+                <th className="px-6 py-5 text-[12px] font-bold text-gray-400 uppercase tracking-wider">Status</th>
+                <th className="px-6 py-5 text-[12px] font-bold text-gray-400 uppercase tracking-wider">Actions</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-[var(--border-light)]">
               {requests?.map((request, idx) => (
-                <tr key={idx} className="hover:bg-[var(--primary-light)] transition-all duration-200 ease-in cursor-pointer">
-                  <td className="flex gap-4 px-4 py-2">
-                    <div className="h-[50px] w-[50px]">
-                      <img
-                       className="w-full h-full rounded-full"
-                       src={request.image}
-                       alt=""
-                     />
-                   </div>
+                <tr key={idx} className="hover:bg-gray-50/50 transition-colors group">
+                  <td className="px-6 py-4">
+                    <div className="flex items-center gap-4">
+                      <img className="h-12 w-12 rounded-full border border-[var(--border-medium)] object-cover shadow-sm" src={request.image || "https://ui-avatars.com/api/?name=Seller"} alt="" />
                       <div>
-                        <h1 className="text-[14px] font-bold capitalize">
-                          {request.name}
-                        </h1>
-                        <p className="text-[12px] font-medium text-gray-600">
-                          {request.email}
-                        </p>
+                        <h1 className="text-[14px] font-bold text-[var(--text-primary)] capitalize group-hover:text-[var(--primary)] transition-colors">{request.name}</h1>
+                        <p className="text-[12px] font-semibold text-[var(--text-secondary)]">{request.email}</p>
                       </div>
+                    </div>
+                  </td>
+                  <td className="px-6 py-4 text-[14px] font-bold text-[var(--text-primary)]">{request.phone || "N/A"}</td>
+                  <td className="px-6 py-4">
+                    <span className="px-3 py-1.5 bg-orange-50 text-[var(--primary)] border border-orange-200 text-[11px] font-bold rounded-lg uppercase tracking-wide">
+                      {request.sellerRequestStatus}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4">
+                    <div className="flex gap-2">
+                      <button onClick={() => handleApprove(request._id)} className="px-3.5 py-2 rounded-xl bg-green-50 hover:bg-green-500 text-green-600 hover:text-white font-bold text-[12px] flex items-center gap-1.5 transition-all duration-300 border border-green-200 hover:border-green-500 shadow-sm hover:shadow-md">
+                        <Check size={14} strokeWidth={3} /> Approve
+                      </button>
+                      <button onClick={() => handleReject(request._id)} className="px-3.5 py-2 rounded-xl bg-red-50 hover:bg-red-500 text-red-600 hover:text-white font-bold text-[12px] flex items-center gap-1.5 transition-all duration-300 border border-red-200 hover:border-red-500 shadow-sm hover:shadow-md">
+                        <X size={14} strokeWidth={3} /> Reject
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+              {!requests?.length && (
+                 <tr>
+                    <td colSpan="4" className="px-6 py-16 text-center text-[var(--text-secondary)]">
+                       <div className="flex flex-col items-center justify-center gap-3">
+                         <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center text-gray-300">
+                           <Check size={32} />
+                         </div>
+                         <h3 className="text-lg font-bold text-[var(--text-primary)]">All Caught Up!</h3>
+                         <p className="text-sm font-medium text-gray-400">No pending seller requests at the moment.</p>
+                       </div>
                     </td>
-                    <td>{request.phone}</td>
-                    <td>
-                      <span className="px-4 py-1 border border-orange-500  text-orange-500 bg-orange-500/10 text-xs rounded-full capitalize">
-                        {request.sellerRequestStatus}
-                      </span>
-                    </td>
-                    <td>
-                      <div className="flex gap-4">
-                        <div
-                          onClick={() => handleApprove(request._id)}
-                          className="px-3 py-1 rounded bg-[var(--success)] text-white cursor-pointer flex gap-2 justify-center items-center"
-                        >
-                          <Check size={12} /> Approve
-                        </div>
-                        <div
-                          onClick={() => handleReject(request._id)}
-                          className="px-3 py-1 rounded bg-[var(--danger)] text-white cursor-pointer flex gap-2 justify-center items-center"
-                        >
-                          <X size={12} /> Reject
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </Card.Body>
-        </Card>
+                 </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   );
 }

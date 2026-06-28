@@ -235,71 +235,55 @@ function Navbar({ children }) {
                   <Modal
                     onClose={setNotificationModalOpen}
                     outerClassName="!bg-transparent"
-                    className="absolute right-4 top-20 !w-[270px] !h-[70vh] border border-[var(--primary)] !bg-[var(--primary-light)] !p-2"
+                    className="absolute right-4 sm:right-8 top-20 !w-[340px] max-h-[75vh] border border-[var(--border-light)] !bg-[var(--bg-main)] !p-0 !rounded-2xl shadow-[var(--shadow-lg)] overflow-hidden"
                   >
-                    <Modal.Body className="!flex !flex-col !gap-2 !overflow-y-auto">
-                      {notifications?.map((notificationData) => (
-                        <Card key={notificationData._id} className="!bg-white !border-none !mx-0 !shadow-lg">
-                          <Card.Body>
-                            <h1 className="text-md font-bold text-[var(--primary)]">{notificationData.title}</h1>
-                            <p className="text-sm font-medium text-[var(--text-secondary)] line-clamp-2">{notificationData.message}</p>
-                          </Card.Body>
-                          <Card.Footer className="flex justify-between items-center pt-4">
-                            <p className="text-[10px] font-medium text-[var(--primary)]">{notificationData.createdAt.slice(0, 10)}</p>
-                            <p className="text-[10px] font-medium text-[var(--primary)]">{notificationData.createdAt.slice(11, 16)}</p>
-                          </Card.Footer>
-                        </Card>
-                      ))}
+                    <div style={{background: "var(--gradient-primary)"}} className="px-5 py-4 flex justify-between items-center">
+                      <h2 className="text-white font-extrabold text-base flex items-center gap-2">
+                        <Bell size={18} fill="currentColor" />
+                        Notifications
+                      </h2>
+                      <span className="bg-white/20 text-white text-[11px] px-2.5 py-1 rounded-full font-bold backdrop-blur-sm shadow-sm">
+                        {notifications?.length || 0} New
+                      </span>
+                    </div>
+                    <Modal.Body className="!flex !flex-col !gap-0 !overflow-y-auto !p-0 max-h-[calc(75vh-60px)] divide-y divide-[var(--border-light)] custom-scrollbar">
+                      {notifications?.length > 0 ? (
+                        notifications.map((notificationData) => (
+                          <div 
+                            key={notificationData._id} 
+                            className="bg-white hover:bg-[var(--primary-light)] p-5 transition-colors duration-200 cursor-pointer border-l-[3px] border-transparent hover:border-[var(--primary)] group"
+                          >
+                            <h1 className="text-[14px] font-bold text-[var(--text-primary)] mb-1.5 leading-tight group-hover:text-[var(--primary)] transition-colors">
+                              {notificationData.title}
+                            </h1>
+                            <p className="text-[13px] font-medium text-[var(--text-secondary)] line-clamp-2 mb-3 leading-relaxed">
+                              {notificationData.message}
+                            </p>
+                            <div className="flex justify-between items-center text-[10px] font-extrabold text-[var(--primary)] opacity-80 group-hover:opacity-100 transition-opacity">
+                              <span>{notificationData.createdAt?.slice(0, 10)}</span>
+                              <span>{notificationData.createdAt?.slice(11, 16)}</span>
+                            </div>
+                          </div>
+                        ))
+                      ) : (
+                        <div className="p-8 text-center flex flex-col items-center justify-center h-[250px]">
+                          <div className="bg-[var(--primary-light)] p-4 rounded-full mb-4 shadow-sm">
+                            <Bell size={28} className="text-[var(--primary)]" />
+                          </div>
+                          <p className="text-[var(--text-primary)] font-extrabold text-base mb-1">All caught up!</p>
+                          <p className="text-[var(--text-secondary)] font-medium text-sm">No new notifications</p>
+                        </div>
+                      )}
                     </Modal.Body>
                   </Modal>
                 )}
 
                 <div
-                  onClick={() => setProfileMenu(true)}
-                  className="relative rounded-full text-xl font-semibold bg-orange-100 text-orange-500 h-[40px] w-[40px]"
+                  onClick={() => navigate("/profile")}
+                  className="relative rounded-full text-xl font-semibold bg-orange-100 text-orange-500 h-[40px] w-[40px] cursor-pointer hover:ring-2 ring-[var(--primary)] transition-all"
                 >
-                  <img className="w-full h-full rounded-full" src={user.image} alt="profile image" />
+                  <img className="w-full h-full rounded-full object-cover" src={user.image} alt="profile image" />
                 </div>
-
-                {profileMenu && (
-                  <Modal
-                    onClose={setProfileMenu}
-                    outerClassName="!bg-transparent"
-                    className="!w-[220px] !h-fit !absolute !right-8 !top-20 !p-2 !rounded-sm"
-                  >
-                    <Modal.Body className="!flex !flex-col !gap-2">
-                      {user?.role === "admin" && (
-                        <button
-                          onClick={() => navigate("/admin")}
-                          className="h-fit w-full cursor-pointer flex gap-2 border border-[var(--primary)] px-4 py-2 justify-center items-center rounded-lg text-[var(--primary)] hover:scale-105 transition-all duration-200 ease-in"
-                        >
-                          Admin Dashboard
-                        </button>
-                      )}
-                      {user?.role === "seller" && (
-                        <button
-                          onClick={() => navigate("/seller")}
-                          className="h-fit w-full cursor-pointer flex gap-2 border border-[var(--primary)] px-4 py-2 justify-center items-center rounded-lg text-[var(--primary)] hover:scale-105 transition-all duration-200 ease-in"
-                        >
-                          Seller Dashboard
-                        </button>
-                      )}
-                      <button
-                        onClick={() => navigate("/profile")}
-                        className="h-fit w-full cursor-pointer flex gap-2 border border-[var(--primary)] px-4 py-2 justify-center items-center rounded-lg text-[var(--primary)] hover:scale-105 transition-all duration-200 ease-in"
-                      >
-                        Profile
-                      </button>
-                      <button
-                        onClick={handleLogout}
-                        style={{ background: "var(--gradient-primary)" }}
-                        className="h-fit w-full cursor-pointer flex gap-2 border border-[var(--primary)] px-4 py-2 justify-center items-center rounded-lg text-white hover:scale-105 transition-all duration-200 ease-in"
-                      >
-                        Logout
-                      </button>
-                    </Modal.Body>
-                  </Modal>
-                )}
               </>
             )}
 
